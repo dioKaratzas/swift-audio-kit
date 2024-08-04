@@ -10,16 +10,16 @@ import AVFoundation
 @testable import SwiftAudioKit
 
 class PlayerEventProducer_Tests: XCTestCase {
-    var listener: FakeEventListener!
+    var listener: MockEventListener!
     var producer: PlayerEventProducer!
-    var player: FakePlayer!
-    var item: FakeItem!
+    var player: MockPlayer!
+    var item: MockItem!
 
     override func setUp() {
         super.setUp()
-        listener = FakeEventListener()
-        player = FakePlayer()
-        item = FakeItem(url: URL(string: "https://github.com")!)
+        listener = MockEventListener()
+        player = MockPlayer()
+        item = MockItem(url: URL(string: "https://github.com")!)
         player.item = item
         producer = PlayerEventProducer()
         producer.player = player

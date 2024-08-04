@@ -10,13 +10,13 @@ import AVFoundation
 @testable import SwiftAudioKit
 
 class AudioPlayer_PlayerEvent_Tests: XCTestCase {
-    var player: FakeAudioPlayer!
-    var listener: FakeEventListener!
+    var player: MockAudioPlayer!
+    var listener: MockEventListener!
 
     override func setUp() {
         super.setUp()
-        listener = FakeEventListener()
-        player = FakeAudioPlayer()
+        listener = MockEventListener()
+        player = MockAudioPlayer()
     }
 
     override func tearDown() {
@@ -26,12 +26,12 @@ class AudioPlayer_PlayerEvent_Tests: XCTestCase {
     }
 
     func testProgressEventFiresDelegateCallWithTheRightInfo() {
-        player.avPlayer.item = FakeItem(url: URL(string: "https://github.com")!)
+        player.avPlayer.item = MockItem(url: URL(string: "https://github.com")!)
         player.avPlayer.item?.stat = .readyToPlay
         player.avPlayer.item?.dur = CMTime(timeInterval: 10)
 
         let e = expectation(description: "Waiting for `didUpdateProgression` to get called")
-        let delegate = FakeAudioPlayerDelegate()
+        let delegate = MockAudioPlayerDelegate()
         delegate.didUpdateProgression = { player, progression, percentage in
             XCTAssertEqual(player, self.player)
             XCTAssertEqual(progression, 2)
@@ -49,12 +49,12 @@ class AudioPlayer_PlayerEvent_Tests: XCTestCase {
     }
 
     func testProgressEventFiresDelegateCallWithZeroPercentageWhenDurationIsUnknown() {
-        player.avPlayer.item = FakeItem(url: URL(string: "https://github.com")!)
+        player.avPlayer.item = MockItem(url: URL(string: "https://github.com")!)
         player.avPlayer.item?.stat = .readyToPlay
         player.avPlayer.item?.dur = CMTime(value: 0, timescale: 1, flags: [], epoch: 0)//This is an invalid time
 
         let e = expectation(description: "Waiting for `didUpdateProgression` to get called")
-        let delegate = FakeAudioPlayerDelegate()
+        let delegate = MockAudioPlayerDelegate()
         delegate.didUpdateProgression = { player, progression, percentage in
             XCTAssertEqual(player, self.player)
             XCTAssertEqual(progression, 2)

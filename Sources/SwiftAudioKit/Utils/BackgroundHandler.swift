@@ -11,7 +11,7 @@
     import UIKit
 
     /// A `BackgroundTaskCreator` serves the purpose of creating background tasks.
-    protocol BackgroundTaskCreator: class {
+protocol BackgroundTaskCreator: AnyObject {
         /// Marks the beginning of a new long-running background task.
         ///
         /// - Parameter handler: A handler to be called shortly before the app’s remaining background time reaches 0.

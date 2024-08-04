@@ -9,12 +9,12 @@ import XCTest
 @testable import SwiftAudioKit
 
 class QualityAdjustmentEventProducer_Tests: XCTestCase {
-    var listener: FakeEventListener!
+    var listener: MockEventListener!
     var producer: QualityAdjustmentEventProducer!
 
     override func setUp() {
         super.setUp()
-        listener = FakeEventListener()
+        listener = MockEventListener()
         producer = QualityAdjustmentEventProducer()
         producer.eventListener = listener
         producer.startProducingEvents()

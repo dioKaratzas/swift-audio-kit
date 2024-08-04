@@ -22,9 +22,9 @@ private extension Array {
 
 // MARK: - AudioItemQueueDelegate
 
-/// `AudioItemQueueDelegate` defines the behavior of `AudioItem` in certain circumstances and is notified upon notable 
+/// `AudioItemQueueDelegate` defines the behavior of `AudioItem` in certain circumstances and is notified upon notable
 /// events.
-protocol AudioItemQueueDelegate: class {
+protocol AudioItemQueueDelegate: AnyObject {
     /// Returns a boolean value indicating whether an item should be consider playable in the queue.
     ///
     /// - Parameters:

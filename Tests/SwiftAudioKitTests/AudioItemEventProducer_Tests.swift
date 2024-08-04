@@ -9,13 +9,13 @@ import XCTest
 @testable import SwiftAudioKit
 
 class AudioItemEventProducer_Tests: XCTestCase {
-    var listener: FakeEventListener!
+    var listener: MockEventListener!
     var producer: AudioItemEventProducer!
     var item: AudioItem!
 
     override func setUp() {
         super.setUp()
-        listener = FakeEventListener()
+        listener = MockEventListener()
         item = AudioItem(highQualitySoundURL: URL(string: "https://github.com"))
         producer = AudioItemEventProducer()
         producer.item = item

@@ -150,10 +150,10 @@ public class AudioPlayer: NSObject {
     /// is 10 minutes.
     public var adjustQualityTimeInternal: TimeInterval {
         get {
-            return qualityAdjustmentEventProducer.adjustQualityTimeInternal
+            return qualityAdjustmentEventProducer.adjustQualityTimeInterval
         }
         set {
-            qualityAdjustmentEventProducer.adjustQualityTimeInternal = newValue
+            qualityAdjustmentEventProducer.adjustQualityTimeInterval = newValue
         }
     }
 
@@ -418,7 +418,7 @@ extension AudioPlayer: EventListener {
     /// - Parameters:
     ///   - event: The event.
     ///   - eventProducer: The producer of the event.
-    func onEvent(_ event: Event, generetedBy eventProducer: EventProducer) {
+    func onEvent(_ event: Event, generatedBy eventProducer: EventProducer) {
         if let event = event as? NetworkEventProducer.NetworkEvent {
             handleNetworkEvent(from: eventProducer, with: event)
         } else if let event = event as? PlayerEventProducer.PlayerEvent {

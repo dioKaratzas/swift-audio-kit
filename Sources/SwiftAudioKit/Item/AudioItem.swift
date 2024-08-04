@@ -6,24 +6,22 @@
 //
 
 import AVFoundation
+import Combine
+
 #if os(iOS) || os(tvOS)
-    import UIKit
-    import MediaPlayer
+import UIKit
+import MediaPlayer
 
-    public typealias Image = UIImage
+public typealias Image = UIImage
 #else
-    import Cocoa
+import Cocoa
 
-    public typealias Image = NSImage
+public typealias Image = NSImage
 #endif
 
 // MARK: - AudioQuality
 
 /// `AudioQuality` differentiates qualities for audio.
-///
-/// - low: The lowest quality.
-/// - medium: The quality between highest and lowest.
-/// - high: The highest quality.
 public enum AudioQuality: Int {
     case low = 0
     case medium = 1
@@ -37,17 +35,16 @@ public struct AudioItemURL {
     /// The quality of the stream.
     public let quality: AudioQuality
 
-    /// The url of the stream.
+    /// The URL of the stream.
     public let url: URL
 
     /// Initializes an AudioItemURL.
     ///
     /// - Parameters:
     ///   - quality: The quality of the stream.
-    ///   - url: The url of the stream.
+    ///   - url: The URL of the stream.
     public init?(quality: AudioQuality, url: URL?) {
         guard let url = url else { return nil }
-
         self.quality = quality
         self.url = url
     }
@@ -58,18 +55,18 @@ public struct AudioItemURL {
 /// An `AudioItem` instance contains every piece of information needed for an `AudioPlayer` to play.
 ///
 /// URLs can be remote or local.
-open class AudioItem: NSObject {
+open class AudioItem: ObservableObject {
     /// Returns the available qualities.
     public let soundURLs: [AudioQuality: URL]
 
     // MARK: Initialization
 
-    /// Initializes an AudioItem. Fails if every urls are nil.
+    /// Initializes an AudioItem. Fails if all URLs are nil.
     ///
     /// - Parameters:
-    ///   - highQualitySoundURL: The URL for the high quality sound.
-    ///   - mediumQualitySoundURL: The URL for the medium quality sound.
-    ///   - lowQualitySoundURL: The URL for the low quality sound.
+    ///   - highQualitySoundURL: The URL for the high-quality sound.
+    ///   - mediumQualitySoundURL: The URL for the medium-quality sound.
+    ///   - lowQualitySoundURL: The URL for the low-quality sound.
     public convenience init?(highQualitySoundURL: URL? = nil,
                              mediumQualitySoundURL: URL? = nil,
                              lowQualitySoundURL: URL? = nil) {
@@ -91,7 +88,6 @@ open class AudioItem: NSObject {
     /// - Parameter soundURLs: The URLs of the sound associated with its quality wrapped in a `Dictionary`.
     public init?(soundURLs: [AudioQuality: URL]) {
         self.soundURLs = soundURLs
-        super.init()
 
         if soundURLs.isEmpty {
             return nil
@@ -100,31 +96,28 @@ open class AudioItem: NSObject {
 
     // MARK: Quality selection
 
-    /// Returns the highest quality URL found or nil if no URLs are available
+    /// Returns the highest quality URL found, or nil if no URLs are available.
     open var highestQualityURL: AudioItemURL {
-        //swiftlint:disable force_unwrapping
-        return (AudioItemURL(quality: .high, url: soundURLs[.high]) ??
-            AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
-            AudioItemURL(quality: .low, url: soundURLs[.low]))!
+        return AudioItemURL(quality: .high, url: soundURLs[.high]) ??
+        AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
+        AudioItemURL(quality: .low, url: soundURLs[.low])!
     }
 
-    /// Returns the medium quality URL found or nil if no URLs are available
+    /// Returns the medium quality URL found, or nil if no URLs are available.
     open var mediumQualityURL: AudioItemURL {
-        //swiftlint:disable force_unwrapping
-        return (AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
-            AudioItemURL(quality: .low, url: soundURLs[.low]) ??
-            AudioItemURL(quality: .high, url: soundURLs[.high]))!
+        return AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
+        AudioItemURL(quality: .low, url: soundURLs[.low]) ??
+        AudioItemURL(quality: .high, url: soundURLs[.high])!
     }
 
-    /// Returns the lowest quality URL found or nil if no URLs are available
+    /// Returns the lowest quality URL found, or nil if no URLs are available.
     open var lowestQualityURL: AudioItemURL {
-        //swiftlint:disable force_unwrapping
-        return (AudioItemURL(quality: .low, url: soundURLs[.low]) ??
-            AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
-            AudioItemURL(quality: .high, url: soundURLs[.high]))!
+        return AudioItemURL(quality: .low, url: soundURLs[.low]) ??
+        AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
+        AudioItemURL(quality: .high, url: soundURLs[.high])!
     }
 
-    /// Returns an URL that best fits a given quality.
+    /// Returns a URL that best fits a given quality.
     ///
     /// - Parameter quality: The quality for the requested URL.
     /// - Returns: The URL that best fits the given quality.
@@ -142,69 +135,54 @@ open class AudioItem: NSObject {
     // MARK: Additional properties
 
     /// The artist of the item.
-    ///
-    /// This can change over time which is why the property is dynamic. It enables KVO on the property.
-    @objc open dynamic var artist: String?
+    @Published open var artist: String?
 
     /// The title of the item.
-    ///
-    /// This can change over time which is why the property is dynamic. It enables KVO on the property.
-    @objc open dynamic var title: String?
+    @Published open var title: String?
 
     /// The album of the item.
-    ///
-    /// This can change over time which is why the property is dynamic. It enables KVO on the property.
-    @objc open dynamic var album: String?
+    @Published open var album: String?
 
-    ///The track count of the item's album.
-    ///
-    /// This can change over time which is why the property is dynamic. It enables KVO on the property.
-    @objc open dynamic var trackCount: NSNumber?
+    /// The track count of the item's album.
+    @Published open var trackCount: NSNumber?
 
     /// The track number of the item in its album.
-    ///
-    /// This can change over time which is why the property is dynamic. It enables KVO on the property.
-    @objc open dynamic var trackNumber: NSNumber?
+    @Published open var trackNumber: NSNumber?
 
     /// The artwork image of the item.
     open var artworkImage: Image? {
         get {
-            #if os(OSX)
-                return artwork
-            #else
-                return artwork?.image(at: imageSize ?? CGSize(width: 512, height: 512))
-            #endif
+#if os(OSX)
+            return artwork
+#else
+            return artwork?.image(at: imageSize ?? CGSize(width: 512, height: 512))
+#endif
         }
         set {
-            #if os(OSX)
-                artwork = newValue
-            #else
-                imageSize = newValue?.size
-                artwork = newValue.map { image in
-                    if #available(iOS 10.0, tvOS 10.0, *) {
-                        return MPMediaItemArtwork(boundsSize: image.size) { _ in image }
-                    }
-                    return MPMediaItemArtwork(image: image)
-                }
-            #endif
+#if os(OSX)
+            artwork = newValue
+#else
+            imageSize = newValue?.size
+            if let newImage = newValue {
+                artwork = MPMediaItemArtwork(boundsSize: newImage.size) { _ in newImage }
+            } else {
+                artwork = nil
+            }
+#endif
         }
     }
 
-    /// The artwork image of the item.
-    ///
-    /// This can change over time which is why the property is dynamic. It enables KVO on the property.
-    #if os(OSX)
-    @objc open dynamic var artwork: Image?
-    #else
-    @objc open dynamic var artwork: MPMediaItemArtwork?
 
-    /// The image size.
+#if os(OSX)
+    @Published open var artwork: Image?
+#else
+    @Published open var artwork: MPMediaItemArtwork?
     private var imageSize: CGSize?
-    #endif
+#endif
 
     // MARK: Metadata
 
-    /// Parses the metadata coming from the stream/file specified in the URL's. The default behavior is to set values
+    /// Parses the metadata coming from the stream/file specified in the URLs. The default behavior is to set values
     /// for every property that is nil. Customization is available through subclassing.
     ///
     /// - Parameter items: The metadata items.
@@ -227,5 +205,11 @@ open class AudioItem: NSObject {
                 }
             }
         }
+    }
+}
+
+extension AudioItem: Equatable {
+    public static func == (lhs: AudioItem, rhs: AudioItem) -> Bool {
+        return lhs === rhs
     }
 }

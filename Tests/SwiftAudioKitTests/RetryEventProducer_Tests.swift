@@ -9,12 +9,12 @@ import XCTest
 @testable import SwiftAudioKit
 
 class RetryEventProducer_Tests: XCTestCase {
-    var listener: FakeEventListener!
+    var listener: MockEventListener!
     var producer: RetryEventProducer!
 
     override func setUp() {
         super.setUp()
-        listener = FakeEventListener()
+        listener = MockEventListener()
         producer = RetryEventProducer()
         producer.eventListener = listener
     }

@@ -10,11 +10,11 @@ import XCTest
 
 class AudioPlayer_SeekEvent_Tests: XCTestCase {
     var player: AudioPlayer!
-    var listener: FakeEventListener!
+    var listener: MockEventListener!
 
     override func setUp() {
         super.setUp()
-        listener = FakeEventListener()
+        listener = MockEventListener()
         player = AudioPlayer()
     }
 

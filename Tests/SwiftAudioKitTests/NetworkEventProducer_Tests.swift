@@ -9,14 +9,14 @@ import XCTest
 @testable import SwiftAudioKit
 
 class NetworkEventProducer_Tests: XCTestCase {
-    var listener: FakeEventListener!
+    var listener: MockEventListener!
     var producer: NetworkEventProducer!
-    var reachability: FakeReachability!
+    var reachability: MockReachability!
 
     override func setUp() {
         super.setUp()
-        listener = FakeEventListener()
-        reachability = FakeReachability()
+        listener = MockEventListener()
+        reachability = MockReachability()
         producer = NetworkEventProducer(reachability: reachability)
         producer.eventListener = listener
         producer.startProducingEvents()

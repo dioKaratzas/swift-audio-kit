@@ -10,7 +10,7 @@ import AVFoundation
 import SystemConfiguration
 @testable import SwiftAudioKit
 
-class FakeEventListener: EventListener {
+class MockEventListener: EventListener {
     var eventClosure: ((Event, EventProducer) -> ())?
 
     func onEvent(_ event: Event, generatedBy eventProducer: EventProducer) {
@@ -18,7 +18,7 @@ class FakeEventListener: EventListener {
     }
 }
 
-class FakeReachability: Reachability {
+class MockReachability: Reachability {
     var reachabilityStatus = Reachability.NetworkStatus.notReachable {
         didSet {
             NotificationCenter.default.post(name: .ReachabilityChanged, object: self)
@@ -30,7 +30,7 @@ class FakeReachability: Reachability {
     }
 }
 
-class FakeItem: AVPlayerItem {
+class MockItem: AVPlayerItem {
     var bufferEmpty = true {
         willSet {
             willChangeValue(forKey: #keyPath(AVPlayerItem.isPlaybackBufferEmpty))
@@ -98,14 +98,14 @@ class FakeItem: AVPlayerItem {
 }
 
 private extension Selector {
-    static let fakePlayerTimerTicked = #selector(FakePlayer.timerTicked(_:))
+    static let mockPlayerTimerTicked = #selector(MockPlayer.timerTicked(_:))
 }
 
-class FakePlayer: AVPlayer {
+class MockPlayer: AVPlayer {
     var timer: Timer?
     var startDate: NSDate?
     var observerClosure: ((CMTime) -> Void)?
-    var item: FakeItem? {
+    var item: MockItem? {
         willSet {
             willChangeValue(forKey: #keyPath(currentItem))
         }
@@ -121,7 +121,7 @@ class FakePlayer: AVPlayer {
     override func addPeriodicTimeObserver(forInterval interval: CMTime, queue: DispatchQueue?, using block: @escaping (CMTime) -> Void) -> Any {
         observerClosure = block
         startDate = NSDate()
-        timer = Timer.scheduledTimer(timeInterval: CMTimeGetSeconds(interval), target: self, selector: .fakePlayerTimerTicked, userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: CMTimeGetSeconds(interval), target: self, selector: .mockPlayerTimerTicked, userInfo: nil, repeats: true)
         return self
     }
 
@@ -139,7 +139,7 @@ class FakePlayer: AVPlayer {
     }
 }
 
-class FakeMetadataItem: AVMetadataItem {
+class MockMetadataItem: AVMetadataItem {
     var _commonKey: AVMetadataKey
     var _value: NSCopying & NSObjectProtocol
 
@@ -157,7 +157,7 @@ class FakeMetadataItem: AVMetadataItem {
     }
 }
 
-class FakeApplication: BackgroundTaskCreator {
+class MockApplication: BackgroundTaskCreator {
     var onBegin: (((() -> Void)?) -> UIBackgroundTaskIdentifier)?
     var onEnd: ((UIBackgroundTaskIdentifier) -> Void)?
 
@@ -170,8 +170,8 @@ class FakeApplication: BackgroundTaskCreator {
     }
 }
 
-class FakeAudioPlayer: AudioPlayer {
-    var avPlayer = FakePlayer()
+class MockAudioPlayer: AudioPlayer {
+    var avPlayer = MockPlayer()
 
     override var player: AVPlayer? {
         get {
@@ -181,7 +181,7 @@ class FakeAudioPlayer: AudioPlayer {
     }
 }
 
-class FakeAudioPlayerDelegate: AudioPlayerDelegate {
+class MockAudioPlayerDelegate: AudioPlayerDelegate {
     var didChangeState: ((AudioPlayer, AudioPlayerState, AudioPlayerState) -> Void)?
 
     var willStartPlaying: ((AudioPlayer, AudioItem) -> Void)?

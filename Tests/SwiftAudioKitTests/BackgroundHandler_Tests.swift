@@ -9,7 +9,7 @@ import XCTest
 @testable import SwiftAudioKit
 
 class BackgroundHandler_Tests: XCTestCase {
-    var application = FakeApplication()
+    var application = MockApplication()
     var backgroundHandler: BackgroundHandler!
     
     override func setUp() {
