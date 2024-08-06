@@ -31,7 +31,7 @@ class NetworkEventProducer: EventProducer {
     weak var eventListener: EventListener?
 
     /// A boolean value indicating whether we're currently listening to events.
-    private(set) var isListening = false
+    private(set) var isObserving = false
 
     /// The last status received.
     private var lastStatus: Reachability.NetworkStatus
@@ -58,11 +58,11 @@ class NetworkEventProducer: EventProducer {
 
     /// Starts listening to the network events.
     func startProducingEvents() {
-        guard !isListening else { return }
+        guard !isObserving else { return }
 
         // Update status and start notifier
         lastStatus = reachability.currentReachabilityStatus
-        isListening = true
+        isObserving = true
 
         NotificationCenter.default.publisher(for: .ReachabilityChanged, object: reachability)
             .sink { [weak self] _ in
@@ -75,10 +75,10 @@ class NetworkEventProducer: EventProducer {
 
     /// Stops listening to the network events.
     func stopProducingEvents() {
-        guard isListening else { return }
+        guard isObserving else { return }
 
         // Stop listening and clean up
-        isListening = false
+        isObserving = false
         reachability.stopNotifier()
         cancellables.removeAll()
     }

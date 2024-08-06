@@ -25,7 +25,7 @@ class RetryEventProducer: EventProducer {
     weak var eventListener: EventListener?
 
     /// A boolean value indicating whether we're currently producing events or not.
-    private(set) var isListening = false
+    private(set) var isObserving = false
 
     /// Interruption counter. It will be used to determine whether the quality should change.
     private var retryCount = 0
@@ -38,7 +38,7 @@ class RetryEventProducer: EventProducer {
 
     /// Starts listening to the player events.
     func startProducingEvents() {
-        guard !isListening else { return }
+        guard !isObserving else { return }
 
         // Reset state
         retryCount = 0
@@ -47,17 +47,17 @@ class RetryEventProducer: EventProducer {
         startTimer()
 
         // Mark as listening
-        isListening = true
+        isObserving = true
     }
 
     /// Stops listening to the player events.
     func stopProducingEvents() {
-        guard isListening else { return }
+        guard isObserving else { return }
 
         stopTimer()
 
         // Mark as not listening
-        isListening = false
+        isObserving = false
     }
 
     /// Starts the timer for retrying.

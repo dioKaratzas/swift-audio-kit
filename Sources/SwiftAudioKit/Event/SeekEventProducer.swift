@@ -25,7 +25,7 @@ class SeekEventProducer: EventProducer {
     weak var eventListener: EventListener?
 
     /// A boolean value indicating whether we're currently producing events or not.
-    private(set) var isListening = false
+    private(set) var isObserving = false
 
     /// The delay between seek events. Default value is 10 seconds.
     var intervalBetweenEvents: TimeInterval = 10
@@ -35,24 +35,24 @@ class SeekEventProducer: EventProducer {
 
     /// Starts listening to the player events.
     func startProducingEvents() {
-        guard !isListening else { return }
+        guard !isObserving else { return }
 
         // Start the timer
         startTimer()
 
         // Mark as listening
-        isListening = true
+        isObserving = true
     }
 
     /// Stops listening to the player events.
     func stopProducingEvents() {
-        guard isListening else { return }
+        guard isObserving else { return }
 
         // Stop the timer
         stopTimer()
 
         // Mark as not listening
-        isListening = false
+        isObserving = false
     }
 
     /// Starts the timer to produce seek events.

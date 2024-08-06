@@ -24,7 +24,7 @@ class QualityAdjustmentEventProducer: EventProducer {
     weak var eventListener: EventListener?
 
     /// A boolean value indicating whether we're currently producing events or not.
-    private(set) var isListening = false
+    private(set) var isObserving = false
 
     /// Interruption counter. It will be used to determine whether the quality should change.
     var interruptionCount = 0 {
@@ -54,25 +54,25 @@ class QualityAdjustmentEventProducer: EventProducer {
 
     /// Starts listening to the player events.
     func startProducingEvents() {
-        guard !isListening else { return }
+        guard !isObserving else { return }
 
         // Reset state
         resetState()
 
         // Mark as listening
-        isListening = true
+        isObserving = true
     }
 
     /// Stops listening to the player events.
     func stopProducingEvents() {
-        guard isListening else { return }
+        guard isObserving else { return }
 
         // Invalidate the timer
         timerCancellable?.cancel()
         timerCancellable = nil
 
         // Mark as not listening
-        isListening = false
+        isObserving = false
     }
 
     /// Resets the state.
@@ -95,7 +95,7 @@ class QualityAdjustmentEventProducer: EventProducer {
     /// Checks that the interruption count is lower than `adjustQualityAfterInterruptionCount`. If it isn't, the
     /// function generates an event and resets its state.
     private func checkInterruptionCount() {
-        guard isListening else { return }
+        guard isObserving else { return }
 
         if interruptionCount >= adjustQualityAfterInterruptionCount {
             // Invalidate the timer
