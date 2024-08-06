@@ -3,37 +3,36 @@ import Combine
 import AVFoundation
 import SwiftAudioKit
 
-class AudioPlayerManager: NSObject, ObservableObject {
+class AudioPlayerManager: ObservableObject {
     @Published var currentTrackTitle: String = "No Track"
     @Published var isPlaying: Bool = false
 
-    private var audioPlayer: AudioPlayer?
+    private var audioPlayer: AudioPlayer
 
-    override init() {
-        super.init()
+    init() {
+        audioPlayer = try! AudioPlayer(nowPlayableService: .init(
+            allowsExternalPlayback: true,
+            commands: [.play, .pause, .previousTrack, .nextTrack]
+        ))
         setupPlayer()
     }
 
     private func setupPlayer() {
-        audioPlayer = try? AudioPlayer(nowPlayableService: .init(
-            allowsExternalPlayback: true,
-            commands: [.play, .pause, .previousTrack, .nextTrack]
-        ))
-        audioPlayer?.delegate = self
+        audioPlayer.delegate = self
         loadPlaylist()
         playCurrentItem()
     }
 
     private func loadPlaylist() {
         // Load your playlist here
-        audioPlayer?.add(items: [
+        audioPlayer.add(items: [
             AudioItem(soundURLs: [.high: URL(string: "http://radio.1055rock.gr:30000/1055")!])!,
             AudioItem(soundURLs: [.high: URL(string: "https://cast.magicstreams.gr:2200/ssl/psyndora?mp=/stream")!])!
         ])
     }
 
     private func playCurrentItem() {
-        audioPlayer?.resume()
+        audioPlayer.resume()
         isPlaying = true
     }
 
@@ -42,16 +41,22 @@ class AudioPlayerManager: NSObject, ObservableObject {
     }
 
     func pause() {
-        audioPlayer?.pause()
+        audioPlayer.pause()
         isPlaying = false
     }
 
     func nextTrack() {
-        audioPlayer?.next()
+        guard audioPlayer.hasNext else {
+            return
+        }
+        audioPlayer.next()
     }
 
     func previousTrack() {
-        audioPlayer?.previous()
+        guard audioPlayer.hasPrevious else {
+            return
+        }
+        audioPlayer.previous()
     }
 }
 
