@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import Foundation
 
 /// A `NetworkEventProducer` generates `NetworkEvent`s when there are changes in the network.
 class NetworkEventProducer: EventProducer {
@@ -58,7 +59,9 @@ class NetworkEventProducer: EventProducer {
 
     /// Starts listening to the network events.
     func startProducingEvents() {
-        guard !isObserving else { return }
+        guard !isObserving else {
+            return
+        }
 
         // Update status and start notifier
         lastStatus = reachability.currentReachabilityStatus
@@ -75,7 +78,9 @@ class NetworkEventProducer: EventProducer {
 
     /// Stops listening to the network events.
     func stopProducingEvents() {
-        guard isObserving else { return }
+        guard isObserving else {
+            return
+        }
 
         // Stop listening and clean up
         isObserving = false

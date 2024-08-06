@@ -50,7 +50,11 @@ class AudioItem_Tests: XCTestCase {
         XCTAssertEqual(itemMediumHighOnly?.mediumQualityURL.url, urlMedium)
         XCTAssertEqual(itemMediumHighOnly?.highestQualityURL.url, urlHigh)
 
-        let itemFull = AudioItem(highQualitySoundURL: urlHigh, mediumQualitySoundURL: urlMedium, lowQualitySoundURL: urlLow)
+        let itemFull = AudioItem(
+            highQualitySoundURL: urlHigh,
+            mediumQualitySoundURL: urlMedium,
+            lowQualitySoundURL: urlLow
+        )
         XCTAssertEqual(itemFull?.lowestQualityURL.url, urlLow)
         XCTAssertEqual(itemFull?.mediumQualityURL.url, urlMedium)
         XCTAssertEqual(itemFull?.highestQualityURL.url, urlHigh)
@@ -91,7 +95,11 @@ class AudioItem_Tests: XCTestCase {
         XCTAssertEqual(itemMediumHighOnly?.url(for: .medium).quality, .medium)
         XCTAssertEqual(itemMediumHighOnly?.url(for: .low).quality, .medium)
 
-        let itemFull = AudioItem(highQualitySoundURL: urlHigh, mediumQualitySoundURL: urlMedium, lowQualitySoundURL: urlLow)
+        let itemFull = AudioItem(
+            highQualitySoundURL: urlHigh,
+            mediumQualitySoundURL: urlMedium,
+            lowQualitySoundURL: urlLow
+        )
         XCTAssertEqual(itemFull?.url(for: .high).quality, .high)
         XCTAssertEqual(itemFull?.url(for: .medium).quality, .medium)
         XCTAssertEqual(itemFull?.url(for: .low).quality, .low)

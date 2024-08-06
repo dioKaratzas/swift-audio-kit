@@ -61,15 +61,17 @@ class AudioItemQueue {
     ///
     /// - Parameter oldMode: The mode before it changed.
     private func adaptQueue(oldMode: AudioPlayerMode) {
-        guard !queue.isEmpty else { return }
+        guard !queue.isEmpty else {
+            return
+        }
 
-        if oldMode.contains(.repeat) && !mode.contains(.repeat), historic.last == queue[safe: nextPosition] {
+        if oldMode.contains(.repeat), !mode.contains(.repeat), historic.last == queue[safe: nextPosition] {
             nextPosition += 1
         } else if !oldMode.contains(.repeat), mode.contains(.repeat), nextPosition >= queue.count {
             nextPosition = max(0, queue.count - 1)
         }
 
-        if oldMode.contains(.shuffle) && !mode.contains(.shuffle) {
+        if oldMode.contains(.shuffle), !mode.contains(.shuffle) {
             queue = items
             if let lastItem = historic.last, let index = queue.firstIndex(of: lastItem) {
                 nextPosition = index + 1
@@ -85,7 +87,9 @@ class AudioItemQueue {
     ///
     /// - Returns: The next item in the queue.
     func nextItem() -> AudioItem? {
-        guard !queue.isEmpty else { return nil }
+        guard !queue.isEmpty else {
+            return nil
+        }
 
         if mode.contains(.repeat) {
             let item = queue[safe: nextPosition] ?? queue.last
@@ -93,7 +97,7 @@ class AudioItemQueue {
             return item
         }
 
-        if mode.contains(.repeatAll) && nextPosition >= queue.count {
+        if mode.contains(.repeatAll), nextPosition >= queue.count {
             nextPosition = 0
         }
 
@@ -123,7 +127,9 @@ class AudioItemQueue {
     ///
     /// - Returns: The previous item in the queue.
     func previousItem() -> AudioItem? {
-        guard !queue.isEmpty else { return nil }
+        guard !queue.isEmpty else {
+            return nil
+        }
 
         if mode.contains(.repeat) {
             let item = queue[max(0, nextPosition - 1)]
@@ -169,7 +175,9 @@ class AudioItemQueue {
     ///
     /// - Parameter index: The index of the item to remove.
     func remove(at index: Int) {
-        guard queue.indices.contains(index) else { return }
+        guard queue.indices.contains(index) else {
+            return
+        }
         let item = queue.remove(at: index)
         items.removeAll { $0 == item }
     }

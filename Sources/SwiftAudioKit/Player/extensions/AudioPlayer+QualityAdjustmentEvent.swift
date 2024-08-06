@@ -13,10 +13,14 @@ extension AudioPlayer {
     /// - Parameters:
     ///   - producer: The event producer that generated the quality adjustment event.
     ///   - event: The quality adjustment event indicating whether to increase or decrease quality.
-    func handleQualityEvent(from producer: EventProducer,
-                            with event: QualityAdjustmentEventProducer.QualityAdjustmentEvent) {
+    func handleQualityEvent(
+        from producer: EventProducer,
+        with event: QualityAdjustmentEventProducer.QualityAdjustmentEvent
+    ) {
         // Exit early if automatic quality adjustment is disabled.
-        guard adjustQualityAutomatically else { return }
+        guard adjustQualityAutomatically else {
+            return
+        }
 
         switch event {
         case .goDown:
@@ -31,7 +35,9 @@ extension AudioPlayer {
     /// - Parameter down: A boolean indicating whether the quality should be lowered (`true`) or raised (`false`).
     private func adjustQuality(down: Bool) {
         let qualityChange = down ? -1 : 1
-        guard let newQuality = AudioQuality(rawValue: currentQuality.rawValue + qualityChange) else { return }
+        guard let newQuality = AudioQuality(rawValue: currentQuality.rawValue + qualityChange) else {
+            return
+        }
         changeQuality(to: newQuality)
     }
 
@@ -39,7 +45,9 @@ extension AudioPlayer {
     ///
     /// - Parameter newQuality: The new desired quality level for playback.
     private func changeQuality(to newQuality: AudioQuality) {
-        guard let url = currentItem?.soundURLs[newQuality] else { return }
+        guard let url = currentItem?.soundURLs[newQuality] else {
+            return
+        }
 
         let currentProgression = currentItemProgression
         let newItem = AVPlayerItem(url: url)

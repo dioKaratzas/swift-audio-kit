@@ -24,7 +24,7 @@ let package = Package(
         .target(
             name: "SwiftAudioKit",
             swiftSettings: [
-//                .enableExperimentalFeature("StrictConcurrency")
+                //                .enableExperimentalFeature("StrictConcurrency")
             ]
         ),
         .testTarget(

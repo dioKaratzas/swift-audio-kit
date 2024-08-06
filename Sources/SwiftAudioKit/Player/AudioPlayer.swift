@@ -5,8 +5,8 @@
 //  Copyright © 2024 Dionysios Karatzas. All rights reserved.
 //
 
-import AVFoundation
 import MediaPlayer
+import AVFoundation
 
 /// An `AudioPlayer` instance is used to play `AudioPlayerItem`. It's an easy to use AVPlayer with simple methods to
 /// handle the whole playing audio process.
@@ -61,7 +61,7 @@ public class AudioPlayer: NSObject {
             player?.rate = rate
             updatePlayerForBufferingStrategy()
 
-            if let player = player {
+            if let player {
                 playerEventProducer.player = player
                 audioItemEventProducer.item = currentItem
                 playerEventProducer.startProducingEvents()
@@ -82,15 +82,15 @@ public class AudioPlayer: NSObject {
     /// The current item being played.
     public internal(set) var currentItem: AudioItem? {
         didSet {
-            if let currentItem = currentItem {
-                //Stops the current player
+            if let currentItem {
+                // Stops the current player
                 player?.rate = 0
                 player = nil
 
-                //Ensures the audio session got started
+                // Ensures the audio session got started
                 setAudioSession(active: true)
 
-                //Sets new state
+                // Sets new state
                 let info = currentItem.url(for: currentQuality)
                 if reachability.isReachable() || info.url.isOfflineURL {
                     state = .buffering
@@ -101,23 +101,23 @@ public class AudioPlayer: NSObject {
                     backgroundHandler.beginBackgroundTask()
                     return
                 }
-                
-                //Reset special state flags
+
+                // Reset special state flags
                 pausedForInterruption = false
-                
-                //Create new AVPlayerItem
+
+                // Create new AVPlayerItem
                 let playerItem = AVPlayerItem(url: info.url)
-                
+
                 if #available(iOS 10.0, tvOS 10.0, OSX 10.12, *) {
                     playerItem.preferredForwardBufferDuration = self.preferredForwardBufferDuration
                 }
 
-                //Creates new player
+                // Creates new player
                 player = AVPlayer(playerItem: playerItem)
-                
+
                 currentQuality = info.quality
 
-                //Calls delegate
+                // Calls delegate
                 if oldValue != currentItem {
                     delegate?.audioPlayer(self, willStartPlaying: currentItem)
                 }
@@ -226,11 +226,11 @@ public class AudioPlayer: NSObject {
             updatePlayerForBufferingStrategy()
         }
     }
-    
+
     /// Defines the preferred buffer duration in seconds before playback begins. Defaults to 60.
     /// Works on iOS/tvOS 10+ when `bufferingStrategy` is `.playWhenPreferredBufferDurationFull`.
     public var preferredBufferDurationBeforePlayback = TimeInterval(60)
-    
+
     /// Defines the preferred size of the forward buffer for the underlying `AVPlayerItem`.
     /// Works on iOS/tvOS 10+, default is 0, which lets `AVPlayer` decide.
     public var preferredForwardBufferDuration = TimeInterval(0)
@@ -252,7 +252,7 @@ public class AudioPlayer: NSObject {
 
         func handleSeekingStart(player: AudioPlayer, forward: Bool) {
             switch self {
-            case .multiplyRate(let rateMultiplier):
+            case let .multiplyRate(rateMultiplier):
                 if forward {
                     player.rate = player.rate * rateMultiplier
                 } else {
@@ -267,7 +267,7 @@ public class AudioPlayer: NSObject {
 
         func handleSeekingEnd(player: AudioPlayer, forward: Bool) {
             switch self {
-            case .multiplyRate(let rateMultiplier):
+            case let .multiplyRate(rateMultiplier):
                 if forward {
                     player.rate = player.rate / rateMultiplier
                 } else {
@@ -284,7 +284,7 @@ public class AudioPlayer: NSObject {
     /// is `multiplyRate(2)`.
     public var seekingBehavior = SeekingBehavior.multiplyRate(2) {
         didSet {
-            if case .changeTime(let timerInterval, _) = seekingBehavior {
+            if case let .changeTime(timerInterval, _) = seekingBehavior {
                 seekEventProducer.intervalBetweenEvents = timerInterval
             }
         }
@@ -369,7 +369,6 @@ public class AudioPlayer: NSObject {
         try nowPlayableService.handleNowPlayableConfiguration(commandHandler: handleCommand(command:event:))
     }
 
-
     /// Deinitializes the AudioPlayer. On deinit, the player will simply stop playing anything it was previously
     /// playing.
     deinit {
@@ -381,10 +380,13 @@ public class AudioPlayer: NSObject {
     /// Returns the current dynamic metadata for the currently playing item, including rate, position, and duration.
     func currentItemDynamicMetadata() -> NowPlayableDynamicMetadata? {
         if let player, let currentItemDuration, let currentItemProgression {
-            return NowPlayableDynamicMetadata(rate: player.rate,
-                                              position: Float(currentItemProgression),
-                                              duration: Float(currentItemDuration),
-                                              currentLanguageOptions: [.init()], availableLanguageOptionGroups: [.init()])
+            return NowPlayableDynamicMetadata(
+                rate: player.rate,
+                position: Float(currentItemProgression),
+                duration: Float(currentItemDuration),
+                currentLanguageOptions: [.init()],
+                availableLanguageOptionGroups: [.init()]
+            )
         }
         return nil
     }
@@ -403,13 +405,15 @@ public class AudioPlayer: NSObject {
         case .stop:
             stop()
         case .togglePausePlay:
-            /*togglePlayPause*/()
+            /* togglePlayPause */ ()
         case .nextTrack:
             next()
         case .previousTrack:
             previous()
         case .changeRepeatMode:
-            guard let event = event as? MPChangeRepeatModeCommandEvent else { return .commandFailed }
+            guard let event = event as? MPChangeRepeatModeCommandEvent else {
+                return .commandFailed
+            }
             switch event.repeatType {
             case .off:
                 mode = .normal
@@ -421,17 +425,23 @@ public class AudioPlayer: NSObject {
                 break
             }
         case .changePlaybackRate:
-            guard let event = event as? MPChangePlaybackRateCommandEvent else { return .commandFailed }
+            guard let event = event as? MPChangePlaybackRateCommandEvent else {
+                return .commandFailed
+            }
             rate = event.playbackRate
         case .seekBackward:
-            guard let event = event as? MPSeekCommandEvent else { return .commandFailed }
+            guard let event = event as? MPSeekCommandEvent else {
+                return .commandFailed
+            }
             if event.type == .beginSeeking {
                 seekingBehavior.handleSeekingStart(player: self, forward: false)
             } else if event.type == .endSeeking {
                 seekingBehavior.handleSeekingEnd(player: self, forward: false)
             }
         case .seekForward:
-            guard let event = event as? MPSeekCommandEvent else { return .commandFailed }
+            guard let event = event as? MPSeekCommandEvent else {
+                return .commandFailed
+            }
             if event.type == .beginSeeking {
                 seekingBehavior.handleSeekingStart(player: self, forward: true)
             } else if event.type == .endSeeking {
@@ -465,10 +475,10 @@ public class AudioPlayer: NSObject {
     ///
     /// - Parameter active: A boolean value indicating whether the audio session should be set to active or not.
     func setAudioSession(active: Bool) {
-#if os(iOS) || os(tvOS)
-        _ = try? AVAudioSession.sharedInstance().setCategory(.playback)
-        _ = try? AVAudioSession.sharedInstance().setActive(active)
-#endif
+        #if os(iOS) || os(tvOS)
+            _ = try? AVAudioSession.sharedInstance().setCategory(.playback)
+            _ = try? AVAudioSession.sharedInstance().setActive(active)
+        #endif
 
         if active {
             try? self.nowPlayableService?.handleNowPlayableSessionStart()
@@ -499,13 +509,13 @@ public class AudioPlayer: NSObject {
         let cip = currentItemProgression
         let ci = currentItem
         currentItem = ci
-        if let cip = cip {
-            //We can't call self.seek(to:) in here since the player is new
-            //and `cip` is probably not in the seekableTimeRanges.
+        if let cip {
+            // We can't call self.seek(to:) in here since the player is new
+            // and `cip` is probably not in the seekableTimeRanges.
             player?.seek(to: CMTime(timeInterval: cip))
         }
     }
-    
+
     /// Updates the current player based on the current buffering strategy.
     /// Only has an effect on iOS 10+, tvOS 10+ and macOS 10.12+
     func updatePlayerForBufferingStrategy() {
@@ -513,11 +523,11 @@ public class AudioPlayer: NSObject {
             player?.automaticallyWaitsToMinimizeStalling = self.bufferingStrategy != .playWhenBufferNotEmpty
         }
     }
-    
+
     /// Updates a given player item based on the `preferredForwardBufferDuration` set.
     /// Only has an effect on iOS 10+, tvOS 10+ and macOS 10.12+
     func updatePlayerItemForBufferingStrategy(_ playerItem: AVPlayerItem) {
-        //Nothing strategy-specific yet
+        // Nothing strategy-specific yet
         if #available(iOS 10.0, tvOS 10.0, OSX 10.12, *) {
             playerItem.preferredForwardBufferDuration = self.preferredForwardBufferDuration
         }

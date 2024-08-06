@@ -47,18 +47,18 @@ public extension NowPlayableService {
     // Customization point: start a `NowPlayable` session, either by activating an audio session
     // or setting a playback state, depending on platform.
     func handleNowPlayableSessionStart() throws {
-#if os(macOS)
-        MPNowPlayingInfoCenter.default().playbackState = .paused
-#endif
+        #if os(macOS)
+            MPNowPlayingInfoCenter.default().playbackState = .paused
+        #endif
     }
 
     // Customization point: end a `NowPlayable` session, to allow other apps to become the
     // current `NowPlayable` app, by deactivating an audio session, or setting a playback
     // state, depending on platform.
     func handleNowPlayableSessionEnd() {
-#if os(macOS)
-        MPNowPlayingInfoCenter.default().playbackState = .stopped
-#endif
+        #if os(macOS)
+            MPNowPlayingInfoCenter.default().playbackState = .stopped
+        #endif
     }
 
     // Customization point: update the Now Playing Info metadata with application-supplied
@@ -80,24 +80,27 @@ public extension NowPlayableService {
     // Note that the playback position, once set, is updated automatically according to
     // the playback rate. There is no need for explicit period updates from the app.
     func handleNowPlayablePlaybackChange(isPlaying: Bool) {
-#if os(macOS)
-        MPNowPlayingInfoCenter.default().playbackState = isPlaying ? .playing : .paused
-#endif
+        #if os(macOS)
+            MPNowPlayingInfoCenter.default().playbackState = isPlaying ? .playing : .paused
+        #endif
     }
 
     func handleNowPlayablePlaybackChange(isPlaying: Bool, metadata: NowPlayableDynamicMetadata) {
         setNowPlayingPlaybackInfo(metadata)
-#if os(macOS)
-        handleNowPlayablePlaybackChange(isPlaying: isPlaying)
-#endif
+        #if os(macOS)
+            handleNowPlayablePlaybackChange(isPlaying: isPlaying)
+        #endif
     }
 
     // Install handlers for registered commands, and disable commands as necessary.
-    func configureRemoteCommands(_ commands: [NowPlayableCommand],
-                                 commandHandler: @escaping (NowPlayableCommand, MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus) throws
-    {
+    func configureRemoteCommands(
+        _ commands: [NowPlayableCommand],
+        commandHandler: @escaping (NowPlayableCommand, MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus
+    ) throws {
         // Check that at least one command is being handled.
-        guard commands.count > 1 else { throw NowPlayableError.noRegisteredCommands }
+        guard commands.count > 1 else {
+            throw NowPlayableError.noRegisteredCommands
+        }
 
         // Configure each command.
         for command in NowPlayableCommand.allCases {
@@ -117,7 +120,6 @@ public extension NowPlayableService {
     // Set per-track metadata. Implementations of `handleNowPlayableItemChange(metadata:)`
     // will typically invoke this method.
     func setNowPlayingMetadata(_ metadata: NowPlayableStaticMetadata) {
-
         let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
         var nowPlayingInfo = [String: Any]()
 
@@ -139,11 +141,13 @@ public extension NowPlayableService {
     // will typically invoke this method.
 
     func setNowPlayingPlaybackInfo(_ metadata: NowPlayableDynamicMetadata) {
-
         let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
         var nowPlayingInfo = nowPlayingInfoCenter.nowPlayingInfo ?? [String: Any]()
 
-        NSLog("%@", "**** Set playback info: rate \(metadata.rate), position \(metadata.position), duration \(metadata.duration)")
+        NSLog(
+            "%@",
+            "**** Set playback info: rate \(metadata.rate), position \(metadata.position), duration \(metadata.duration)"
+        )
         nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = metadata.duration
         nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = metadata.position
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = metadata.rate

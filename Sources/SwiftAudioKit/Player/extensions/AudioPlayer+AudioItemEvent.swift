@@ -14,7 +14,17 @@ extension AudioPlayer {
     func handleAudioItemEvent(from producer: EventProducer, with event: AudioItemEventProducer.AudioItemEvent) {
         if setNowPlayingMetadata, let currentItem {
             let isLiveStream = !currentItem.highestQualityURL.url.isOfflineURL
-            let metadata = NowPlayableStaticMetadata(assetURL: currentItem.highestQualityURL.url, mediaType: .audio, isLiveStream: isLiveStream, title: currentItem.title, artist: currentItem.artist, artwork: currentItem.artwork, album: currentItem.album, trackCount: currentItem.trackCount, trackNumber: currentItem.trackNumber)
+            let metadata = NowPlayableStaticMetadata(
+                assetURL: currentItem.highestQualityURL.url,
+                mediaType: .audio,
+                isLiveStream: isLiveStream,
+                title: currentItem.title,
+                artist: currentItem.artist,
+                artwork: currentItem.artwork,
+                album: currentItem.album,
+                trackCount: currentItem.trackCount,
+                trackNumber: currentItem.trackNumber
+            )
             nowPlayableService?.handleNowPlayableItemChange(metadata: metadata)
         }
     }

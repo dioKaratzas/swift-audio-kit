@@ -27,7 +27,7 @@ extension AudioPlayer {
     /// The current seekable range.
     public var currentItemSeekableRange: TimeRange? {
         guard let range = player?.currentItem?.seekableTimeRanges.last?.timeRangeValue else {
-            if let currentItemProgression = currentItemProgression {
+            if let currentItemProgression {
                 // Return the current time if no seekable range is available
                 return (currentItemProgression, currentItemProgression)
             }

@@ -5,8 +5,8 @@
 //  Copyright © 2024 Dionysios Karatzas. All rights reserved.
 //
 
-import AVFoundation
 import Combine
+import AVFoundation
 
 // MARK: - PlayerEventProducer
 
@@ -45,7 +45,9 @@ class PlayerEventProducer: NSObject, EventProducer {
 
     /// Starts listening to the player events and producing corresponding events.
     func startProducingEvents() {
-        guard let player, !isObserving else { return }
+        guard let player, !isObserving else {
+            return
+        }
         isObserving = true
 
         observePlayerItemChanges(for: player)
@@ -71,7 +73,9 @@ class PlayerEventProducer: NSObject, EventProducer {
         player.publisher(for: \.status)
             .dropFirst()
             .sink { [weak self] status in
-                guard let self = self else { return }
+                guard let self else {
+                    return
+                }
                 if status == .readyToPlay {
                     self.eventListener?.onEvent(PlayerEvent.readyToPlay, generatedBy: self)
                 }
@@ -83,17 +87,22 @@ class PlayerEventProducer: NSObject, EventProducer {
     private func observePlayerTimeUpdates(for player: AVPlayer) {
         Publishers.PlayheadProgressPublisher(interval: 1.0, player: player)
             .sink { [weak self] time in
-                guard let self = self else { return }
-                self.eventListener?.onEvent(PlayerEvent.progressed(time: CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))), generatedBy: self)
+                guard let self else {
+                    return
+                }
+                self.eventListener?.onEvent(
+                    PlayerEvent.progressed(time: CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))),
+                    generatedBy: self
+                )
             }
             .store(in: &cancellables)
     }
 
     /// Observes system notifications relevant to the player.
     private func observeNotifications() {
-#if os(iOS) || os(tvOS)
-        observeAudioSessionNotifications()
-#endif
+        #if os(iOS) || os(tvOS)
+            observeAudioSessionNotifications()
+        #endif
 
         NotificationCenter.default.publisher(for: .AVPlayerItemDidPlayToEndTime)
             .sink { [weak self] _ in
@@ -102,56 +111,61 @@ class PlayerEventProducer: NSObject, EventProducer {
             .store(in: &cancellables)
     }
 
-#if os(iOS) || os(tvOS)
-    /// Observes notifications related to `AVAudioSession`.
-    private func observeAudioSessionNotifications() {
-        let center = NotificationCenter.default
+    #if os(iOS) || os(tvOS)
+        /// Observes notifications related to `AVAudioSession`.
+        private func observeAudioSessionNotifications() {
+            let center = NotificationCenter.default
 
-        center.publisher(for: AVAudioSession.interruptionNotification)
-            .sink { [weak self] notification in
-                self?.handleAudioSessionInterruption(notification)
-            }
-            .store(in: &cancellables)
+            center.publisher(for: AVAudioSession.interruptionNotification)
+                .sink { [weak self] notification in
+                    self?.handleAudioSessionInterruption(notification)
+                }
+                .store(in: &cancellables)
 
-        center.publisher(for: AVAudioSession.routeChangeNotification)
-            .sink { [weak self] note in
-                let reason = note.userInfo
-                    .flatMap({ $0[AVAudioSessionRouteChangeReasonKey] as? UInt })
-                    .map(AVAudioSession.RouteChangeReason.init) ?? .unknown
-                let deviceDisconnected = reason == .oldDeviceUnavailable
+            center.publisher(for: AVAudioSession.routeChangeNotification)
+                .sink { [weak self] note in
+                    let reason = note.userInfo
+                        .flatMap({ $0[AVAudioSessionRouteChangeReasonKey] as? UInt })
+                        .map(AVAudioSession.RouteChangeReason.init) ?? .unknown
+                    let deviceDisconnected = reason == .oldDeviceUnavailable
 
-                self?.eventListener?.onEvent(PlayerEvent.routeChanged(deviceDisconnected: deviceDisconnected), generatedBy: self!)
-            }
-            .store(in: &cancellables)
+                    self?.eventListener?.onEvent(
+                        PlayerEvent.routeChanged(deviceDisconnected: deviceDisconnected),
+                        generatedBy: self!
+                    )
+                }
+                .store(in: &cancellables)
 
-        center.publisher(for: AVAudioSession.mediaServicesWereLostNotification)
-            .sink { [weak self] _ in
-                self?.eventListener?.onEvent(PlayerEvent.sessionMessedUp, generatedBy: self!)
-            }
-            .store(in: &cancellables)
+            center.publisher(for: AVAudioSession.mediaServicesWereLostNotification)
+                .sink { [weak self] _ in
+                    self?.eventListener?.onEvent(PlayerEvent.sessionMessedUp, generatedBy: self!)
+                }
+                .store(in: &cancellables)
 
-        center.publisher(for: AVAudioSession.mediaServicesWereResetNotification)
-            .sink { [weak self] _ in
-                self?.eventListener?.onEvent(PlayerEvent.sessionMessedUp, generatedBy: self!)
-            }
-            .store(in: &cancellables)
-    }
-
-    /// Handles interruptions from `AVAudioSession`.
-    private func handleAudioSessionInterruption(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-              let interruptionType = AVAudioSession.InterruptionType(rawValue: typeValue) else { return }
-
-        if interruptionType == .began {
-            eventListener?.onEvent(PlayerEvent.interruptionBegan, generatedBy: self)
-        } else if interruptionType == .ended {
-            let shouldResume = (userInfo[AVAudioSessionInterruptionOptionKey] as? UInt)
-                .map { AVAudioSession.InterruptionOptions(rawValue: $0).contains(.shouldResume) } ?? false
-            eventListener?.onEvent(PlayerEvent.interruptionEnded(shouldResume: shouldResume), generatedBy: self)
+            center.publisher(for: AVAudioSession.mediaServicesWereResetNotification)
+                .sink { [weak self] _ in
+                    self?.eventListener?.onEvent(PlayerEvent.sessionMessedUp, generatedBy: self!)
+                }
+                .store(in: &cancellables)
         }
-    }
-#endif
+
+        /// Handles interruptions from `AVAudioSession`.
+        private func handleAudioSessionInterruption(_ notification: Notification) {
+            guard let userInfo = notification.userInfo,
+                  let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+                  let interruptionType = AVAudioSession.InterruptionType(rawValue: typeValue) else {
+                return
+            }
+
+            if interruptionType == .began {
+                eventListener?.onEvent(PlayerEvent.interruptionBegan, generatedBy: self)
+            } else if interruptionType == .ended {
+                let shouldResume = (userInfo[AVAudioSessionInterruptionOptionKey] as? UInt)
+                    .map { AVAudioSession.InterruptionOptions(rawValue: $0).contains(.shouldResume) } ?? false
+                eventListener?.onEvent(PlayerEvent.interruptionEnded(shouldResume: shouldResume), generatedBy: self)
+            }
+        }
+    #endif
 
     /// Registers observers for the given `AVPlayerItem`.
     private func registerItemObservers(for item: AVPlayerItem) {
@@ -160,7 +174,9 @@ class PlayerEventProducer: NSObject, EventProducer {
         item.publisher(for: \.isPlaybackBufferEmpty)
             .dropFirst()
             .sink { [weak self] isBufferEmpty in
-                guard let self = self, isBufferEmpty else { return }
+                guard let self, isBufferEmpty else {
+                    return
+                }
                 self.eventListener?.onEvent(PlayerEvent.startedBuffering, generatedBy: self)
             }
             .store(in: &cancellables)
@@ -168,7 +184,9 @@ class PlayerEventProducer: NSObject, EventProducer {
         item.publisher(for: \.isPlaybackLikelyToKeepUp)
             .dropFirst()
             .sink { [weak self] isLikelyToKeepUp in
-                guard let self = self, isLikelyToKeepUp else { return }
+                guard let self, isLikelyToKeepUp else {
+                    return
+                }
                 self.eventListener?.onEvent(PlayerEvent.readyToPlay, generatedBy: self)
             }
             .store(in: &cancellables)
@@ -176,17 +194,24 @@ class PlayerEventProducer: NSObject, EventProducer {
         item.publisher(for: \.duration)
             .compactMap { $0 }
             .sink { [weak self] duration in
-                guard let self else { return }
+                guard let self else {
+                    return
+                }
                 self.eventListener?.onEvent(PlayerEvent.loadedDuration(duration: duration), generatedBy: self)
-                self.eventListener?.onEvent(PlayerEvent.loadedMetadata(metadata: item.asset.commonMetadata), generatedBy: self)
+                self.eventListener?.onEvent(
+                    PlayerEvent.loadedMetadata(metadata: item.asset.commonMetadata),
+                    generatedBy: self
+                )
             }
             .store(in: &cancellables)
 
         item.publisher(for: \.status)
             .dropFirst()
-            .filter { $0 == .failed }  // Ensure only failed statuses trigger the event listener
+            .filter { $0 == .failed } // Ensure only failed statuses trigger the event listener
             .sink { [weak self] status in
-                guard let self = self else { return }
+                guard let self else {
+                    return
+                }
                 self.eventListener?.onEvent(PlayerEvent.endedPlaying(error: item.error), generatedBy: self)
             }
             .store(in: &cancellables)
@@ -194,8 +219,13 @@ class PlayerEventProducer: NSObject, EventProducer {
         item.publisher(for: \.loadedTimeRanges)
             .compactMap { $0.last?.timeRangeValue }
             .sink { [weak self] range in
-                guard let self = self else { return }
-                self.eventListener?.onEvent(PlayerEvent.loadedMoreRange(earliest: range.start, latest: CMTimeAdd(range.start, range.duration)), generatedBy: self)
+                guard let self else {
+                    return
+                }
+                self.eventListener?.onEvent(
+                    PlayerEvent.loadedMoreRange(earliest: range.start, latest: CMTimeAdd(range.start, range.duration)),
+                    generatedBy: self
+                )
             }
             .store(in: &cancellables)
     }
@@ -222,7 +252,11 @@ extension PlayerEventProducer: AVPlayerItemMetadataOutputPushDelegate {
     ///   - output: The `AVPlayerItemMetadataOutput` that captured the metadata.
     ///   - groups: An array of `AVTimedMetadataGroup` objects that contain the captured metadata.
     ///   - track: The `AVPlayerItemTrack` associated with the metadata. This parameter is optional and may be `nil`.
-    func metadataOutput(_ output: AVPlayerItemMetadataOutput, didOutputTimedMetadataGroups groups: [AVTimedMetadataGroup], from track: AVPlayerItemTrack?) {
+    func metadataOutput(
+        _ output: AVPlayerItemMetadataOutput,
+        didOutputTimedMetadataGroups groups: [AVTimedMetadataGroup],
+        from track: AVPlayerItemTrack?
+    ) {
         let metadataItems = groups.flatMap { $0.items }
         eventListener?.onEvent(PlayerEvent.loadedMetadata(metadata: metadataItems), generatedBy: self)
     }
@@ -231,13 +265,11 @@ extension PlayerEventProducer: AVPlayerItemMetadataOutputPushDelegate {
 // MARK: - PlayerEvent
 
 extension PlayerEventProducer {
-
     /// The events that can be generated by `PlayerEventProducer`.
     ///
     /// These events represent different states or changes related to the `AVPlayer`. They are used to notify
     /// the `EventListener` of important playback events.
     enum PlayerEvent: Event {
-
         /// The player has started buffering.
         case startedBuffering
 

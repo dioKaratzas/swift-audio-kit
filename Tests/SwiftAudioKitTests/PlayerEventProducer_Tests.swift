@@ -80,7 +80,10 @@ class PlayerEventProducer_Tests: XCTestCase {
             }
         }
 
-        NotificationCenter.default.post(name: AVAudioSession.mediaServicesWereResetNotification, object: AVAudioSession.sharedInstance())
+        NotificationCenter.default.post(
+            name: AVAudioSession.mediaServicesWereResetNotification,
+            object: AVAudioSession.sharedInstance()
+        )
 
         waitForExpectations(timeout: 1) { e in
             if let _ = e {
@@ -97,7 +100,10 @@ class PlayerEventProducer_Tests: XCTestCase {
             }
         }
 
-        NotificationCenter.default.post(name: AVAudioSession.mediaServicesWereLostNotification, object: AVAudioSession.sharedInstance())
+        NotificationCenter.default.post(
+            name: AVAudioSession.mediaServicesWereLostNotification,
+            object: AVAudioSession.sharedInstance()
+        )
 
         waitForExpectations(timeout: 1) { e in
             if let _ = e {
@@ -110,15 +116,18 @@ class PlayerEventProducer_Tests: XCTestCase {
         let e = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
             if let event = event as? PlayerEventProducer.PlayerEvent,
-                case PlayerEventProducer.PlayerEvent.routeChanged(let deviceDisconnected) = event {
-                if deviceDisconnected { e.fulfill() }
+               case let PlayerEventProducer.PlayerEvent.routeChanged(deviceDisconnected) = event {
+                if deviceDisconnected {
+                    e.fulfill()
+                }
             }
         }
 
         NotificationCenter.default.post(
             name: AVAudioSession.routeChangeNotification,
             object: AVAudioSession.sharedInstance(),
-            userInfo: [AVAudioSessionRouteChangeReasonKey: AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue])
+            userInfo: [AVAudioSessionRouteChangeReasonKey: AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue]
+        )
 
         waitForExpectations(timeout: 1) { e in
             if let _ = e {
@@ -140,11 +149,12 @@ class PlayerEventProducer_Tests: XCTestCase {
             object: player,
             userInfo: [
                 AVAudioSessionInterruptionTypeKey: AVAudioSession.InterruptionType.began.rawValue
-            ])
+            ]
+        )
 
         let expectationEnds = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
-            if case PlayerEventProducer.PlayerEvent.interruptionEnded(let shouldResume) = event {
+            if case let PlayerEventProducer.PlayerEvent.interruptionEnded(shouldResume) = event {
                 if shouldResume {
                     expectationEnds.fulfill()
                 }
@@ -157,7 +167,8 @@ class PlayerEventProducer_Tests: XCTestCase {
             userInfo: [
                 AVAudioSessionInterruptionTypeKey: AVAudioSession.InterruptionType.ended.rawValue,
                 AVAudioSessionInterruptionOptionKey: AVAudioSession.InterruptionOptions.shouldResume.rawValue
-            ])
+            ]
+        )
 
         waitForExpectations(timeout: 1) { e in
             if let _ = e {

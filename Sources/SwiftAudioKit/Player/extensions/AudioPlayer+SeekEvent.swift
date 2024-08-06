@@ -14,8 +14,10 @@ extension AudioPlayer {
     ///   - producer: The event producer that generated the seek event.
     ///   - event: The seek event.
     func handleSeekEvent(from producer: EventProducer, with event: SeekEventProducer.SeekEvent) {
-        guard let currentItemProgression = currentItemProgression,
-            case .changeTime(_, let delta) = seekingBehavior else { return }
+        guard let currentItemProgression,
+              case let .changeTime(_, delta) = seekingBehavior else {
+            return
+        }
 
         switch event {
         case .seekBackward:

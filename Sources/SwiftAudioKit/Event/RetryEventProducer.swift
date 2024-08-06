@@ -38,7 +38,9 @@ class RetryEventProducer: EventProducer {
 
     /// Starts listening to the player events.
     func startProducingEvents() {
-        guard !isObserving else { return }
+        guard !isObserving else {
+            return
+        }
 
         // Reset state
         retryCount = 0
@@ -52,7 +54,9 @@ class RetryEventProducer: EventProducer {
 
     /// Stops listening to the player events.
     func stopProducingEvents() {
-        guard isObserving else { return }
+        guard isObserving else {
+            return
+        }
 
         stopTimer()
 
@@ -62,7 +66,7 @@ class RetryEventProducer: EventProducer {
 
     /// Starts the timer for retrying.
     private func startTimer() {
-        stopTimer()  // Ensure any existing timer is stopped
+        stopTimer() // Ensure any existing timer is stopped
 
         let timer = DispatchSource.makeTimerSource()
         timer.schedule(deadline: .now() + retryTimeout)
@@ -85,7 +89,7 @@ class RetryEventProducer: EventProducer {
 
         if retryCount < maximumRetryCount {
             eventListener?.onEvent(RetryEvent.retryAvailable, generatedBy: self)
-            startTimer()  // Schedule the next retry
+            startTimer() // Schedule the next retry
         } else {
             eventListener?.onEvent(RetryEvent.retryFailed, generatedBy: self)
         }

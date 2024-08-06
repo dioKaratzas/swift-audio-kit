@@ -7,11 +7,11 @@
 
 import UIKit
 import AVFoundation
-import SystemConfiguration
 @testable import SwiftAudioKit
+import SystemConfiguration
 
 class MockEventListener: EventListener {
-    var eventClosure: ((Event, EventProducer) -> ())?
+    var eventClosure: ((Event, EventProducer) -> Void)?
 
     func onEvent(_ event: Event, generatedBy eventProducer: EventProducer) {
         eventClosure?(event, eventProducer)
@@ -118,10 +118,20 @@ class MockPlayer: AVPlayer {
         return item
     }
 
-    override func addPeriodicTimeObserver(forInterval interval: CMTime, queue: DispatchQueue?, using block: @escaping (CMTime) -> Void) -> Any {
+    override func addPeriodicTimeObserver(
+        forInterval interval: CMTime,
+        queue: DispatchQueue?,
+        using block: @escaping (CMTime) -> Void
+    ) -> Any {
         observerClosure = block
         startDate = NSDate()
-        timer = Timer.scheduledTimer(timeInterval: CMTimeGetSeconds(interval), target: self, selector: .mockPlayerTimerTicked, userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(
+            timeInterval: CMTimeGetSeconds(interval),
+            target: self,
+            selector: .mockPlayerTimerTicked,
+            userInfo: nil,
+            repeats: true
+        )
         return self
     }
 
@@ -177,7 +187,7 @@ class MockAudioPlayer: AudioPlayer {
         get {
             return avPlayer
         }
-        set { }
+        set {}
     }
 }
 
@@ -193,7 +203,6 @@ class MockAudioPlayerDelegate: AudioPlayerDelegate {
     var didFindDuration: ((AudioPlayer, TimeInterval, AudioItem) -> Void)?
 
     var didUpdateEmptyMetadata: ((AudioPlayer, AudioItem, Metadata) -> Void)?
-
 
     func audioPlayer(_ audioPlayer: AudioPlayer, didChangeStateFrom from: AudioPlayerState, to state: AudioPlayerState) {
         didChangeState?(audioPlayer, from, state)

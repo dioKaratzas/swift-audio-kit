@@ -33,8 +33,10 @@ class NetworkEventProducer_Tests: XCTestCase {
     func testEventListenerGetsCalledWhenChangingReachabilityStatus() {
         let e = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
-            XCTAssertEqual(event as? NetworkEventProducer.NetworkEvent,
-                NetworkEventProducer.NetworkEvent.connectionRetrieved)
+            XCTAssertEqual(
+                event as? NetworkEventProducer.NetworkEvent,
+                NetworkEventProducer.NetworkEvent.connectionRetrieved
+            )
             e.fulfill()
         }
 
@@ -70,8 +72,10 @@ class NetworkEventProducer_Tests: XCTestCase {
 
         let e = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
-            XCTAssertEqual(event as? NetworkEventProducer.NetworkEvent,
-                NetworkEventProducer.NetworkEvent.connectionLost)
+            XCTAssertEqual(
+                event as? NetworkEventProducer.NetworkEvent,
+                NetworkEventProducer.NetworkEvent.connectionLost
+            )
             e.fulfill()
         }
 
@@ -89,8 +93,10 @@ class NetworkEventProducer_Tests: XCTestCase {
 
         let e = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
-            XCTAssertEqual(event as? NetworkEventProducer.NetworkEvent,
-                NetworkEventProducer.NetworkEvent.networkChanged)
+            XCTAssertEqual(
+                event as? NetworkEventProducer.NetworkEvent,
+                NetworkEventProducer.NetworkEvent.networkChanged
+            )
             e.fulfill()
         }
 

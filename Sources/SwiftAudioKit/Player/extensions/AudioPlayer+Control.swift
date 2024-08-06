@@ -13,14 +13,14 @@ import CoreMedia
 extension AudioPlayer {
     /// Resumes the player.
     public func resume() {
-        //Ensure pause flag is no longer set
+        // Ensure pause flag is no longer set
         pausedForInterruption = false
-        
+
         player?.rate = rate
 
-        //We don't wan't to change the state to Playing in case it's Buffering. That
-        //would be a lie.
-        if !state.isPlaying && !state.isBuffering {
+        // We don't wan't to change the state to Playing in case it's Buffering. That
+        // would be a lie.
+        if !state.isPlaying, !state.isBuffering {
             state = .playing
         }
 
@@ -29,24 +29,24 @@ extension AudioPlayer {
 
     /// Pauses the player.
     public func pause() {
-        //We ensure the player actually pauses
+        // We ensure the player actually pauses
         player?.rate = 0
         state = .paused
 
         retryEventProducer.stopProducingEvents()
 
-        //Let's begin a background task for the player to keep buffering if the app is in
-        //background. This will mimic the default behavior of `AVPlayer` when pausing while the
-        //app is in foreground.
+        // Let's begin a background task for the player to keep buffering if the app is in
+        // background. This will mimic the default behavior of `AVPlayer` when pausing while the
+        // app is in foreground.
         backgroundHandler.beginBackgroundTask()
     }
-    
+
     /// Starts playing the current item immediately. Works on iOS/tvOS 10+ and macOS 10.12+
     func playImmediately() {
         if #available(iOS 10.0, tvOS 10.0, OSX 10.12, *) {
             self.state = .playing
             player?.playImmediately(atRate: rate)
-            
+
             retryEventProducer.stopProducingEvents()
             backgroundHandler.endBackgroundTask()
         }
@@ -106,30 +106,39 @@ extension AudioPlayer {
     ///   - toleranceAfter: The tolerance allowed after time.
     ///   - completionHandler: The optional callback that gets executed upon completion with a boolean param indicating
     ///         if the operation has finished.
-    public func seek(to time: TimeInterval,
-                     byAdaptingTimeToFitSeekableRanges: Bool = false,
-                     toleranceBefore: CMTime = CMTime.positiveInfinity,
-                     toleranceAfter: CMTime = CMTime.positiveInfinity,
-                     completionHandler: ((Bool) -> Void)? = nil)
-    {
+    public func seek(
+        to time: TimeInterval,
+        byAdaptingTimeToFitSeekableRanges: Bool = false,
+        toleranceBefore: CMTime = CMTime.positiveInfinity,
+        toleranceAfter: CMTime = CMTime.positiveInfinity,
+        completionHandler: ((Bool) -> Void)? = nil
+    ) {
         guard let earliest = currentItemSeekableRange?.earliest,
-            let latest = currentItemSeekableRange?.latest else {
-                //In case we don't have a valid `seekableRange`, although this *shouldn't* happen
-                //let's just call `AVPlayer.seek(to:)` with given values.
-                seekSafely(to: time, toleranceBefore: toleranceBefore, toleranceAfter: toleranceAfter,
-                           completionHandler: completionHandler)
-                return
+              let latest = currentItemSeekableRange?.latest else {
+            // In case we don't have a valid `seekableRange`, although this *shouldn't* happen
+            // let's just call `AVPlayer.seek(to:)` with given values.
+            seekSafely(
+                to: time,
+                toleranceBefore: toleranceBefore,
+                toleranceAfter: toleranceAfter,
+                completionHandler: completionHandler
+            )
+            return
         }
 
         if !byAdaptingTimeToFitSeekableRanges || (time >= earliest && time <= latest) {
-            //Time is in seekable range, there's no problem here.
-            seekSafely(to: time, toleranceBefore: toleranceBefore, toleranceAfter: toleranceAfter,
-                 completionHandler: completionHandler)
+            // Time is in seekable range, there's no problem here.
+            seekSafely(
+                to: time,
+                toleranceBefore: toleranceBefore,
+                toleranceAfter: toleranceAfter,
+                completionHandler: completionHandler
+            )
         } else if time < earliest {
-            //Time is before seekable start, so just move to the most early position as possible.
+            // Time is before seekable start, so just move to the most early position as possible.
             seekToSeekableRangeStart(padding: 1, completionHandler: completionHandler)
         } else if time > latest {
-            //Time is larger than possibly, so just move forward as far as possible.
+            // Time is larger than possibly, so just move forward as far as possible.
             seekToSeekableRangeEnd(padding: 1, completionHandler: completionHandler)
         }
     }
@@ -141,8 +150,8 @@ extension AudioPlayer {
     ///     if the operation has finished.
     public func seekToSeekableRangeStart(padding: TimeInterval, completionHandler: ((Bool) -> Void)? = nil) {
         guard let range = currentItemSeekableRange else {
-                completionHandler?(false)
-                return
+            completionHandler?(false)
+            return
         }
         let position = min(range.latest, range.earliest + padding)
         seekSafely(to: position, completionHandler: completionHandler)
@@ -155,8 +164,8 @@ extension AudioPlayer {
     ///     if the operation has finished.
     public func seekToSeekableRangeEnd(padding: TimeInterval, completionHandler: ((Bool) -> Void)? = nil) {
         guard let range = currentItemSeekableRange else {
-                completionHandler?(false)
-                return
+            completionHandler?(false)
+            return
         }
         let position = max(range.earliest, range.latest - padding)
         seekSafely(to: position, completionHandler: completionHandler)
@@ -164,15 +173,18 @@ extension AudioPlayer {
 }
 
 extension AudioPlayer {
-    
-    fileprivate func seekSafely(to time: TimeInterval,
-                                toleranceBefore: CMTime = CMTime.positiveInfinity,
-                                toleranceAfter: CMTime = CMTime.positiveInfinity,
-                                completionHandler: ((Bool) -> Void)?)
-    {
-        guard let completionHandler = completionHandler else {
-            player?.seek(to: CMTime(timeInterval: time), toleranceBefore: toleranceBefore,
-                         toleranceAfter: toleranceAfter)
+    fileprivate func seekSafely(
+        to time: TimeInterval,
+        toleranceBefore: CMTime = CMTime.positiveInfinity,
+        toleranceAfter: CMTime = CMTime.positiveInfinity,
+        completionHandler: ((Bool) -> Void)?
+    ) {
+        guard let completionHandler else {
+            player?.seek(
+                to: CMTime(timeInterval: time),
+                toleranceBefore: toleranceBefore,
+                toleranceAfter: toleranceAfter
+            )
             if let metadata = currentItemDynamicMetadata() {
                 nowPlayableService?.handleNowPlayablePlaybackChange(isPlaying: state.isPlaying, metadata: metadata)
             }
@@ -182,12 +194,19 @@ extension AudioPlayer {
             completionHandler(false)
             return
         }
-        player?.seek(to: CMTime(timeInterval: time), toleranceBefore: toleranceBefore, toleranceAfter: toleranceAfter,
-                     completionHandler: { [weak self] finished in
-                        completionHandler(finished)
-            if let metadata = self?.currentItemDynamicMetadata() {
-                self?.nowPlayableService?.handleNowPlayablePlaybackChange(isPlaying: self?.state == .playing, metadata: metadata)
+        player?.seek(
+            to: CMTime(timeInterval: time),
+            toleranceBefore: toleranceBefore,
+            toleranceAfter: toleranceAfter,
+            completionHandler: { [weak self] finished in
+                completionHandler(finished)
+                if let metadata = self?.currentItemDynamicMetadata() {
+                    self?.nowPlayableService?.handleNowPlayablePlaybackChange(
+                        isPlaying: self?.state == .playing,
+                        metadata: metadata
+                    )
+                }
             }
-        })
+        )
     }
 }

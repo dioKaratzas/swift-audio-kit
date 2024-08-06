@@ -35,8 +35,8 @@ class AudioItemEventProducer_Tests: XCTestCase {
         let e = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
             if let event = event as? AudioItemEventProducer.AudioItemEvent,
-                event == AudioItemEventProducer.AudioItemEvent.updatedArtist {
-                    e.fulfill()
+               event == AudioItemEventProducer.AudioItemEvent.updatedArtist {
+                e.fulfill()
             }
         }
 
@@ -53,8 +53,8 @@ class AudioItemEventProducer_Tests: XCTestCase {
         let e = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
             if let event = event as? AudioItemEventProducer.AudioItemEvent,
-                event == AudioItemEventProducer.AudioItemEvent.updatedTitle {
-                    e.fulfill()
+               event == AudioItemEventProducer.AudioItemEvent.updatedTitle {
+                e.fulfill()
             }
         }
 
@@ -71,8 +71,8 @@ class AudioItemEventProducer_Tests: XCTestCase {
         let e = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
             if let event = event as? AudioItemEventProducer.AudioItemEvent,
-                event == AudioItemEventProducer.AudioItemEvent.updatedAlbum {
-                    e.fulfill()
+               event == AudioItemEventProducer.AudioItemEvent.updatedAlbum {
+                e.fulfill()
             }
         }
 
@@ -89,8 +89,8 @@ class AudioItemEventProducer_Tests: XCTestCase {
         let e = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
             if let event = event as? AudioItemEventProducer.AudioItemEvent,
-                event == AudioItemEventProducer.AudioItemEvent.updatedTrackCount {
-                    e.fulfill()
+               event == AudioItemEventProducer.AudioItemEvent.updatedTrackCount {
+                e.fulfill()
             }
         }
 
@@ -107,8 +107,8 @@ class AudioItemEventProducer_Tests: XCTestCase {
         let e = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
             if let event = event as? AudioItemEventProducer.AudioItemEvent,
-                event == AudioItemEventProducer.AudioItemEvent.updatedTrackNumber {
-                    e.fulfill()
+               event == AudioItemEventProducer.AudioItemEvent.updatedTrackNumber {
+                e.fulfill()
             }
         }
 
@@ -125,15 +125,16 @@ class AudioItemEventProducer_Tests: XCTestCase {
         let e = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
             if let event = event as? AudioItemEventProducer.AudioItemEvent,
-                event == AudioItemEventProducer.AudioItemEvent.updatedArtwork {
-                    e.fulfill()
+               event == AudioItemEventProducer.AudioItemEvent.updatedArtwork {
+                e.fulfill()
             }
         }
 
         item.artworkImage = UIImage(
             named: "image",
             in: Bundle(for: type(of: self)),
-            compatibleWith: nil)
+            compatibleWith: nil
+        )
 
         waitForExpectations(timeout: 1) { e in
             if let _ = e {

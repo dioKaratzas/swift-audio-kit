@@ -45,19 +45,19 @@ class AudioItemQueue_Tests: XCTestCase {
     }
 
     func testQueueInShuffleMode() {
-        //TODO: how to test randomness?
+        // TODO: how to test randomness?
     }
 
     func testQueueInRepeatMode() {
         let queue = AudioItemQueue(items: [item1, item2, item3], mode: .repeat)
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssert(queue.nextItem() === item1)
         }
     }
 
     func testQueueInRepeatAllMode() {
         let queue = AudioItemQueue(items: [item1, item2, item3], mode: .repeatAll)
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssert(queue.nextItem() === item1)
             XCTAssert(queue.nextItem() === item2)
             XCTAssert(queue.nextItem() === item3)
@@ -83,7 +83,7 @@ class AudioItemQueue_Tests: XCTestCase {
         XCTAssert(queue.nextItem() === item1)
 
         queue.mode = .shuffle
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssert(queue.nextItem() !== item1)
         }
         queue.nextPosition = 0
@@ -94,7 +94,7 @@ class AudioItemQueue_Tests: XCTestCase {
         let queue = AudioItemQueue(items: [item1, item2, item3], mode: [.repeat, .shuffle])
         let item = queue.nextItem()
 
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssert(queue.nextItem() === item)
         }
     }
@@ -103,7 +103,7 @@ class AudioItemQueue_Tests: XCTestCase {
         let queue = AudioItemQueue(items: [item1, item2, item3], mode: [.repeatAll, .shuffle])
         let queued = queue.queue
 
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             let q = [queue.nextItem()!, queue.nextItem()!, queue.nextItem()!]
             XCTAssertEqual(queued, q)
         }
@@ -127,13 +127,13 @@ class AudioItemQueue_Tests: XCTestCase {
         XCTAssertFalse(queue.hasNextItem)
 
         queue.mode = .repeat
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssertNotNil(queue.nextItem())
             XCTAssert(queue.hasNextItem)
         }
 
         queue.mode = .repeatAll
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssertNotNil(queue.nextItem())
             XCTAssert(queue.hasNextItem)
         }
@@ -160,7 +160,7 @@ class AudioItemQueue_Tests: XCTestCase {
         let queue = AudioItemQueue(items: [item1, item2, item3], mode: .repeat)
         XCTAssert(queue.hasPreviousItem)
 
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssert(queue.previousItem() === item1)
         }
 
@@ -168,14 +168,14 @@ class AudioItemQueue_Tests: XCTestCase {
         XCTAssert(queue.nextItem() === item2)
 
         queue.mode = .repeat
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssert(queue.previousItem() === item2)
         }
     }
 
     func testPreviousInRepeatAllMode() {
         let queue = AudioItemQueue(items: [item1, item2, item3], mode: .repeatAll)
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssert(queue.hasPreviousItem)
             XCTAssert(queue.previousItem() === item3)
             XCTAssert(queue.previousItem() === item2)
@@ -225,7 +225,7 @@ class AudioItemQueue_Tests: XCTestCase {
         queue.nextPosition = queue.queue.count - 1
         queue.delegate = delegate
 
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssert(queue.previousItem() === item2)
         }
     }
@@ -236,7 +236,7 @@ class AudioItemQueue_Tests: XCTestCase {
         let queue = AudioItemQueue(items: [item1, item2, item3], mode: .repeatAll)
         queue.delegate = delegate
 
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssert(queue.previousItem() === item3)
             XCTAssert(queue.previousItem() === item1)
         }
@@ -249,7 +249,7 @@ class AudioItemQueue_Tests: XCTestCase {
         queue.nextPosition = queue.queue.count - 1
         queue.delegate = delegate
 
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssertNil(queue.previousItem())
         }
     }
@@ -261,7 +261,7 @@ class AudioItemQueue_Tests: XCTestCase {
         queue.nextPosition = queue.queue.count - 1
         queue.delegate = delegate
 
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssertNil(queue.previousItem())
         }
     }
@@ -285,7 +285,7 @@ class AudioItemQueue_Tests: XCTestCase {
         queue.mode = .repeat
         queue.delegate = delegate
 
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssert(queue.nextItem() === item2)
         }
     }
@@ -296,7 +296,7 @@ class AudioItemQueue_Tests: XCTestCase {
         let queue = AudioItemQueue(items: [item1, item2, item3], mode: .repeatAll)
         queue.delegate = delegate
 
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssert(queue.nextItem() === item1)
             XCTAssert(queue.nextItem() === item3)
         }
@@ -308,7 +308,7 @@ class AudioItemQueue_Tests: XCTestCase {
         let queue = AudioItemQueue(items: [item1, item2, item3], mode: .normal)
         queue.delegate = delegate
 
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssertNil(queue.nextItem())
         }
     }
@@ -319,7 +319,7 @@ class AudioItemQueue_Tests: XCTestCase {
         let queue = AudioItemQueue(items: [item1, item2, item3], mode: .repeatAll)
         queue.delegate = delegate
 
-        for _ in 0...100 {
+        for _ in 0 ... 100 {
             XCTAssertNil(queue.nextItem())
         }
     }

@@ -32,7 +32,7 @@ extension AudioPlayer {
     /// Handles the logic when the network connection is lost.
     private func handleConnectionLost() {
         // Early exit if the current state already indicates waiting for connection or no current item
-        guard let currentItem = currentItem, !state.isWaitingForConnection else {
+        guard let currentItem, !state.isWaitingForConnection else {
             return
         }
 
@@ -70,7 +70,7 @@ extension AudioPlayer {
         let wasPlayingBeforeLoss = !stateWhenLost.isStopped
 
         // If allowed, attempt to resume playback or play the next item in the queue
-        if isAllowedToRestart && wasPlayingBeforeLoss {
+        if isAllowedToRestart, wasPlayingBeforeLoss {
             retryOrPlayNext()
         }
 

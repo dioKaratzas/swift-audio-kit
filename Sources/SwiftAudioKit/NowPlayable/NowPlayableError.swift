@@ -1,9 +1,9 @@
 /*
-See the LICENSE.txt file for this sample’s licensing information.
+ See the LICENSE.txt file for this sample’s licensing information.
 
-Abstract:
-`NowPlayableError` declares errors specific to the NowPlayable protocol.
-*/
+ Abstract:
+ `NowPlayableError` declares errors specific to the NowPlayable protocol.
+ */
 
 import Foundation
 
@@ -14,19 +14,17 @@ public enum NowPlayableError: LocalizedError {
     case cannotReactivateSession(Error)
 
     public var errorDescription: String? {
-        
         switch self {
-            
         case .noRegisteredCommands:
             return "At least one remote command must be registered."
-            
-        case .cannotSetCategory(let error):
+
+        case let .cannotSetCategory(error):
             return "The audio session category could not be set:\n\(error)"
-            
-        case .cannotActivateSession(let error):
+
+        case let .cannotActivateSession(error):
             return "The audio session could not be activated:\n\(error)"
-            
-        case .cannotReactivateSession(let error):
+
+        case let .cannotReactivateSession(error):
             return "The audio session could not be resumed after interruption:\n\(error)"
         }
     }

@@ -11,13 +11,13 @@ import XCTest
 class BackgroundHandler_Tests: XCTestCase {
     var application = MockApplication()
     var backgroundHandler: BackgroundHandler!
-    
+
     override func setUp() {
         super.setUp()
         backgroundHandler = BackgroundHandler()
         backgroundHandler.backgroundTaskCreator = application
     }
-    
+
     override func tearDown() {
         backgroundHandler = nil
         super.tearDown()
@@ -53,7 +53,7 @@ class BackgroundHandler_Tests: XCTestCase {
     }
 
     func testHandlerEndsTaskIfCalled() {
-        var handler: (() -> ())?
+        var handler: (() -> Void)?
         application.onBegin = { h in
             handler = h
             return UIBackgroundTaskIdentifier(rawValue: 1)

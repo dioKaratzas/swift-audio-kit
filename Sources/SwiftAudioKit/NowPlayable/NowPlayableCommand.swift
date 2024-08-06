@@ -1,9 +1,9 @@
 /*
-See the LICENSE.txt file for this sample’s licensing information.
+ See the LICENSE.txt file for this sample’s licensing information.
 
-Abstract:
-`NowPlayableCommand` identifies remote command center commands.
-*/
+ Abstract:
+ `NowPlayableCommand` identifies remote command center commands.
+ */
 
 import Foundation
 import MediaPlayer
@@ -15,15 +15,13 @@ public enum NowPlayableCommand: CaseIterable {
     case rating, like, dislike
     case bookmark
     case enableLanguageOption, disableLanguageOption
-    
-    // The underlying `MPRemoteCommandCenter` command for this `NowPlayable` command.
-    
-    public var remoteCommand: MPRemoteCommand {
 
+    // The underlying `MPRemoteCommandCenter` command for this `NowPlayable` command.
+
+    public var remoteCommand: MPRemoteCommand {
         let remoteCommandCenter = MPRemoteCommandCenter.shared()
-        
+
         switch self {
-            
         case .pause:
             return remoteCommandCenter.pauseCommand
         case .play:
@@ -66,36 +64,33 @@ public enum NowPlayableCommand: CaseIterable {
             return remoteCommandCenter.disableLanguageOptionCommand
         }
     }
-    
+
     // Remove all handlers associated with this command.
-    
+
     func removeHandler() {
         remoteCommand.removeTarget(nil)
     }
-    
+
     // Install a handler for this command.
-    
+
     func addHandler(_ handler: @escaping (NowPlayableCommand, MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus) {
-        
         switch self {
-            
         case .skipBackward:
             MPRemoteCommandCenter.shared().skipBackwardCommand.preferredIntervals = [15.0]
-            
+
         case .skipForward:
             MPRemoteCommandCenter.shared().skipForwardCommand.preferredIntervals = [15.0]
-            
+
         default:
             break
         }
 
         remoteCommand.addTarget { handler(self, $0) }
     }
-    
+
     // Disable this command.
-    
+
     func setDisabled(_ isDisabled: Bool) {
         remoteCommand.isEnabled = !isDisabled
     }
-    
 }

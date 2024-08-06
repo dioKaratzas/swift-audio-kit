@@ -35,7 +35,9 @@ class SeekEventProducer: EventProducer {
 
     /// Starts listening to the player events.
     func startProducingEvents() {
-        guard !isObserving else { return }
+        guard !isObserving else {
+            return
+        }
 
         // Start the timer
         startTimer()
@@ -46,7 +48,9 @@ class SeekEventProducer: EventProducer {
 
     /// Stops listening to the player events.
     func stopProducingEvents() {
-        guard isObserving else { return }
+        guard isObserving else {
+            return
+        }
 
         // Stop the timer
         stopTimer()
@@ -57,7 +61,7 @@ class SeekEventProducer: EventProducer {
 
     /// Starts the timer to produce seek events.
     private func startTimer() {
-        stopTimer()  // Ensure any existing timer is stopped
+        stopTimer() // Ensure any existing timer is stopped
 
         let timer = DispatchSource.makeTimerSource()
         timer.schedule(deadline: .now(), repeating: intervalBetweenEvents)

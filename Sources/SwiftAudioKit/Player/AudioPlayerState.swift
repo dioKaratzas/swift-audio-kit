@@ -19,15 +19,15 @@ public enum AudioPlayerError: Error, Equatable {
     case itemNotConsideredPlayable
     case noItemsConsideredPlayable
 
-    public static func ==(lhs: AudioPlayerError, rhs: AudioPlayerError) -> Bool {
+    public static func == (lhs: AudioPlayerError, rhs: AudioPlayerError) -> Bool {
         switch (lhs, rhs) {
         case (.maximumRetryCountHit, .maximumRetryCountHit),
-            (.itemNotConsideredPlayable, .itemNotConsideredPlayable),
-            (.noItemsConsideredPlayable, .noItemsConsideredPlayable):
+             (.itemNotConsideredPlayable, .itemNotConsideredPlayable),
+             (.noItemsConsideredPlayable, .noItemsConsideredPlayable):
             return true
-        case (.foundationError(let lhsError), .foundationError(let rhsError)):
+        case let (.foundationError(lhsError), .foundationError(rhsError)):
             return (lhsError as NSError).domain == (rhsError as NSError).domain &&
-            (lhsError as NSError).code == (rhsError as NSError).code
+                (lhsError as NSError).code == (rhsError as NSError).code
         default:
             return false
         }
@@ -85,7 +85,7 @@ public enum AudioPlayerState: Equatable {
 
     /// The error if the state is `failed`.
     public var error: AudioPlayerError? {
-        if case .failed(let error) = self {
+        if case let .failed(error) = self {
             return error
         }
         return nil

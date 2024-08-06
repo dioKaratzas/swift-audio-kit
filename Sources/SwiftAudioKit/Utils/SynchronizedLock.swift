@@ -1,7 +1,7 @@
 //
 //  SynchronizedLock.swift
 //  SwiftAudioKit
-// 
+//
 //  Created by Karatzas Dionysios on 4/8/24.
 //  Copyright © 2024 Karatzas Dionysios. All rights reserved.
 //

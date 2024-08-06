@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import Foundation
 
 /// A `QualityAdjustmentEventProducer` generates `QualityAdjustmentEvent`s when there should be a change of quality
 /// based on some information about interruptions.
@@ -54,7 +55,9 @@ class QualityAdjustmentEventProducer: EventProducer {
 
     /// Starts listening to the player events.
     func startProducingEvents() {
-        guard !isObserving else { return }
+        guard !isObserving else {
+            return
+        }
 
         // Reset state
         resetState()
@@ -65,7 +68,9 @@ class QualityAdjustmentEventProducer: EventProducer {
 
     /// Stops listening to the player events.
     func stopProducingEvents() {
-        guard isObserving else { return }
+        guard isObserving else {
+            return
+        }
 
         // Invalidate the timer
         timerCancellable?.cancel()
@@ -95,7 +100,9 @@ class QualityAdjustmentEventProducer: EventProducer {
     /// Checks that the interruption count is lower than `adjustQualityAfterInterruptionCount`. If it isn't, the
     /// function generates an event and resets its state.
     private func checkInterruptionCount() {
-        guard isObserving else { return }
+        guard isObserving else {
+            return
+        }
 
         if interruptionCount >= adjustQualityAfterInterruptionCount {
             // Invalidate the timer

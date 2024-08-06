@@ -25,15 +25,17 @@
  POSSIBILITY OF SUCH DAMAGE.
  */
 
-import SystemConfiguration
 import Foundation
+import SystemConfiguration
 
 extension NSNotification.Name {
     static let ReachabilityChanged = NSNotification.Name(rawValue: "ReachabilityChanged")
 }
 
 func callback(reachability: SCNetworkReachability, flags: SCNetworkReachabilityFlags, info: UnsafeMutableRawPointer?) {
-    guard let info = info else { return }
+    guard let info else {
+        return
+    }
 
     let reachability = Unmanaged<Reachability>.fromOpaque(info).takeUnretainedValue()
     DispatchQueue.main.async {
@@ -88,10 +90,17 @@ class Reachability: NSObject {
         if notifierRunning {
             return true
         }
-        guard let reachabilityRef = reachabilityRef else { return false }
+        guard let reachabilityRef else {
+            return false
+        }
 
-        var context = SCNetworkReachabilityContext(version: 0, info: nil, retain: nil, release: nil,
-                                                   copyDescription: nil)
+        var context = SCNetworkReachabilityContext(
+            version: 0,
+            info: nil,
+            retain: nil,
+            release: nil,
+            copyDescription: nil
+        )
         context.info = UnsafeMutableRawPointer(
             Unmanaged<Reachability>.passUnretained(self).toOpaque())
 
@@ -107,7 +116,7 @@ class Reachability: NSObject {
     }
 
     func stopNotifier() {
-        if let reachabilityRef = reachabilityRef {
+        if let reachabilityRef {
             SCNetworkReachabilitySetCallback(reachabilityRef, nil, nil)
         }
         notifierRunning = false
@@ -122,7 +131,7 @@ class Reachability: NSObject {
     }
 
     func isReachableViaWiFi() -> Bool {
-        return isReachableWithTest() { flags -> Bool in
+        return isReachableWithTest { flags -> Bool in
             // Check we're reachable
             if self.isReachable(flags: flags) {
                 if self.isRunningOnDevice {
@@ -140,9 +149,9 @@ class Reachability: NSObject {
     // MARK: - *** Private methods ***
 
     #if targetEnvironment(simulator)
-    private let isRunningOnDevice = false
+        private let isRunningOnDevice = false
     #else
-    private let isRunningOnDevice = true
+        private let isRunningOnDevice = true
     #endif
 
     private var notifierRunning = false
@@ -166,7 +175,7 @@ class Reachability: NSObject {
         }
 
         if isRunningOnDevice {
-            if isOnWWAN(flags: flags) && !reachableOnWWAN {
+            if isOnWWAN(flags: flags), !reachableOnWWAN {
                 // We don't want to connect when on 3G.
                 return false
             }
@@ -175,7 +184,7 @@ class Reachability: NSObject {
     }
 
     private func isReachableWithTest(_ test: (SCNetworkReachabilityFlags) -> (Bool)) -> Bool {
-        if let reachabilityRef = reachabilityRef {
+        if let reachabilityRef {
             var flags = SCNetworkReachabilityFlags(rawValue: 0)
             let gotFlags = withUnsafeMutablePointer(to: &flags) {
                 SCNetworkReachabilityGetFlags(reachabilityRef, UnsafeMutablePointer($0))
@@ -209,8 +218,7 @@ class Reachability: NSObject {
     }
 
     private var reachabilityFlags: SCNetworkReachabilityFlags {
-        if let reachabilityRef = reachabilityRef {
-
+        if let reachabilityRef {
             var flags = SCNetworkReachabilityFlags(rawValue: 0)
             let gotFlags = withUnsafeMutablePointer(to: &flags) {
                 SCNetworkReachabilityGetFlags(reachabilityRef, UnsafeMutablePointer($0))

@@ -30,8 +30,10 @@ class QualityAdjustmentEventProducer_Tests: XCTestCase {
     func testEventListenerGetsCalledWhenInterruptionCountHitsLimit() {
         let e = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
-            XCTAssertEqual(event as? QualityAdjustmentEventProducer.QualityAdjustmentEvent,
-                QualityAdjustmentEventProducer.QualityAdjustmentEvent.goDown)
+            XCTAssertEqual(
+                event as? QualityAdjustmentEventProducer.QualityAdjustmentEvent,
+                QualityAdjustmentEventProducer.QualityAdjustmentEvent.goDown
+            )
             e.fulfill()
         }
 
@@ -66,8 +68,10 @@ class QualityAdjustmentEventProducer_Tests: XCTestCase {
     func testEventListenerGetsCalledWhenInterruptionShouldGoUp() {
         let e = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
-            XCTAssertEqual(event as? QualityAdjustmentEventProducer.QualityAdjustmentEvent,
-                QualityAdjustmentEventProducer.QualityAdjustmentEvent.goUp)
+            XCTAssertEqual(
+                event as? QualityAdjustmentEventProducer.QualityAdjustmentEvent,
+                QualityAdjustmentEventProducer.QualityAdjustmentEvent.goUp
+            )
             e.fulfill()
         }
 
@@ -83,8 +87,10 @@ class QualityAdjustmentEventProducer_Tests: XCTestCase {
     func testEventListenerGetsCalledImmediatelyWhenAdjustQualityTimeIntervalIsChangedToAValueThatShouldAlreadyHaveBeenFired() {
         let e = expectation(description: "Waiting for `onEvent` to get called")
         listener.eventClosure = { event, producer in
-            XCTAssertEqual(event as? QualityAdjustmentEventProducer.QualityAdjustmentEvent,
-                QualityAdjustmentEventProducer.QualityAdjustmentEvent.goUp)
+            XCTAssertEqual(
+                event as? QualityAdjustmentEventProducer.QualityAdjustmentEvent,
+                QualityAdjustmentEventProducer.QualityAdjustmentEvent.goUp
+            )
             e.fulfill()
         }
 

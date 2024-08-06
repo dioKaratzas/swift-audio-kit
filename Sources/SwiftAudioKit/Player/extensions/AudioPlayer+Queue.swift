@@ -65,7 +65,7 @@ extension AudioPlayer {
     ///
     /// - Parameter items: The items to add.
     public func add(items: [AudioItem]) {
-        if let queue = queue {
+        if let queue {
             queue.add(items: items)
         } else {
             play(items: items)

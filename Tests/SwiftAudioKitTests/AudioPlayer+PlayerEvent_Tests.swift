@@ -51,7 +51,7 @@ class AudioPlayer_PlayerEvent_Tests: XCTestCase {
     func testProgressEventFiresDelegateCallWithZeroPercentageWhenDurationIsUnknown() {
         player.avPlayer.item = MockItem(url: URL(string: "https://github.com")!)
         player.avPlayer.item?.stat = .readyToPlay
-        player.avPlayer.item?.dur = CMTime(value: 0, timescale: 1, flags: [], epoch: 0)//This is an invalid time
+        player.avPlayer.item?.dur = CMTime(value: 0, timescale: 1, flags: [], epoch: 0) // This is an invalid time
 
         let e = expectation(description: "Waiting for `didUpdateProgression` to get called")
         let delegate = MockAudioPlayerDelegate()

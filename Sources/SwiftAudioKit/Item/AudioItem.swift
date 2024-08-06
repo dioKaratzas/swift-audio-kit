@@ -5,18 +5,18 @@
 //  Copyright © 2024 Dionysios Karatzas. All rights reserved.
 //
 
-import AVFoundation
 import Combine
 import MediaPlayer
+import AVFoundation
 
 #if os(iOS) || os(tvOS)
-import UIKit
+    import UIKit
 
-public typealias Image = UIImage
+    public typealias Image = UIImage
 #else
-import Cocoa
+    import Cocoa
 
-public typealias Image = NSImage
+    public typealias Image = NSImage
 #endif
 
 // MARK: - AudioQuality
@@ -44,7 +44,9 @@ public struct AudioItemURL {
     ///   - quality: The quality of the stream.
     ///   - url: The URL of the stream.
     public init?(quality: AudioQuality, url: URL?) {
-        guard let url = url else { return nil }
+        guard let url else {
+            return nil
+        }
         self.quality = quality
         self.url = url
     }
@@ -67,9 +69,11 @@ open class AudioItem: ObservableObject {
     ///   - highQualitySoundURL: The URL for the high-quality sound.
     ///   - mediumQualitySoundURL: The URL for the medium-quality sound.
     ///   - lowQualitySoundURL: The URL for the low-quality sound.
-    public convenience init?(highQualitySoundURL: URL? = nil,
-                             mediumQualitySoundURL: URL? = nil,
-                             lowQualitySoundURL: URL? = nil) {
+    public convenience init?(
+        highQualitySoundURL: URL? = nil,
+        mediumQualitySoundURL: URL? = nil,
+        lowQualitySoundURL: URL? = nil
+    ) {
         var URLs = [AudioQuality: URL]()
         if let highURL = highQualitySoundURL {
             URLs[.high] = highURL
@@ -99,22 +103,22 @@ open class AudioItem: ObservableObject {
     /// Returns the highest quality URL found, or nil if no URLs are available.
     open var highestQualityURL: AudioItemURL {
         return AudioItemURL(quality: .high, url: soundURLs[.high]) ??
-        AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
-        AudioItemURL(quality: .low, url: soundURLs[.low])!
+            AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
+            AudioItemURL(quality: .low, url: soundURLs[.low])!
     }
 
     /// Returns the medium quality URL found, or nil if no URLs are available.
     open var mediumQualityURL: AudioItemURL {
         return AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
-        AudioItemURL(quality: .low, url: soundURLs[.low]) ??
-        AudioItemURL(quality: .high, url: soundURLs[.high])!
+            AudioItemURL(quality: .low, url: soundURLs[.low]) ??
+            AudioItemURL(quality: .high, url: soundURLs[.high])!
     }
 
     /// Returns the lowest quality URL found, or nil if no URLs are available.
     open var lowestQualityURL: AudioItemURL {
         return AudioItemURL(quality: .low, url: soundURLs[.low]) ??
-        AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
-        AudioItemURL(quality: .high, url: soundURLs[.high])!
+            AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
+            AudioItemURL(quality: .high, url: soundURLs[.high])!
     }
 
     /// Returns a URL that best fits a given quality.
@@ -164,7 +168,6 @@ open class AudioItem: ObservableObject {
         }
     }
 
-
     @Published open var artwork: MPMediaItemArtwork?
     private var imageSize: CGSize?
 
@@ -175,19 +178,19 @@ open class AudioItem: ObservableObject {
     ///
     /// - Parameter items: The metadata items.
     open func parseMetadata(_ items: [AVMetadataItem]) {
-        items.forEach {
-            if let commonKey = $0.commonKey {
+        for item in items {
+            if let commonKey = item.commonKey {
                 switch commonKey {
                 case AVMetadataKey.commonKeyTitle where title == nil:
-                    title = $0.value as? String
+                    title = item.value as? String
                 case AVMetadataKey.commonKeyArtist where artist == nil:
-                    artist = $0.value as? String
+                    artist = item.value as? String
                 case AVMetadataKey.commonKeyAlbumName where album == nil:
-                    album = $0.value as? String
+                    album = item.value as? String
                 case AVMetadataKey.id3MetadataKeyTrackNumber where trackNumber == nil:
-                    trackNumber = $0.value as? NSNumber
+                    trackNumber = item.value as? NSNumber
                 case AVMetadataKey.commonKeyArtwork where artwork == nil:
-                    artworkImage = ($0.value as? Data).flatMap { Image(data: $0) }
+                    artworkImage = (item.value as? Data).flatMap { Image(data: $0) }
                 default:
                     break
                 }

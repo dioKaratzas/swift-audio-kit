@@ -15,7 +15,10 @@ class AudioPlayerManager: NSObject, ObservableObject {
     }
 
     private func setupPlayer() {
-        audioPlayer = try? AudioPlayer(nowPlayableService: .init(allowsExternalPlayback: true, commands: [.play, .pause, .previousTrack, .nextTrack]))
+        audioPlayer = try? AudioPlayer(nowPlayableService: .init(
+            allowsExternalPlayback: true,
+            commands: [.play, .pause, .previousTrack, .nextTrack]
+        ))
         audioPlayer?.delegate = self
         loadPlaylist()
         playCurrentItem()

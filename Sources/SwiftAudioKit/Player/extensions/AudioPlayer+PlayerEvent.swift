@@ -16,31 +16,31 @@ extension AudioPlayer {
     ///   - event: The player event to be handled.
     func handlePlayerEvent(from producer: EventProducer, with event: PlayerEventProducer.PlayerEvent) {
         switch event {
-        case .endedPlaying(let error):
+        case let .endedPlaying(error):
             handleEndedPlaying(with: error)
 
         case .interruptionBegan where state.isPlaying || state.isBuffering:
             handleInterruptionBegan()
 
-        case .interruptionEnded(let shouldResume) where pausedForInterruption:
+        case let .interruptionEnded(shouldResume) where pausedForInterruption:
             handleInterruptionEnded(shouldResume: shouldResume)
 
-        case .loadedDuration(let time):
+        case let .loadedDuration(time):
             handleLoadedDuration(time)
 
-        case .loadedMetadata(let metadata):
+        case let .loadedMetadata(metadata):
             handleLoadedMetadata(metadata)
 
         case .loadedMoreRange:
             handleLoadedMoreRange()
 
-        case .progressed(let time):
+        case let .progressed(time):
             handleProgressed(time)
 
         case .readyToPlay:
             handleReadyToPlay()
 
-        case .routeChanged(let deviceDisconnected):
+        case let .routeChanged(deviceDisconnected):
             handleRouteChanged(deviceDisconnected)
 
         case .sessionMessedUp:
@@ -56,7 +56,7 @@ extension AudioPlayer {
 
     /// Handles the `endedPlaying` event.
     private func handleEndedPlaying(with error: Error?) {
-        if let error = error {
+        if let error {
             state = .failed(.foundationError(error))
         } else {
             nextOrStop()
@@ -72,7 +72,7 @@ extension AudioPlayer {
 
     /// Handles the `interruptionEnded` event.
     private func handleInterruptionEnded(shouldResume: Bool) {
-        if resumeAfterInterruption && shouldResume {
+        if resumeAfterInterruption, shouldResume {
             resume()
         }
         pausedForInterruption = false
@@ -81,7 +81,7 @@ extension AudioPlayer {
 
     /// Handles the `loadedDuration` event.
     private func handleLoadedDuration(_ time: CMTime?) {
-        guard let currentItem = currentItem, let duration = time?.seconds else {
+        guard let currentItem, let duration = time?.seconds else {
             return
         }
         if let metadata = currentItemDynamicMetadata() {
@@ -92,7 +92,7 @@ extension AudioPlayer {
 
     /// Handles the `loadedMetadata` event.
     private func handleLoadedMetadata(_ metadata: [AVMetadataItem]) {
-        guard let currentItem = currentItem, !metadata.isEmpty else {
+        guard let currentItem, !metadata.isEmpty else {
             return
         }
         currentItem.parseMetadata(metadata)
@@ -100,14 +100,24 @@ extension AudioPlayer {
 
         if setNowPlayingMetadata {
             let isLiveStream = !currentItem.highestQualityURL.url.isOfflineURL
-            let metadata = NowPlayableStaticMetadata(assetURL: currentItem.highestQualityURL.url, mediaType: .audio, isLiveStream: isLiveStream, title: currentItem.title, artist: currentItem.artist, artwork: currentItem.artwork, album: currentItem.album, trackCount: currentItem.trackCount, trackNumber: currentItem.trackNumber)
+            let metadata = NowPlayableStaticMetadata(
+                assetURL: currentItem.highestQualityURL.url,
+                mediaType: .audio,
+                isLiveStream: isLiveStream,
+                title: currentItem.title,
+                artist: currentItem.artist,
+                artwork: currentItem.artwork,
+                album: currentItem.album,
+                trackCount: currentItem.trackCount,
+                trackNumber: currentItem.trackNumber
+            )
             nowPlayableService?.handleNowPlayableItemChange(metadata: metadata)
         }
     }
 
     /// Handles the `loadedMoreRange` event.
     private func handleLoadedMoreRange() {
-        guard let currentItem = currentItem, let loadedRange = currentItemLoadedRange else {
+        guard let currentItem, let loadedRange = currentItemLoadedRange else {
             return
         }
         delegate?.audioPlayer(self, didLoad: loadedRange, for: currentItem)
@@ -166,12 +176,12 @@ extension AudioPlayer {
 
     /// Handles the `sessionMessedUp` event.
     private func handleSessionMessedUp() {
-#if os(iOS) || os(tvOS)
-        setAudioSession(active: true)
-        state = .stopped
-        qualityAdjustmentEventProducer.interruptionCount += 1
-        retryOrPlayNext()
-#endif
+        #if os(iOS) || os(tvOS)
+            setAudioSession(active: true)
+            state = .stopped
+            qualityAdjustmentEventProducer.interruptionCount += 1
+            retryOrPlayNext()
+        #endif
     }
 
     /// Handles the `startedBuffering` event.
@@ -182,8 +192,8 @@ extension AudioPlayer {
 
         stateBeforeBuffering = state
         state = reachability.isReachable() || (currentItem?.soundURLs[currentQuality]?.isOfflineURL ?? false)
-        ? .buffering
-        : .waitingForConnection
+            ? .buffering
+            : .waitingForConnection
 
         backgroundHandler.beginBackgroundTask()
     }

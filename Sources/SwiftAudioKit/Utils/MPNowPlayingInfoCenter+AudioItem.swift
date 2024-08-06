@@ -15,7 +15,12 @@ extension MPNowPlayingInfoCenter {
     ///   - duration: The item's duration.
     ///   - progression: The current progression.
     ///   - playbackRate: The current playback rate.
-    func updateNowPlayingInfo(with item: AudioItem, duration: TimeInterval?, progression: TimeInterval?, playbackRate: Float) {
+    func updateNowPlayingInfo(
+        with item: AudioItem,
+        duration: TimeInterval?,
+        progression: TimeInterval?,
+        playbackRate: Float
+    ) {
         var nowPlayingInfo = [String: Any]()
 
         if let title = item.title {
@@ -36,10 +41,10 @@ extension MPNowPlayingInfoCenter {
         if let artwork = item.artwork {
             nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
         }
-        if let duration = duration {
+        if let duration {
             nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
         }
-        if let progression = progression {
+        if let progression {
             nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = progression
         }
 
