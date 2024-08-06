@@ -11,7 +11,7 @@ import SwiftUI
 struct SwiftAudioKitExampleApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AudioPlayerView()
         }
     }
 }

@@ -13,22 +13,36 @@ import Foundation
 /// - foundationError: The `AVPlayer` failed to play.
 /// - itemNotConsideredPlayable: The current item that should be played is considered unplayable.
 /// - noItemsConsideredPlayable: The queue doesn't contain any item that is considered playable.
-public enum AudioPlayerError: Error {
+public enum AudioPlayerError: Error, Equatable {
     case maximumRetryCountHit
     case foundationError(Error)
     case itemNotConsideredPlayable
     case noItemsConsideredPlayable
+
+    public static func ==(lhs: AudioPlayerError, rhs: AudioPlayerError) -> Bool {
+        switch (lhs, rhs) {
+        case (.maximumRetryCountHit, .maximumRetryCountHit),
+            (.itemNotConsideredPlayable, .itemNotConsideredPlayable),
+            (.noItemsConsideredPlayable, .noItemsConsideredPlayable):
+            return true
+        case (.foundationError(let lhsError), .foundationError(let rhsError)):
+            return (lhsError as NSError).domain == (rhsError as NSError).domain &&
+            (lhsError as NSError).code == (rhsError as NSError).code
+        default:
+            return false
+        }
+    }
 }
 
-/// `AudioPlayerState` defines 4 state an `AudioPlayer` instance can be in.
+/// `AudioPlayerState` defines the state an `AudioPlayer` instance can be in.
 ///
 /// - buffering: The player is buffering data before playing them.
 /// - playing: The player is playing.
 /// - paused: The player is paused.
 /// - stopped: The player is stopped.
 /// - waitingForConnection: The player is waiting for internet connection.
-/// - failed: An error occured. It contains AVPlayer's error if any.
-public enum AudioPlayerState {
+/// - failed: An error occurred. It contains `AudioPlayerError` if any.
+public enum AudioPlayerState: Equatable {
     case buffering
     case playing
     case paused
@@ -36,82 +50,44 @@ public enum AudioPlayerState {
     case waitingForConnection
     case failed(AudioPlayerError)
 
-    /// A boolean value indicating is self = `buffering`.
-    var isBuffering: Bool {
-        if case .buffering = self {
-            return true
-        }
-        return false
+    /// A boolean value indicating whether the state is `buffering`.
+    public var isBuffering: Bool {
+        return self == .buffering
     }
 
-    /// A boolean value indicating is self = `playing`.
-    var isPlaying: Bool {
-        if case .playing = self {
-            return true
-        }
-        return false
+    /// A boolean value indicating whether the state is `playing`.
+    public var isPlaying: Bool {
+        return self == .playing
     }
 
-    /// A boolean value indicating is self = `paused`.
-    var isPaused: Bool {
-        if case .paused = self {
-            return true
-        }
-        return false
+    /// A boolean value indicating whether the state is `paused`.
+    public var isPaused: Bool {
+        return self == .paused
     }
 
-    /// A boolean value indicating is self = `stopped`.
-    var isStopped: Bool {
-        if case .stopped = self {
-            return true
-        }
-        return false
+    /// A boolean value indicating whether the state is `stopped`.
+    public var isStopped: Bool {
+        return self == .stopped
     }
 
-    /// A boolean value indicating is self = `waitingForConnection`.
-    var isWaitingForConnection: Bool {
-        if case .waitingForConnection = self {
-            return true
-        }
-        return false
+    /// A boolean value indicating whether the state is `waitingForConnection`.
+    public var isWaitingForConnection: Bool {
+        return self == .waitingForConnection
     }
 
-    /// A boolean value indicating is self = `failed`.
-    var isFailed: Bool {
+    /// A boolean value indicating whether the state is `failed`.
+    public var isFailed: Bool {
         if case .failed = self {
             return true
         }
         return false
     }
 
-    /// The error if self = `failed`.
-    var error: AudioPlayerError? {
+    /// The error if the state is `failed`.
+    public var error: AudioPlayerError? {
         if case .failed(let error) = self {
             return error
         }
         return nil
     }
-}
-
-// MARK: - Equatable
-
-extension AudioPlayerState: Equatable {}
-
-public func == (lhs: AudioPlayerState, rhs: AudioPlayerState) -> Bool {
-    if (lhs.isBuffering && rhs.isBuffering) || (lhs.isPlaying && rhs.isPlaying) ||
-        (lhs.isPaused && rhs.isPaused) || (lhs.isStopped && rhs.isStopped) ||
-        (lhs.isWaitingForConnection && rhs.isWaitingForConnection) {
-        return true
-    }
-    if let e1 = lhs.error, let e2 = rhs.error {
-        switch (e1, e2) {
-        case (.maximumRetryCountHit, .maximumRetryCountHit):
-            return true
-        case (.foundationError, .foundationError):
-            return true
-        default:
-            return false
-        }
-    }
-    return false
 }

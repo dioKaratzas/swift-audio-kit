@@ -6,50 +6,51 @@
 //
 
 import Foundation
+import AVFoundation
 
 public typealias TimeRange = (earliest: TimeInterval, latest: TimeInterval)
 
 extension AudioPlayer {
     /// The current item progression or nil if no item.
     public var currentItemProgression: TimeInterval? {
-        return player?.currentItem?.currentTime().ap_timeIntervalValue
+        player?.currentItem?.currentTime().seconds
     }
 
     /// The current item duration or nil if no item or unknown duration.
     public var currentItemDuration: TimeInterval? {
-        return player?.currentItem?.duration.ap_timeIntervalValue
+        guard let duration = player?.currentItem?.duration, duration.isNumeric else {
+            return nil
+        }
+        return duration.seconds
     }
 
     /// The current seekable range.
     public var currentItemSeekableRange: TimeRange? {
-        let range = player?.currentItem?.seekableTimeRanges.last?.timeRangeValue
-        if let start = range?.start.ap_timeIntervalValue, let end = range?.end.ap_timeIntervalValue {
-            return (start, end)
+        guard let range = player?.currentItem?.seekableTimeRanges.last?.timeRangeValue else {
+            if let currentItemProgression = currentItemProgression {
+                // Return the current time if no seekable range is available
+                return (currentItemProgression, currentItemProgression)
+            }
+            return nil
         }
-        if let currentItemProgression = currentItemProgression {
-            // if there is no start and end point of seekable range
-            // return the current time, so no seeking possible
-            return (currentItemProgression, currentItemProgression)
-        }
-        // cannot seek at all, so return nil
-        return nil
+        return (range.start.seconds, range.end.seconds)
     }
 
     /// The current loaded range.
     public var currentItemLoadedRange: TimeRange? {
-        let range = player?.currentItem?.loadedTimeRanges.last?.timeRangeValue
-        if let start = range?.start.ap_timeIntervalValue, let end = range?.end.ap_timeIntervalValue {
-            return (start, end)
+        guard let range = player?.currentItem?.loadedTimeRanges.last?.timeRangeValue else {
+            return nil
         }
-        return nil
+        return (range.start.seconds, range.end.seconds)
     }
-    
+
+    /// The time interval ahead that is currently loaded.
     public var currentItemLoadedAhead: TimeInterval? {
-        if  let loadedRange = currentItemLoadedRange,
-            let currentTime = player?.currentTime(),
-                loadedRange.earliest <= currentTime.seconds {
-            return loadedRange.latest - currentTime.seconds
+        guard let loadedRange = currentItemLoadedRange,
+              let currentTime = player?.currentTime().seconds,
+              loadedRange.earliest <= currentTime else {
+            return nil
         }
-        return nil
+        return loadedRange.latest - currentTime
     }
 }

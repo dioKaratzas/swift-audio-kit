@@ -15,34 +15,36 @@ extension MPNowPlayingInfoCenter {
     ///   - duration: The item's duration.
     ///   - progression: The current progression.
     ///   - playbackRate: The current playback rate.
-    func ap_update(with item: AudioItem, duration: TimeInterval?, progression: TimeInterval?, playbackRate: Float) {
-        var info = [String: Any]()
+    func updateNowPlayingInfo(with item: AudioItem, duration: TimeInterval?, progression: TimeInterval?, playbackRate: Float) {
+        var nowPlayingInfo = [String: Any]()
+
         if let title = item.title {
-            info[MPMediaItemPropertyTitle] = title
+            nowPlayingInfo[MPMediaItemPropertyTitle] = title
         }
         if let artist = item.artist {
-            info[MPMediaItemPropertyArtist] = artist
+            nowPlayingInfo[MPMediaItemPropertyArtist] = artist
         }
         if let album = item.album {
-            info[MPMediaItemPropertyAlbumTitle] = album
+            nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = album
         }
         if let trackCount = item.trackCount {
-            info[MPMediaItemPropertyAlbumTrackCount] = trackCount
+            nowPlayingInfo[MPMediaItemPropertyAlbumTrackCount] = trackCount
         }
         if let trackNumber = item.trackNumber {
-            info[MPMediaItemPropertyAlbumTrackNumber] = trackNumber
+            nowPlayingInfo[MPMediaItemPropertyAlbumTrackNumber] = trackNumber
         }
         if let artwork = item.artwork {
-            info[MPMediaItemPropertyArtwork] = artwork
+            nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
         }
         if let duration = duration {
-            info[MPMediaItemPropertyPlaybackDuration] = duration
+            nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
         }
         if let progression = progression {
-            info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = progression
+            nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = progression
         }
-        info[MPNowPlayingInfoPropertyPlaybackRate] = playbackRate
 
-        nowPlayingInfo = info
+        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = playbackRate
+
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
 }

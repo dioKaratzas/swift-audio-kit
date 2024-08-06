@@ -7,10 +7,10 @@
 
 import AVFoundation
 import Combine
+import MediaPlayer
 
 #if os(iOS) || os(tvOS)
 import UIKit
-import MediaPlayer
 
 public typealias Image = UIImage
 #else
@@ -152,33 +152,21 @@ open class AudioItem: ObservableObject {
     /// The artwork image of the item.
     open var artworkImage: Image? {
         get {
-#if os(OSX)
-            return artwork
-#else
             return artwork?.image(at: imageSize ?? CGSize(width: 512, height: 512))
-#endif
         }
         set {
-#if os(OSX)
-            artwork = newValue
-#else
             imageSize = newValue?.size
             if let newImage = newValue {
                 artwork = MPMediaItemArtwork(boundsSize: newImage.size) { _ in newImage }
             } else {
                 artwork = nil
             }
-#endif
         }
     }
 
 
-#if os(OSX)
-    @Published open var artwork: Image?
-#else
     @Published open var artwork: MPMediaItemArtwork?
     private var imageSize: CGSize?
-#endif
 
     // MARK: Metadata
 

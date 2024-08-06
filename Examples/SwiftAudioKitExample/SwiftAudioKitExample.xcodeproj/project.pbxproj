@@ -8,21 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		3A1E0A0C2C5BAF4F002D896D /* SwiftAudioKitExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E0A0B2C5BAF4F002D896D /* SwiftAudioKitExampleApp.swift */; };
-		3A1E0A0E2C5BAF4F002D896D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E0A0D2C5BAF4F002D896D /* ContentView.swift */; };
+		3A1E0A0E2C5BAF4F002D896D /* AudioPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E0A0D2C5BAF4F002D896D /* AudioPlayerView.swift */; };
 		3A1E0A102C5BAF50002D896D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A1E0A0F2C5BAF50002D896D /* Assets.xcassets */; };
 		3A1E0A142C5BAF50002D896D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A1E0A132C5BAF50002D896D /* Preview Assets.xcassets */; };
 		3A1E0A1E2C5BB14B002D896D /* SwiftAudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3A1E0A1D2C5BB14B002D896D /* SwiftAudioKit */; };
+		3AE7C6B32C5FE92000529824 /* AudioPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE7C6B22C5FE92000529824 /* AudioPlayerManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3A1E0A082C5BAF4F002D896D /* SwiftAudioKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftAudioKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A1E0A0B2C5BAF4F002D896D /* SwiftAudioKitExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftAudioKitExampleApp.swift; sourceTree = "<group>"; };
-		3A1E0A0D2C5BAF4F002D896D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3A1E0A0D2C5BAF4F002D896D /* AudioPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerView.swift; sourceTree = "<group>"; };
 		3A1E0A0F2C5BAF50002D896D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3A1E0A112C5BAF50002D896D /* SwiftAudioKitExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftAudioKitExample.entitlements; sourceTree = "<group>"; };
 		3A1E0A132C5BAF50002D896D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3A1E0A1A2C5BB13B002D896D /* SwiftAudioKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftAudioKit; path = ../..; sourceTree = "<group>"; };
 		3A1E0A1B2C5BB146002D896D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3AE7C6B22C5FE92000529824 /* AudioPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,10 +62,11 @@
 			children = (
 				3A1E0A1B2C5BB146002D896D /* Info.plist */,
 				3A1E0A0B2C5BAF4F002D896D /* SwiftAudioKitExampleApp.swift */,
-				3A1E0A0D2C5BAF4F002D896D /* ContentView.swift */,
+				3A1E0A0D2C5BAF4F002D896D /* AudioPlayerView.swift */,
 				3A1E0A0F2C5BAF50002D896D /* Assets.xcassets */,
 				3A1E0A112C5BAF50002D896D /* SwiftAudioKitExample.entitlements */,
 				3A1E0A122C5BAF50002D896D /* Preview Content */,
+				3AE7C6B22C5FE92000529824 /* AudioPlayerManager.swift */,
 			);
 			path = SwiftAudioKitExample;
 			sourceTree = "<group>";
@@ -156,7 +159,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A1E0A0E2C5BAF4F002D896D /* ContentView.swift in Sources */,
+				3A1E0A0E2C5BAF4F002D896D /* AudioPlayerView.swift in Sources */,
+				3AE7C6B32C5FE92000529824 /* AudioPlayerManager.swift in Sources */,
 				3A1E0A0C2C5BAF4F002D896D /* SwiftAudioKitExampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

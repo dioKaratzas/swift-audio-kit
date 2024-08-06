@@ -8,22 +8,30 @@
 import CoreMedia
 
 extension CMTime {
-    /// Initializes a `CMTime` instance from a time interval.
+    /// Creates a `CMTime` instance from a time interval in seconds.
     ///
-    /// - Parameter timeInterval: The time in seconds.
+    /// This initializer allows you to create a `CMTime` object using a `TimeInterval`, which is a typealias for `Double`
+    /// representing a time in seconds. The `CMTime` is initialized with a high precision timescale of `1_000_000_000`
+    /// (one billion) to provide nanosecond accuracy.
+    ///
+    /// - Parameter timeInterval: The time interval in seconds.
     init(timeInterval: TimeInterval) {
-        self.init(seconds: timeInterval, preferredTimescale: 1000000000)
+        self.init(seconds: timeInterval, preferredTimescale: 1_000_000_000)
     }
 
-    //swiftlint:disable variable_name
-    /// Returns the TimerInterval value of CMTime (only if it's a valid value).
-    var ap_timeIntervalValue: TimeInterval? {
-        if flags.contains(.valid) {
-            let seconds = CMTimeGetSeconds(self)
-            if !seconds.isNaN {
-                return TimeInterval(seconds)
-            }
+    /// Converts the `CMTime` instance to a `TimeInterval`, if the `CMTime` is valid.
+    ///
+    /// This computed property returns the time represented by the `CMTime` as a `TimeInterval` (in seconds) if the
+    /// `CMTime` is valid and does not represent an undefined value (e.g., NaN). If the `CMTime` is not valid, or if
+    /// the time is NaN, this property returns `nil`.
+    ///
+    /// - Returns: A `TimeInterval` representing the time in seconds, or `nil` if the `CMTime` is invalid or NaN.
+    var timeInterval: TimeInterval? {
+        guard flags.contains(.valid) else {
+            return nil
         }
-        return nil
+
+        let seconds = CMTimeGetSeconds(self)
+        return seconds.isNaN ? nil : TimeInterval(seconds)
     }
 }

@@ -6,9 +6,7 @@
 //
 
 import AVFoundation
-#if os(iOS) || os(tvOS)
-    import MediaPlayer
-#endif
+import MediaPlayer
 
 /// An `AudioPlayer` instance is used to play `AudioPlayerItem`. It's an easy to use AVPlayer with simple methods to
 /// handle the whole playing audio process.
@@ -37,13 +35,16 @@ public class AudioPlayer: NSObject {
     let seekEventProducer = SeekEventProducer()
 
     /// The quality adjustment event producer.
-    var qualityAdjustmentEventProducer = QualityAdjustmentEventProducer()
+    let qualityAdjustmentEventProducer = QualityAdjustmentEventProducer()
 
     /// The audio item event producer.
-    var audioItemEventProducer = AudioItemEventProducer()
+    let audioItemEventProducer = AudioItemEventProducer()
 
     /// The retry event producer.
     var retryEventProducer = RetryEventProducer()
+
+    /// The NowPlayable service.
+    var nowPlayableService: NowPlayableService?
 
     // MARK: Player
 
@@ -91,7 +92,7 @@ public class AudioPlayer: NSObject {
 
                 //Sets new state
                 let info = currentItem.url(for: currentQuality)
-                if reachability.isReachable() || info.url.ap_isOfflineURL {
+                if reachability.isReachable() || info.url.isOfflineURL {
                     state = .buffering
                     backgroundHandler.beginBackgroundTask()
                 } else {
@@ -115,9 +116,6 @@ public class AudioPlayer: NSObject {
                 player = AVPlayer(playerItem: playerItem)
                 
                 currentQuality = info.quality
-
-                //Updates information on the lock screen
-                updateNowPlayingInfoCenter()
 
                 //Calls delegate
                 if oldValue != currentItem {
@@ -213,11 +211,15 @@ public class AudioPlayer: NSObject {
         didSet {
             if case .playing = state {
                 player?.rate = rate
-                updateNowPlayingInfoCenter()
+                if let metadata = currentItemDynamicMetadata() {
+                    nowPlayableService?.handleNowPlayablePlaybackChange(isPlaying: state.isPlaying, metadata: metadata)
+                } else {
+                    nowPlayableService?.handleNowPlayablePlaybackChange(isPlaying: state.isPlaying)
+                }
             }
         }
     }
-    
+
     /// Defines the buffering strategy used to determine how much to buffer before starting playback
     public var bufferingStrategy: AudioPlayerBufferingStrategy = .defaultBuffering {
         didSet {
@@ -232,6 +234,13 @@ public class AudioPlayer: NSObject {
     /// Defines the preferred size of the forward buffer for the underlying `AVPlayerItem`.
     /// Works on iOS/tvOS 10+, default is 0, which lets `AVPlayer` decide.
     public var preferredForwardBufferDuration = TimeInterval(0)
+
+    /// A Boolean value that determines whether the Now Playing metadata should be set.
+    ///
+    /// Set this property to `true` to enable updating the Now Playing Info metadata
+    /// with the current item's information. This is typically used to reflect the
+    /// current playback status in the system's Now Playing interface.
+    public var setNowPlayingMetadata = true
 
     /// Defines how to behave when the user is seeking through the lockscreen or the control center.
     ///
@@ -286,13 +295,17 @@ public class AudioPlayer: NSObject {
     /// The current state of the player.
     public internal(set) var state = AudioPlayerState.stopped {
         didSet {
-            updateNowPlayingInfoCenter()
-
             if state != oldValue {
                 if case .buffering = state {
                     backgroundHandler.beginBackgroundTask()
                 } else if case .buffering = oldValue {
                     backgroundHandler.endBackgroundTask()
+                }
+
+                if let metadata = currentItemDynamicMetadata() {
+                    nowPlayableService?.handleNowPlayablePlaybackChange(isPlaying: state.isPlaying, metadata: metadata)
+                } else {
+                    nowPlayableService?.handleNowPlayablePlaybackChange(isPlaying: state.isPlaying)
                 }
 
                 delegate?.audioPlayer(self, didChangeStateFrom: oldValue, to: state)
@@ -320,7 +333,14 @@ public class AudioPlayer: NSObject {
 
     // MARK: Initialization
 
-    /// Initializes a new AudioPlayer.
+    /// Initializes a new `AudioPlayer` instance with default settings.
+    ///
+    /// This initializer sets up the `AudioPlayer` with the default audio quality
+    /// and assigns the event listener for various event producers such as
+    /// `playerEventProducer`, `networkEventProducer`, `audioItemEventProducer`,
+    /// and `qualityAdjustmentEventProducer`.
+    ///
+    /// - Note: This is the designated initializer for the `AudioPlayer` class.
     public override init() {
         currentQuality = defaultQuality
         super.init()
@@ -331,6 +351,25 @@ public class AudioPlayer: NSObject {
         qualityAdjustmentEventProducer.eventListener = self
     }
 
+    /// Initializes a new `AudioPlayer` instance with a `NowPlayableService`.
+    ///
+    /// This convenience initializer sets up the `AudioPlayer` with a `NowPlayableService`,
+    /// which handles the configuration of remote commands and audio session management
+    /// for the player. The initializer calls the default initializer and then configures
+    /// the `NowPlayableService` for handling remote command events.
+    ///
+    /// - Parameter nowPlayableService: The `NowPlayableService` instance that manages
+    /// the Now Playing interface and handles remote commands.
+    ///
+    /// - Throws: This initializer may throw an error if the `NowPlayableService` fails
+    /// to configure the Now Playing commands and handlers.
+    public convenience init(nowPlayableService: NowPlayableService) throws {
+        self.init()
+        self.nowPlayableService = nowPlayableService
+        try nowPlayableService.handleNowPlayableConfiguration(commandHandler: handleCommand(command:event:))
+    }
+
+
     /// Deinitializes the AudioPlayer. On deinit, the player will simply stop playing anything it was previously
     /// playing.
     deinit {
@@ -339,29 +378,103 @@ public class AudioPlayer: NSObject {
 
     // MARK: Utility methods
 
-    /// Updates the MPNowPlayingInfoCenter with current item's info.
-    func updateNowPlayingInfoCenter() {
-        #if os(iOS) || os(tvOS)
-            if let item = currentItem {
-                MPNowPlayingInfoCenter.default().ap_update(
-                    with: item,
-                    duration: currentItemDuration,
-                    progression: currentItemProgression,
-                    playbackRate: player?.rate ?? 0)
-            } else {
-                MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+    /// Returns the current dynamic metadata for the currently playing item, including rate, position, and duration.
+    func currentItemDynamicMetadata() -> NowPlayableDynamicMetadata? {
+        if let player, let currentItemDuration, let currentItemProgression {
+            return NowPlayableDynamicMetadata(rate: player.rate,
+                                              position: Float(currentItemProgression),
+                                              duration: Float(currentItemDuration),
+                                              currentLanguageOptions: [.init()], availableLanguageOptionGroups: [.init()])
+        }
+        return nil
+    }
+
+    /// Handles remote command events and performs corresponding actions based on the command received.
+    func handleCommand(command: NowPlayableCommand, event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+        switch command {
+        case .pause:
+            if state == .playing {
+                pause()
             }
-        #endif
+        case .play:
+            if state == .paused {
+                resume()
+            }
+        case .stop:
+            stop()
+        case .togglePausePlay:
+            /*togglePlayPause*/()
+        case .nextTrack:
+            next()
+        case .previousTrack:
+            previous()
+        case .changeRepeatMode:
+            guard let event = event as? MPChangeRepeatModeCommandEvent else { return .commandFailed }
+            switch event.repeatType {
+            case .off:
+                mode = .normal
+            case .one:
+                mode = .repeat
+            case .all:
+                mode = .repeatAll
+            @unknown default:
+                break
+            }
+        case .changePlaybackRate:
+            guard let event = event as? MPChangePlaybackRateCommandEvent else { return .commandFailed }
+            rate = event.playbackRate
+        case .seekBackward:
+            guard let event = event as? MPSeekCommandEvent else { return .commandFailed }
+            if event.type == .beginSeeking {
+                seekingBehavior.handleSeekingStart(player: self, forward: false)
+            } else if event.type == .endSeeking {
+                seekingBehavior.handleSeekingEnd(player: self, forward: false)
+            }
+        case .seekForward:
+            guard let event = event as? MPSeekCommandEvent else { return .commandFailed }
+            if event.type == .beginSeeking {
+                seekingBehavior.handleSeekingStart(player: self, forward: true)
+            } else if event.type == .endSeeking {
+                seekingBehavior.handleSeekingEnd(player: self, forward: true)
+            }
+        case .skipBackward:
+            MPRemoteCommandCenter.shared().skipBackwardCommand.preferredIntervals = [15.0]
+        case .skipForward:
+            MPRemoteCommandCenter.shared().skipForwardCommand.preferredIntervals = [15.0]
+        case .changeShuffleMode:
+            break
+        case .changePlaybackPosition:
+            break
+        case .rating:
+            break
+        case .like:
+            break
+        case .dislike:
+            break
+        case .bookmark:
+            break
+        case .enableLanguageOption:
+            break
+        case .disableLanguageOption:
+            break
+        }
+        return .success
     }
 
     /// Enables or disables the `AVAudioSession` and sets the right category.
     ///
     /// - Parameter active: A boolean value indicating whether the audio session should be set to active or not.
     func setAudioSession(active: Bool) {
-        #if os(iOS) || os(tvOS)
-            _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
-            _ = try? AVAudioSession.sharedInstance().setActive(active)
-        #endif
+#if os(iOS) || os(tvOS)
+        _ = try? AVAudioSession.sharedInstance().setCategory(.playback)
+        _ = try? AVAudioSession.sharedInstance().setActive(active)
+#endif
+
+        if active {
+            try? self.nowPlayableService?.handleNowPlayableSessionStart()
+        } else {
+            self.nowPlayableService?.handleNowPlayableSessionEnd()
+        }
     }
 
     // MARK: Public computed properties
@@ -419,18 +532,22 @@ extension AudioPlayer: EventListener {
     ///   - event: The event.
     ///   - eventProducer: The producer of the event.
     func onEvent(_ event: Event, generatedBy eventProducer: EventProducer) {
-        if let event = event as? NetworkEventProducer.NetworkEvent {
+        switch event {
+        case let event as NetworkEventProducer.NetworkEvent:
             handleNetworkEvent(from: eventProducer, with: event)
-        } else if let event = event as? PlayerEventProducer.PlayerEvent {
+        case let event as PlayerEventProducer.PlayerEvent:
             handlePlayerEvent(from: eventProducer, with: event)
-        } else if let event = event as? AudioItemEventProducer.AudioItemEvent {
+        case let event as AudioItemEventProducer.AudioItemEvent:
             handleAudioItemEvent(from: eventProducer, with: event)
-        } else if let event = event as? QualityAdjustmentEventProducer.QualityAdjustmentEvent {
+        case let event as QualityAdjustmentEventProducer.QualityAdjustmentEvent:
             handleQualityEvent(from: eventProducer, with: event)
-        } else if let event = event as? RetryEventProducer.RetryEvent {
+        case let event as RetryEventProducer.RetryEvent:
             handleRetryEvent(from: eventProducer, with: event)
-        } else if let event = event as? SeekEventProducer.SeekEvent {
+        case let event as SeekEventProducer.SeekEvent:
             handleSeekEvent(from: eventProducer, with: event)
+        default:
+            // Handle unknown event types if necessary
+            break
         }
     }
 }

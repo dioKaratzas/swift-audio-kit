@@ -10,11 +10,11 @@ import Foundation
 import Combine
 import AVKit
 
-public extension Publishers {
+extension Publishers {
     /// Custom `Publisher` implementation that wraps `AVPlayer.addPeriodicTimeObserver(forInterval:queue:using)` to emit values corresponding to the playhead's progress
     struct PlayheadProgressPublisher: Publisher {
-        public typealias Output = TimeInterval
-        public typealias Failure = Never
+        typealias Output = TimeInterval
+        typealias Failure = Never
 
         private let interval: TimeInterval
         private let player: AVPlayer
@@ -28,7 +28,7 @@ public extension Publishers {
             self.interval = interval
         }
 
-        public func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
+        func receive<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
             let subscription = PlayheadProgressSubscription(subscriber: subscriber,
                                                             interval: interval,
                                                             player: player)

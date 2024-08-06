@@ -8,7 +8,7 @@
 import Foundation
 
 /// Represents the strategy used for buffering of items before playback is started
-@objc public enum AudioPlayerBufferingStrategy: Int {
+public enum AudioPlayerBufferingStrategy: Int {
     /// Uses the default AVPlayer buffering strategy, which buffers very aggressively before starting playback.
     /// This often leads to start of playback being delayed more than necessary.
     case defaultBuffering = 0
