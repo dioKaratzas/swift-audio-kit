@@ -17,6 +17,9 @@ let package = Package(
             name: "SwiftAudioKit",
             targets: ["SwiftAudioKit"]
         ),
+    ], 
+    dependencies: [
+        .package(url: "https://github.com/swiftlang/swift-docc-plugin.git", branch: "main"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
