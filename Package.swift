@@ -29,7 +29,10 @@ let package = Package(
         ),
         .testTarget(
             name: "SwiftAudioKitTests",
-            dependencies: ["SwiftAudioKit"]
+            dependencies: ["SwiftAudioKit"],
+            resources: [
+                .copy("fakes/image.png")
+            ]
         )
     ]
 )
