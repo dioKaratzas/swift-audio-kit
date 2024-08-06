@@ -1,9 +1,8 @@
 //
-//  PlayerEventProducer.swift
-//  AudioPlayer
+//  SwiftAudioKit
 //
-//  Created by Kevin DELANNOY on 08/03/16.
-//  Copyright © 2016 Kevin Delannoy. All rights reserved.
+//  Created by Dionysios Karatzas.
+//  Copyright © 2024 Dionysios Karatzas. All rights reserved.
 //
 
 import AVFoundation

@@ -1,9 +1,8 @@
 //
-//  AudioPlayerBufferingStrategy.swift
-//  AudioPlayer
+//  SwiftAudioKit
 //
-//  Created by Daniel Freiling on 10/05/2017.
-//  Copyright © 2017 Kevin Delannoy. All rights reserved.
+//  Created by Dionysios Karatzas.
+//  Copyright © 2024 Dionysios Karatzas. All rights reserved.
 //
 
 import Foundation
