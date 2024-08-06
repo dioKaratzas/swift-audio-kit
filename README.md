@@ -45,6 +45,9 @@ let package = Package(
 
 ## Usage
 
+
+Please see the package [documentation](https://diokaratzas.github.io/swift-audio-kit/documentation/swiftaudiokit/) for more detailed usage instructions.
+
 ### Basic Usage
 
 Here’s a quick example of how to get started with SwiftAudioKit:
