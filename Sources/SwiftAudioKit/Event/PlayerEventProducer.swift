@@ -72,13 +72,12 @@ class PlayerEventProducer: NSObject, EventProducer {
 
         player.publisher(for: \.status)
             .dropFirst()
+            .filter { $0 == .readyToPlay }
             .sink { [weak self] status in
                 guard let self else {
                     return
                 }
-                if status == .readyToPlay {
-                    self.eventListener?.onEvent(PlayerEvent.readyToPlay, generatedBy: self)
-                }
+                self.eventListener?.onEvent(PlayerEvent.readyToPlay, generatedBy: self)
             }
             .store(in: &cancellables)
     }
@@ -192,16 +191,13 @@ class PlayerEventProducer: NSObject, EventProducer {
             .store(in: &cancellables)
 
         item.publisher(for: \.duration)
+            .dropFirst()
             .compactMap { $0 }
             .sink { [weak self] duration in
                 guard let self else {
                     return
                 }
                 self.eventListener?.onEvent(PlayerEvent.loadedDuration(duration: duration), generatedBy: self)
-                self.eventListener?.onEvent(
-                    PlayerEvent.loadedMetadata(metadata: item.asset.commonMetadata),
-                    generatedBy: self
-                )
             }
             .store(in: &cancellables)
 
@@ -217,6 +213,7 @@ class PlayerEventProducer: NSObject, EventProducer {
             .store(in: &cancellables)
 
         item.publisher(for: \.loadedTimeRanges)
+            .dropFirst()
             .compactMap { $0.last?.timeRangeValue }
             .sink { [weak self] range in
                 guard let self else {

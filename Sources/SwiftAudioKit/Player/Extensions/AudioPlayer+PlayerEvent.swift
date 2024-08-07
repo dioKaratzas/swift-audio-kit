@@ -80,10 +80,11 @@ extension AudioPlayer {
     }
 
     /// Handles the `loadedDuration` event.
-    private func handleLoadedDuration(_ time: CMTime?) {
-        guard let currentItem, let duration = time?.seconds else {
+    private func handleLoadedDuration(_ time: CMTime) {
+        guard let currentItem else {
             return
         }
+        let duration = time.seconds
         if let metadata = currentItemDynamicMetadata() {
             nowPlayableService?.handleNowPlayablePlaybackChange(isPlaying: state.isPlaying, metadata: metadata)
         }
