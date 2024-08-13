@@ -19,7 +19,7 @@ let package = Package(
         ),
     ], 
     dependencies: [
-        .package(url: "https://github.com/swiftlang/swift-docc-plugin.git", branch: "main"),
+        // Package dependencies
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
