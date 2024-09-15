@@ -1,0 +1,341 @@
+{
+  "abstract" : [
+    {
+      "text" : "Inherited from ",
+      "type" : "text"
+    },
+    {
+      "code" : "Equatable.==(_:_:)",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioItem",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioItem\/Equatable-Implementations"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioItem\/==(_:_:)"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "extendedModule" : "SwiftAudioKit",
+    "externalID" : "s:13SwiftAudioKit0B4ItemC2eeoiySbAC_ACtFZ",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "static"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "keyword",
+        "text" : "func"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "=="
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "text",
+        "text" : "("
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:13SwiftAudioKit0B4ItemC",
+        "text" : "AudioItem"
+      },
+      {
+        "kind" : "text",
+        "text" : ", "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:13SwiftAudioKit0B4ItemC",
+        "text" : "AudioItem"
+      },
+      {
+        "kind" : "text",
+        "text" : ") -> "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:Sb",
+        "text" : "Bool"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "SwiftAudioKit"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Operator",
+    "symbolKind" : "op",
+    "title" : "==(_:_:)"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "static"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "func"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "=="
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "text",
+              "text" : "("
+            },
+            {
+              "kind" : "internalParam",
+              "text" : "lhs"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioItem",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:13SwiftAudioKit0B4ItemC",
+              "text" : "AudioItem"
+            },
+            {
+              "kind" : "text",
+              "text" : ", "
+            },
+            {
+              "kind" : "internalParam",
+              "text" : "rhs"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioItem",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:13SwiftAudioKit0B4ItemC",
+              "text" : "AudioItem"
+            },
+            {
+              "kind" : "text",
+              "text" : ") -> "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:Sb",
+              "text" : "Bool"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/swiftaudiokit\/audioitem\/==(_:_:)"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://SwiftAudioKit/documentation/SwiftAudioKit": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "SwiftAudioKit",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioItem": {
+  "abstract" : [
+    {
+      "text" : "An ",
+      "type" : "text"
+    },
+    {
+      "code" : "AudioItem",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance contains every piece of information needed for an ",
+      "type" : "text"
+    },
+    {
+      "code" : "AudioPlayer",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " to play.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "AudioItem"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioItem",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "AudioItem"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "AudioItem",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioitem"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioItem/==(_:_:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "=="
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit0B4ItemC",
+      "text" : "AudioItem"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit0B4ItemC",
+      "text" : "AudioItem"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioItem\/==(_:_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "==(_:_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioitem\/==(_:_:)"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioItem/Equatable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioItem\/Equatable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Equatable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioitem\/equatable-implementations"
+}
+}
+}

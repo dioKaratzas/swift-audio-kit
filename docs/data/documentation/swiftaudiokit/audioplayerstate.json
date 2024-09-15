@@ -1,0 +1,820 @@
+{
+  "abstract" : [
+    {
+      "code" : "AudioPlayerState",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " defines the state an ",
+      "type" : "text"
+    },
+    {
+      "code" : "AudioPlayer",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance can be in.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:13SwiftAudioKit0B11PlayerStateO",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "enum"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "AudioPlayerState"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "SwiftAudioKit"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "AudioPlayerState"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Enumeration",
+    "symbolKind" : "enum",
+    "title" : "AudioPlayerState"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "enum"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "AudioPlayerState"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "overview",
+          "level" : 2,
+          "text" : "Overview",
+          "type" : "heading"
+        },
+        {
+          "items" : [
+            {
+              "content" : [
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "buffering: The player is buffering data before playing them.",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "paragraph"
+                }
+              ]
+            },
+            {
+              "content" : [
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "playing: The player is playing.",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "paragraph"
+                }
+              ]
+            },
+            {
+              "content" : [
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "paused: The player is paused.",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "paragraph"
+                }
+              ]
+            },
+            {
+              "content" : [
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "stopped: The player is stopped.",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "paragraph"
+                }
+              ]
+            },
+            {
+              "content" : [
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "waitingForConnection: The player is waiting for internet connection.",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "paragraph"
+                }
+              ]
+            },
+            {
+              "content" : [
+                {
+                  "inlineContent" : [
+                    {
+                      "text" : "failed: An error occurred. It contains ",
+                      "type" : "text"
+                    },
+                    {
+                      "code" : "AudioPlayerError",
+                      "type" : "codeVoice"
+                    },
+                    {
+                      "text" : " if any.",
+                      "type" : "text"
+                    }
+                  ],
+                  "type" : "paragraph"
+                }
+              ]
+            }
+          ],
+          "type" : "unorderedList"
+        }
+      ],
+      "kind" : "content"
+    }
+  ],
+  "relationshipsSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/SwiftAudioKit\/SQ"
+      ],
+      "kind" : "relationships",
+      "title" : "Conforms To",
+      "type" : "conformsTo"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "anchor" : "Enumeration-Cases",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/buffering",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/failed(_:)",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/paused",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/playing",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/stopped",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/waitingForConnection"
+      ],
+      "title" : "Enumeration Cases"
+    },
+    {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/error",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/isBuffering",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/isFailed",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/isPaused",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/isPlaying",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/isStopped",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/isWaitingForConnection"
+      ],
+      "title" : "Instance Properties"
+    },
+    {
+      "anchor" : "Default-Implementations",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/Equatable-Implementations"
+      ],
+      "title" : "Default Implementations"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/swiftaudiokit\/audioplayerstate"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://SwiftAudioKit/SQ": {
+  "identifier" : "doc:\/\/SwiftAudioKit\/SQ",
+  "title" : "Swift.Equatable",
+  "type" : "unresolvable"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "SwiftAudioKit",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState": {
+  "abstract" : [
+    {
+      "code" : "AudioPlayerState",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " defines the state an ",
+      "type" : "text"
+    },
+    {
+      "code" : "AudioPlayer",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance can be in.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "AudioPlayerState"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "AudioPlayerState"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "AudioPlayerState",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/Equatable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/Equatable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Equatable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/equatable-implementations"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/buffering": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "buffering"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/buffering",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "AudioPlayerState.buffering",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/buffering"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/error": {
+  "abstract" : [
+    {
+      "text" : "The error if the state is ",
+      "type" : "text"
+    },
+    {
+      "code" : "failed",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "error"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit0B11PlayerErrorO",
+      "text" : "AudioPlayerError"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/error",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "error",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/error"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/failed(_:)": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "failed"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit0B11PlayerErrorO",
+      "text" : "AudioPlayerError"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/failed(_:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "AudioPlayerState.failed(_:)",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/failed(_:)"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/isBuffering": {
+  "abstract" : [
+    {
+      "text" : "A boolean value indicating whether the state is ",
+      "type" : "text"
+    },
+    {
+      "code" : "buffering",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "isBuffering"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/isBuffering",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "isBuffering",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/isbuffering"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/isFailed": {
+  "abstract" : [
+    {
+      "text" : "A boolean value indicating whether the state is ",
+      "type" : "text"
+    },
+    {
+      "code" : "failed",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "isFailed"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/isFailed",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "isFailed",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/isfailed"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/isPaused": {
+  "abstract" : [
+    {
+      "text" : "A boolean value indicating whether the state is ",
+      "type" : "text"
+    },
+    {
+      "code" : "paused",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "isPaused"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/isPaused",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "isPaused",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/ispaused"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/isPlaying": {
+  "abstract" : [
+    {
+      "text" : "A boolean value indicating whether the state is ",
+      "type" : "text"
+    },
+    {
+      "code" : "playing",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "isPlaying"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/isPlaying",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "isPlaying",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/isplaying"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/isStopped": {
+  "abstract" : [
+    {
+      "text" : "A boolean value indicating whether the state is ",
+      "type" : "text"
+    },
+    {
+      "code" : "stopped",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "isStopped"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/isStopped",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "isStopped",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/isstopped"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/isWaitingForConnection": {
+  "abstract" : [
+    {
+      "text" : "A boolean value indicating whether the state is ",
+      "type" : "text"
+    },
+    {
+      "code" : "waitingForConnection",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "isWaitingForConnection"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/isWaitingForConnection",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "isWaitingForConnection",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/iswaitingforconnection"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/paused": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "paused"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/paused",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "AudioPlayerState.paused",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/paused"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/playing": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "playing"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/playing",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "AudioPlayerState.playing",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/playing"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/stopped": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "stopped"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/stopped",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "AudioPlayerState.stopped",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/stopped"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerState/waitingForConnection": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "waitingForConnection"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerState\/waitingForConnection",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "AudioPlayerState.waitingForConnection",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerstate\/waitingforconnection"
+}
+}
+}

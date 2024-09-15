@@ -1,0 +1,256 @@
+{
+  "abstract" : [
+    {
+      "text" : "The artist of the item.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioItem"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioItem\/artist"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:13SwiftAudioKit0B4ItemC6artistSSSgvp",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "var"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "artist"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:SS",
+        "text" : "String"
+      },
+      {
+        "kind" : "text",
+        "text" : "?"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "SwiftAudioKit"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Instance Property",
+    "symbolKind" : "property",
+    "title" : "artist"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "attribute",
+              "text" : "@"
+            },
+            {
+              "kind" : "attribute",
+              "preciseIdentifier" : "s:7Combine9PublishedV",
+              "text" : "Published"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "var"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "artist"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:SS",
+              "text" : "String"
+            },
+            {
+              "kind" : "text",
+              "text" : "? { "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "get"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "set"
+            },
+            {
+              "kind" : "text",
+              "text" : " }"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/swiftaudiokit\/audioitem\/artist"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://SwiftAudioKit/documentation/SwiftAudioKit": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "SwiftAudioKit",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioItem": {
+  "abstract" : [
+    {
+      "text" : "An ",
+      "type" : "text"
+    },
+    {
+      "code" : "AudioItem",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance contains every piece of information needed for an ",
+      "type" : "text"
+    },
+    {
+      "code" : "AudioPlayer",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " to play.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "AudioItem"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioItem",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "AudioItem"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "AudioItem",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioitem"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioItem/artist": {
+  "abstract" : [
+    {
+      "text" : "The artist of the item.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "artist"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:SS",
+      "text" : "String"
+    },
+    {
+      "kind" : "text",
+      "text" : "?"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioItem\/artist",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "artist",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioitem\/artist"
+}
+}
+}

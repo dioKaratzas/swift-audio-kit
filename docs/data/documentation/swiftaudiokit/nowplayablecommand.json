@@ -1,0 +1,757 @@
+{
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:13SwiftAudioKit18NowPlayableCommandO",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "enum"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "NowPlayableCommand"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "SwiftAudioKit"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "NowPlayableCommand"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Enumeration",
+    "symbolKind" : "enum",
+    "title" : "NowPlayableCommand"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "enum"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "NowPlayableCommand"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "relationshipsSections" : [
+    {
+      "identifiers" : [
+        "doc:\/\/SwiftAudioKit\/s12CaseIterableP",
+        "doc:\/\/SwiftAudioKit\/SQ",
+        "doc:\/\/SwiftAudioKit\/SH"
+      ],
+      "kind" : "relationships",
+      "title" : "Conforms To",
+      "type" : "conformsTo"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "anchor" : "Enumeration-Cases",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/bookmark",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/changePlaybackPosition",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/changePlaybackRate",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/changeRepeatMode",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/changeShuffleMode",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/disableLanguageOption",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/dislike",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/enableLanguageOption",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/like",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/nextTrack",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/pause",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/play",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/previousTrack",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/rating",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/seekBackward",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/seekForward",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/skipBackward",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/skipForward",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/stop",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/togglePausePlay"
+      ],
+      "title" : "Enumeration Cases"
+    },
+    {
+      "anchor" : "Instance-Properties",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/remoteCommand"
+      ],
+      "title" : "Instance Properties"
+    },
+    {
+      "anchor" : "Default-Implementations",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/Equatable-Implementations"
+      ],
+      "title" : "Default Implementations"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/swiftaudiokit\/nowplayablecommand"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://SwiftAudioKit/SH": {
+  "identifier" : "doc:\/\/SwiftAudioKit\/SH",
+  "title" : "Swift.Hashable",
+  "type" : "unresolvable"
+},
+"doc://SwiftAudioKit/SQ": {
+  "identifier" : "doc:\/\/SwiftAudioKit\/SQ",
+  "title" : "Swift.Equatable",
+  "type" : "unresolvable"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "SwiftAudioKit",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "NowPlayableCommand"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "NowPlayableCommand"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "NowPlayableCommand",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/Equatable-Implementations": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/Equatable-Implementations",
+  "kind" : "article",
+  "role" : "collectionGroup",
+  "title" : "Equatable Implementations",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/equatable-implementations"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/bookmark": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "bookmark"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/bookmark",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.bookmark",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/bookmark"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/changePlaybackPosition": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "changePlaybackPosition"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/changePlaybackPosition",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.changePlaybackPosition",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/changeplaybackposition"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/changePlaybackRate": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "changePlaybackRate"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/changePlaybackRate",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.changePlaybackRate",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/changeplaybackrate"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/changeRepeatMode": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "changeRepeatMode"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/changeRepeatMode",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.changeRepeatMode",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/changerepeatmode"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/changeShuffleMode": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "changeShuffleMode"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/changeShuffleMode",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.changeShuffleMode",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/changeshufflemode"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/disableLanguageOption": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "disableLanguageOption"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/disableLanguageOption",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.disableLanguageOption",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/disablelanguageoption"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/dislike": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "dislike"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/dislike",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.dislike",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/dislike"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/enableLanguageOption": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "enableLanguageOption"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/enableLanguageOption",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.enableLanguageOption",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/enablelanguageoption"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/like": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "like"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/like",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.like",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/like"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/nextTrack": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "nextTrack"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/nextTrack",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.nextTrack",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/nexttrack"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/pause": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "pause"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/pause",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.pause",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/pause"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/play": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "play"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/play",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.play",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/play"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/previousTrack": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "previousTrack"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/previousTrack",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.previousTrack",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/previoustrack"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/rating": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "rating"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/rating",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.rating",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/rating"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/remoteCommand": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "var"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "remoteCommand"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:objc(cs)MPRemoteCommand",
+      "text" : "MPRemoteCommand"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/remoteCommand",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "remoteCommand",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/remotecommand"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/seekBackward": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "seekBackward"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/seekBackward",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.seekBackward",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/seekbackward"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/seekForward": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "seekForward"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/seekForward",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.seekForward",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/seekforward"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/skipBackward": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "skipBackward"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/skipBackward",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.skipBackward",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/skipbackward"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/skipForward": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "skipForward"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/skipForward",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.skipForward",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/skipforward"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/stop": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "stop"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/stop",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.stop",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/stop"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableCommand/togglePausePlay": {
+  "abstract" : [
+
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "togglePausePlay"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableCommand\/togglePausePlay",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "NowPlayableCommand.togglePausePlay",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/togglepauseplay"
+},
+"doc://SwiftAudioKit/s12CaseIterableP": {
+  "identifier" : "doc:\/\/SwiftAudioKit\/s12CaseIterableP",
+  "title" : "Swift.CaseIterable",
+  "type" : "unresolvable"
+}
+}
+}

@@ -1,0 +1,244 @@
+{
+  "abstract" : [
+    {
+      "text" : "In this mode, the player will continuously play the same item over and over.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerMode"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerMode\/repeat"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:13SwiftAudioKit0B10PlayerModeV6repeatACvpZ",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "static"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "keyword",
+        "text" : "let"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "`repeat`"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:13SwiftAudioKit0B10PlayerModeV",
+        "text" : "AudioPlayerMode"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "SwiftAudioKit"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Type Property",
+    "symbolKind" : "property",
+    "title" : "repeat"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "static"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "let"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "`repeat`"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerMode",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:13SwiftAudioKit0B10PlayerModeV",
+              "text" : "AudioPlayerMode"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/swiftaudiokit\/audioplayermode\/repeat"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://SwiftAudioKit/documentation/SwiftAudioKit": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "SwiftAudioKit",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerMode": {
+  "abstract" : [
+    {
+      "text" : "Represents the mode in which the player should play. Modes can be combined so that you can play in ",
+      "type" : "text"
+    },
+    {
+      "code" : ".shuffle",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "mode and still ",
+      "type" : "text"
+    },
+    {
+      "code" : ".repeatAll",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "struct"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "AudioPlayerMode"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerMode",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "AudioPlayerMode"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "AudioPlayerMode",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayermode"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerMode/repeat": {
+  "abstract" : [
+    {
+      "text" : "In this mode, the player will continuously play the same item over and over.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "static"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "let"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "`repeat`"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit0B10PlayerModeV",
+      "text" : "AudioPlayerMode"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerMode\/repeat",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "repeat",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayermode\/repeat"
+}
+}
+}

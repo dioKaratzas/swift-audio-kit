@@ -1,0 +1,493 @@
+{
+  "abstract" : [
+    {
+      "text" : "Initializes a new ",
+      "type" : "text"
+    },
+    {
+      "code" : "AudioPlayer",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance with a ",
+      "type" : "text"
+    },
+    {
+      "code" : "NowPlayableService",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayer"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayer\/init(nowPlayableService:)"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:13SwiftAudioKit0B6PlayerC18nowPlayableServiceAcA03NowfG0C_tKcfc",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "convenience"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "init"
+      },
+      {
+        "kind" : "text",
+        "text" : "("
+      },
+      {
+        "kind" : "externalParam",
+        "text" : "nowPlayableService"
+      },
+      {
+        "kind" : "text",
+        "text" : ": "
+      },
+      {
+        "kind" : "typeIdentifier",
+        "preciseIdentifier" : "s:13SwiftAudioKit18NowPlayableServiceC",
+        "text" : "NowPlayableService"
+      },
+      {
+        "kind" : "text",
+        "text" : ") "
+      },
+      {
+        "kind" : "keyword",
+        "text" : "throws"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "SwiftAudioKit"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Initializer",
+    "symbolKind" : "init",
+    "title" : "init(nowPlayableService:)"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "convenience"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "init"
+            },
+            {
+              "kind" : "text",
+              "text" : "("
+            },
+            {
+              "kind" : "externalParam",
+              "text" : "nowPlayableService"
+            },
+            {
+              "kind" : "text",
+              "text" : ": "
+            },
+            {
+              "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableService",
+              "kind" : "typeIdentifier",
+              "preciseIdentifier" : "s:13SwiftAudioKit18NowPlayableServiceC",
+              "text" : "NowPlayableService"
+            },
+            {
+              "kind" : "text",
+              "text" : ") "
+            },
+            {
+              "kind" : "keyword",
+              "text" : "throws"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    },
+    {
+      "kind" : "parameters",
+      "parameters" : [
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "The ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "NowPlayableService",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " instance that manages",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "the Now Playing interface and handles remote commands.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "nowPlayableService"
+        }
+      ]
+    },
+    {
+      "content" : [
+        {
+          "anchor" : "discussion",
+          "level" : 2,
+          "text" : "Discussion",
+          "type" : "heading"
+        },
+        {
+          "inlineContent" : [
+            {
+              "text" : "This convenience initializer sets up the ",
+              "type" : "text"
+            },
+            {
+              "code" : "AudioPlayer",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " with a ",
+              "type" : "text"
+            },
+            {
+              "code" : "NowPlayableService",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : ",",
+              "type" : "text"
+            },
+            {
+              "text" : " ",
+              "type" : "text"
+            },
+            {
+              "text" : "which handles the configuration of remote commands and audio session management",
+              "type" : "text"
+            },
+            {
+              "text" : " ",
+              "type" : "text"
+            },
+            {
+              "text" : "for the player. The initializer calls the default initializer and then configures",
+              "type" : "text"
+            },
+            {
+              "text" : " ",
+              "type" : "text"
+            },
+            {
+              "text" : "the ",
+              "type" : "text"
+            },
+            {
+              "code" : "NowPlayableService",
+              "type" : "codeVoice"
+            },
+            {
+              "text" : " for handling remote command events.",
+              "type" : "text"
+            }
+          ],
+          "type" : "paragraph"
+        },
+        {
+          "content" : [
+            {
+              "inlineContent" : [
+                {
+                  "text" : "This initializer may throw an error if the ",
+                  "type" : "text"
+                },
+                {
+                  "code" : "NowPlayableService",
+                  "type" : "codeVoice"
+                },
+                {
+                  "text" : " fails",
+                  "type" : "text"
+                },
+                {
+                  "text" : " ",
+                  "type" : "text"
+                },
+                {
+                  "text" : "to configure the Now Playing commands and handlers.",
+                  "type" : "text"
+                }
+              ],
+              "type" : "paragraph"
+            }
+          ],
+          "name" : "Throws",
+          "style" : "note",
+          "type" : "aside"
+        }
+      ],
+      "kind" : "content"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/swiftaudiokit\/audioplayer\/init(nowplayableservice:)"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://SwiftAudioKit/documentation/SwiftAudioKit": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "SwiftAudioKit",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayer": {
+  "abstract" : [
+    {
+      "text" : "An ",
+      "type" : "text"
+    },
+    {
+      "code" : "AudioPlayer",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance is used to play ",
+      "type" : "text"
+    },
+    {
+      "code" : "AudioPlayerItem",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ". It’s an easy to use AVPlayer with simple methods to",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "handle the whole playing audio process.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "AudioPlayer"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayer",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "AudioPlayer"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "AudioPlayer",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayer"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayer/init(nowPlayableService:)": {
+  "abstract" : [
+    {
+      "text" : "Initializes a new ",
+      "type" : "text"
+    },
+    {
+      "code" : "AudioPlayer",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance with a ",
+      "type" : "text"
+    },
+    {
+      "code" : "NowPlayableService",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "convenience"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "init"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "nowPlayableService"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit18NowPlayableServiceC",
+      "text" : "NowPlayableService"
+    },
+    {
+      "kind" : "text",
+      "text" : ") "
+    },
+    {
+      "kind" : "keyword",
+      "text" : "throws"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayer\/init(nowPlayableService:)",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "init(nowPlayableService:)",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayer\/init(nowplayableservice:)"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/NowPlayableService": {
+  "abstract" : [
+    {
+      "code" : "NowPlayableService",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " defines customization points for the behavior an app",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "must provide in order to be eligible to become the “Now Playing” app system-wide,",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "and to maintain the Now Playing Info panel (and controls) correctly.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "class"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "NowPlayableService"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/NowPlayableService",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "NowPlayableService"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "NowPlayableService",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/nowplayableservice"
+}
+}
+}

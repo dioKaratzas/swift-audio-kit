@@ -1,0 +1,747 @@
+{
+  "abstract" : [
+    {
+      "text" : "This protocol contains helpful methods to alert you of specific events. If you want to be notified about those",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "events, you will have to set a delegate to your ",
+      "type" : "text"
+    },
+    {
+      "code" : "audioPlayer",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:13SwiftAudioKit0B14PlayerDelegateP",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "protocol"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "AudioPlayerDelegate"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "SwiftAudioKit"
+      }
+    ],
+    "navigatorTitle" : [
+      {
+        "kind" : "identifier",
+        "text" : "AudioPlayerDelegate"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Protocol",
+    "symbolKind" : "protocol",
+    "title" : "AudioPlayerDelegate"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "protocol"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "AudioPlayerDelegate"
+            },
+            {
+              "kind" : "text",
+              "text" : " : AnyObject"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "topicSections" : [
+    {
+      "anchor" : "Instance-Methods",
+      "generated" : true,
+      "identifiers" : [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:didChangeStateFrom:to:)-zjg0",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:didFindDuration:for:)-8tmrl",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:didLoad:for:)-8lkub",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:didUpdateEmptyMetadataOn:withData:)-4fb74",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:didUpdateProgressionTo:percentageRead:)-2jwva",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:shouldStartPlaying:)-hcq6",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:willStartPlaying:)-351bu"
+      ],
+      "title" : "Instance Methods"
+    }
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/swiftaudiokit\/audioplayerdelegate"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://SwiftAudioKit/documentation/SwiftAudioKit": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "SwiftAudioKit",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerDelegate": {
+  "abstract" : [
+    {
+      "text" : "This protocol contains helpful methods to alert you of specific events. If you want to be notified about those",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "events, you will have to set a delegate to your ",
+      "type" : "text"
+    },
+    {
+      "code" : "audioPlayer",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " instance.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "protocol"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "AudioPlayerDelegate"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "AudioPlayerDelegate"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "AudioPlayerDelegate",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerdelegate"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerDelegate/audioPlayer(_:didChangeStateFrom:to:)-zjg0": {
+  "abstract" : [
+    {
+      "text" : "This method is called when the audio player changes its state. A fresh created audioPlayer starts in ",
+      "type" : "text"
+    },
+    {
+      "code" : ".stopped",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "mode.",
+      "type" : "text"
+    }
+  ],
+  "defaultImplementations" : 1,
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "audioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@M@SwiftAudioKit@objc(cs)AudioPlayer",
+      "text" : "AudioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "didChangeStateFrom"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit0B11PlayerStateO",
+      "text" : "AudioPlayerState"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "to"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit0B11PlayerStateO",
+      "text" : "AudioPlayerState"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:didChangeStateFrom:to:)-zjg0",
+  "kind" : "symbol",
+  "required" : true,
+  "role" : "symbol",
+  "title" : "audioPlayer(_:didChangeStateFrom:to:)",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didchangestatefrom:to:)-zjg0"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerDelegate/audioPlayer(_:didFindDuration:for:)-8tmrl": {
+  "abstract" : [
+    {
+      "text" : "This method gets called when the current item duration has been found.",
+      "type" : "text"
+    }
+  ],
+  "defaultImplementations" : 1,
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "audioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@M@SwiftAudioKit@objc(cs)AudioPlayer",
+      "text" : "AudioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "didFindDuration"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@T@NSTimeInterval",
+      "text" : "TimeInterval"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit0B4ItemC",
+      "text" : "AudioItem"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:didFindDuration:for:)-8tmrl",
+  "kind" : "symbol",
+  "required" : true,
+  "role" : "symbol",
+  "title" : "audioPlayer(_:didFindDuration:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didfindduration:for:)-8tmrl"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerDelegate/audioPlayer(_:didLoad:for:)-8lkub": {
+  "abstract" : [
+    {
+      "text" : "This method gets called while the audio player is loading the file (over the network or locally). It lets the",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "delegate know what time range has already been loaded.",
+      "type" : "text"
+    }
+  ],
+  "defaultImplementations" : 1,
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "audioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@M@SwiftAudioKit@objc(cs)AudioPlayer",
+      "text" : "AudioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "didLoad"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit9TimeRangea",
+      "text" : "TimeRange"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "for"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit0B4ItemC",
+      "text" : "AudioItem"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:didLoad:for:)-8lkub",
+  "kind" : "symbol",
+  "required" : true,
+  "role" : "symbol",
+  "title" : "audioPlayer(_:didLoad:for:)",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didload:for:)-8lkub"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerDelegate/audioPlayer(_:didUpdateEmptyMetadataOn:withData:)-4fb74": {
+  "abstract" : [
+    {
+      "text" : "This methods gets called before duration gets updated with discovered metadata.",
+      "type" : "text"
+    }
+  ],
+  "defaultImplementations" : 1,
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "audioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@M@SwiftAudioKit@objc(cs)AudioPlayer",
+      "text" : "AudioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "didUpdateEmptyMetadataOn"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit0B4ItemC",
+      "text" : "AudioItem"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "withData"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit8Metadataa",
+      "text" : "Metadata"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:didUpdateEmptyMetadataOn:withData:)-4fb74",
+  "kind" : "symbol",
+  "required" : true,
+  "role" : "symbol",
+  "title" : "audioPlayer(_:didUpdateEmptyMetadataOn:withData:)",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didupdateemptymetadataon:withdata:)-4fb74"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerDelegate/audioPlayer(_:didUpdateProgressionTo:percentageRead:)-2jwva": {
+  "abstract" : [
+    {
+      "text" : "This method is called a regular time interval while playing. It notifies the delegate that the current playing",
+      "type" : "text"
+    },
+    {
+      "text" : " ",
+      "type" : "text"
+    },
+    {
+      "text" : "progression changed.",
+      "type" : "text"
+    }
+  ],
+  "defaultImplementations" : 1,
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "audioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@M@SwiftAudioKit@objc(cs)AudioPlayer",
+      "text" : "AudioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "didUpdateProgressionTo"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@T@NSTimeInterval",
+      "text" : "TimeInterval"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "percentageRead"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sf",
+      "text" : "Float"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:didUpdateProgressionTo:percentageRead:)-2jwva",
+  "kind" : "symbol",
+  "required" : true,
+  "role" : "symbol",
+  "title" : "audioPlayer(_:didUpdateProgressionTo:percentageRead:)",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didupdateprogressionto:percentageread:)-2jwva"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerDelegate/audioPlayer(_:shouldStartPlaying:)-hcq6": {
+  "abstract" : [
+    {
+      "text" : "This method is called to ensure an item should be played or not. Default implementation returns ",
+      "type" : "text"
+    },
+    {
+      "code" : "true",
+      "type" : "codeVoice"
+    },
+    {
+      "text" : ".",
+      "type" : "text"
+    }
+  ],
+  "defaultImplementations" : 1,
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "audioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@M@SwiftAudioKit@objc(cs)AudioPlayer",
+      "text" : "AudioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "shouldStartPlaying"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit0B4ItemC",
+      "text" : "AudioItem"
+    },
+    {
+      "kind" : "text",
+      "text" : ") -> "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:Sb",
+      "text" : "Bool"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:shouldStartPlaying:)-hcq6",
+  "kind" : "symbol",
+  "required" : true,
+  "role" : "symbol",
+  "title" : "audioPlayer(_:shouldStartPlaying:)",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:shouldstartplaying:)-hcq6"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerDelegate/audioPlayer(_:willStartPlaying:)-351bu": {
+  "abstract" : [
+    {
+      "text" : "This method is called when the audio player is about to start playing a new item.",
+      "type" : "text"
+    }
+  ],
+  "defaultImplementations" : 1,
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "func"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "audioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : "("
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "c:@M@SwiftAudioKit@objc(cs)AudioPlayer",
+      "text" : "AudioPlayer"
+    },
+    {
+      "kind" : "text",
+      "text" : ", "
+    },
+    {
+      "kind" : "externalParam",
+      "text" : "willStartPlaying"
+    },
+    {
+      "kind" : "text",
+      "text" : ": "
+    },
+    {
+      "kind" : "typeIdentifier",
+      "preciseIdentifier" : "s:13SwiftAudioKit0B4ItemC",
+      "text" : "AudioItem"
+    },
+    {
+      "kind" : "text",
+      "text" : ")"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerDelegate\/audioPlayer(_:willStartPlaying:)-351bu",
+  "kind" : "symbol",
+  "required" : true,
+  "role" : "symbol",
+  "title" : "audioPlayer(_:willStartPlaying:)",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:willstartplaying:)-351bu"
+}
+}
+}

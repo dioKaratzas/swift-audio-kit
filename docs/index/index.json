@@ -1,0 +1,1598 @@
+{
+  "includedArchiveIdentifiers" : [
+    "SwiftAudioKit"
+  ],
+  "interfaceLanguages" : {
+    "swift" : [
+      {
+        "children" : [
+          {
+            "title" : "Classes",
+            "type" : "groupMarker"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/init(highqualitysoundurl:mediumqualitysoundurl:lowqualitysoundurl:)",
+                "title" : "convenience init?(highQualitySoundURL: URL?, mediumQualitySoundURL: URL?, lowQualitySoundURL: URL?)",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/init(soundurls:)",
+                "title" : "init?(soundURLs: [AudioQuality : URL])",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/album",
+                "title" : "var album: String?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/artist",
+                "title" : "var artist: String?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/artwork",
+                "title" : "var artwork: MPMediaItemArtwork?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/artworkimage",
+                "title" : "var artworkImage: Image?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/highestqualityurl",
+                "title" : "var highestQualityURL: AudioItemURL",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/lowestqualityurl",
+                "title" : "var lowestQualityURL: AudioItemURL",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/mediumqualityurl",
+                "title" : "var mediumQualityURL: AudioItemURL",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/soundurls",
+                "title" : "let soundURLs: [AudioQuality : URL]",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/title",
+                "title" : "var title: String?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/trackcount",
+                "title" : "var trackCount: NSNumber?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/tracknumber",
+                "title" : "var trackNumber: NSNumber?",
+                "type" : "property"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/parsemetadata(_:)",
+                "title" : "func parseMetadata([AVMetadataItem])",
+                "type" : "method"
+              },
+              {
+                "title" : "Default Implementations",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Operators",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioitem\/!=(_:_:)",
+                    "title" : "static func != (Self, Self) -> Bool",
+                    "type" : "op"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioitem\/==(_:_:)",
+                    "title" : "static func == (AudioItem, AudioItem) -> Bool",
+                    "type" : "op"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/equatable-implementations",
+                "title" : "Equatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioitem\/objectwillchange",
+                    "title" : "var objectWillChange: ObservableObjectPublisher",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioitem\/observableobject-implementations",
+                "title" : "ObservableObject Implementations",
+                "type" : "symbol"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/audioitem",
+            "title" : "AudioItem",
+            "type" : "class"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/init()",
+                "title" : "init()",
+                "type" : "init"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/init(nowplayableservice:)",
+                "title" : "convenience init(nowPlayableService: NowPlayableService) throws",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/adjustqualityafterinterruptioncount",
+                "title" : "var adjustQualityAfterInterruptionCount: Int",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/adjustqualityautomatically",
+                "title" : "var adjustQualityAutomatically: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/adjustqualitytimeinternal",
+                "title" : "var adjustQualityTimeInternal: TimeInterval",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/bufferingstrategy",
+                "title" : "var bufferingStrategy: AudioPlayerBufferingStrategy",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/currentitem",
+                "title" : "var currentItem: AudioItem?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/currentitemduration",
+                "title" : "var currentItemDuration: TimeInterval?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/currentitemindexinqueue",
+                "title" : "var currentItemIndexInQueue: Int?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/currentitemloadedahead",
+                "title" : "var currentItemLoadedAhead: TimeInterval?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/currentitemloadedrange",
+                "title" : "var currentItemLoadedRange: TimeRange?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/currentitemprogression",
+                "title" : "var currentItemProgression: TimeInterval?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/currentitemseekablerange",
+                "title" : "var currentItemSeekableRange: TimeRange?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/currentquality",
+                "title" : "var currentQuality: AudioQuality",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/defaultquality",
+                "title" : "var defaultQuality: AudioQuality",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/delegate",
+                "title" : "var delegate: (any AudioPlayerDelegate)?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/hasnext",
+                "title" : "var hasNext: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/hasprevious",
+                "title" : "var hasPrevious: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/items",
+                "title" : "var items: [AudioItem]?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/maximumconnectionlosstime",
+                "title" : "var maximumConnectionLossTime: TimeInterval",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/maximumretrycount",
+                "title" : "var maximumRetryCount: Int",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/mode",
+                "title" : "var mode: AudioPlayerMode",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/preferredbufferdurationbeforeplayback",
+                "title" : "var preferredBufferDurationBeforePlayback: TimeInterval",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/preferredforwardbufferduration",
+                "title" : "var preferredForwardBufferDuration: TimeInterval",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/rate",
+                "title" : "var rate: Float",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/resumeafterconnectionloss",
+                "title" : "var resumeAfterConnectionLoss: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/resumeafterinterruption",
+                "title" : "var resumeAfterInterruption: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/retrytimeout",
+                "title" : "var retryTimeout: TimeInterval",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/seekingbehavior-swift.property",
+                "title" : "var seekingBehavior: AudioPlayer.SeekingBehavior",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/setnowplayingmetadata",
+                "title" : "var setNowPlayingMetadata: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/state",
+                "title" : "var state: AudioPlayerState",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/volume",
+                "title" : "var volume: Float",
+                "type" : "property"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/add(item:)",
+                "title" : "func add(item: AudioItem)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/add(items:)",
+                "title" : "func add(items: [AudioItem])",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/next()",
+                "title" : "func next()",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/nextorstop()",
+                "title" : "func nextOrStop()",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/pause()",
+                "title" : "func pause()",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/play(item:)",
+                "title" : "func play(item: AudioItem)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/play(items:startatindex:)",
+                "title" : "func play(items: [AudioItem], startAtIndex: Int)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/previous()",
+                "title" : "func previous()",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/removeitem(at:)",
+                "title" : "func removeItem(at: Int)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/resume()",
+                "title" : "func resume()",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/seek(to:byadaptingtimetofitseekableranges:tolerancebefore:toleranceafter:completionhandler:)",
+                "title" : "func seek(to: TimeInterval, byAdaptingTimeToFitSeekableRanges: Bool, toleranceBefore: CMTime, toleranceAfter: CMTime, completionHandler: ((Bool) -> Void)?)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/seektoseekablerangeend(padding:completionhandler:)",
+                "title" : "func seekToSeekableRangeEnd(padding: TimeInterval, completionHandler: ((Bool) -> Void)?)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/seektoseekablerangestart(padding:completionhandler:)",
+                "title" : "func seekToSeekableRangeStart(padding: TimeInterval, completionHandler: ((Bool) -> Void)?)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/stop()",
+                "title" : "func stop()",
+                "type" : "method"
+              },
+              {
+                "title" : "Enumerations",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Enumeration Cases",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayer\/seekingbehavior-swift.enum\/changetime(every:delta:)",
+                    "title" : "case changeTime(every: TimeInterval, delta: TimeInterval)",
+                    "type" : "case"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayer\/seekingbehavior-swift.enum\/multiplyrate(_:)",
+                    "title" : "case multiplyRate(Float)",
+                    "type" : "case"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayer\/seekingbehavior-swift.enum",
+                "title" : "AudioPlayer.SeekingBehavior",
+                "type" : "enum"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/audioplayer",
+            "title" : "AudioPlayer",
+            "type" : "class"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableservice\/init(allowsexternalplayback:commands:)",
+                "title" : "init(allowsExternalPlayback: Bool, commands: [NowPlayableCommand])",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableservice\/configureremotecommands(_:commandhandler:)",
+                "title" : "func configureRemoteCommands([NowPlayableCommand], commandHandler: (NowPlayableCommand, MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus) throws",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableservice\/handlenowplayableconfiguration(commandhandler:)",
+                "title" : "func handleNowPlayableConfiguration(commandHandler: (NowPlayableCommand, MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus) throws",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableservice\/handlenowplayableitemchange(metadata:)",
+                "title" : "func handleNowPlayableItemChange(metadata: NowPlayableStaticMetadata)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableservice\/handlenowplayableplaybackchange(isplaying:)",
+                "title" : "func handleNowPlayablePlaybackChange(isPlaying: Bool)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableservice\/handlenowplayableplaybackchange(isplaying:metadata:)",
+                "title" : "func handleNowPlayablePlaybackChange(isPlaying: Bool, metadata: NowPlayableDynamicMetadata)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableservice\/handlenowplayablesessionend()",
+                "title" : "func handleNowPlayableSessionEnd()",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableservice\/handlenowplayablesessionstart()",
+                "title" : "func handleNowPlayableSessionStart() throws",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableservice\/setnowplayingmetadata(_:)",
+                "title" : "func setNowPlayingMetadata(NowPlayableStaticMetadata)",
+                "type" : "method"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableservice\/setnowplayingplaybackinfo(_:)",
+                "title" : "func setNowPlayingPlaybackInfo(NowPlayableDynamicMetadata)",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/nowplayableservice",
+            "title" : "NowPlayableService",
+            "type" : "class"
+          },
+          {
+            "title" : "Protocols",
+            "type" : "groupMarker"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Instance Methods",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "children" : [
+                      {
+                        "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didchangestatefrom:to:)-4e6z1",
+                        "title" : "func audioPlayer(AudioPlayer, didChangeStateFrom: AudioPlayerState, to: AudioPlayerState)",
+                        "type" : "method"
+                      }
+                    ],
+                    "title" : "AudioPlayerDelegate Implementations",
+                    "type" : "groupMarker"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didchangestatefrom:to:)-zjg0",
+                "title" : "func audioPlayer(AudioPlayer, didChangeStateFrom: AudioPlayerState, to: AudioPlayerState)",
+                "type" : "method"
+              },
+              {
+                "children" : [
+                  {
+                    "children" : [
+                      {
+                        "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didfindduration:for:)-942hu",
+                        "title" : "func audioPlayer(AudioPlayer, didFindDuration: TimeInterval, for: AudioItem)",
+                        "type" : "method"
+                      }
+                    ],
+                    "title" : "AudioPlayerDelegate Implementations",
+                    "type" : "groupMarker"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didfindduration:for:)-8tmrl",
+                "title" : "func audioPlayer(AudioPlayer, didFindDuration: TimeInterval, for: AudioItem)",
+                "type" : "method"
+              },
+              {
+                "children" : [
+                  {
+                    "children" : [
+                      {
+                        "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didload:for:)-5wv97",
+                        "title" : "func audioPlayer(AudioPlayer, didLoad: TimeRange, for: AudioItem)",
+                        "type" : "method"
+                      }
+                    ],
+                    "title" : "AudioPlayerDelegate Implementations",
+                    "type" : "groupMarker"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didload:for:)-8lkub",
+                "title" : "func audioPlayer(AudioPlayer, didLoad: TimeRange, for: AudioItem)",
+                "type" : "method"
+              },
+              {
+                "children" : [
+                  {
+                    "children" : [
+                      {
+                        "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didupdateemptymetadataon:withdata:)-41l59",
+                        "title" : "func audioPlayer(AudioPlayer, didUpdateEmptyMetadataOn: AudioItem, withData: Metadata)",
+                        "type" : "method"
+                      }
+                    ],
+                    "title" : "AudioPlayerDelegate Implementations",
+                    "type" : "groupMarker"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didupdateemptymetadataon:withdata:)-4fb74",
+                "title" : "func audioPlayer(AudioPlayer, didUpdateEmptyMetadataOn: AudioItem, withData: Metadata)",
+                "type" : "method"
+              },
+              {
+                "children" : [
+                  {
+                    "children" : [
+                      {
+                        "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didupdateprogressionto:percentageread:)-1ofn0",
+                        "title" : "func audioPlayer(AudioPlayer, didUpdateProgressionTo: TimeInterval, percentageRead: Float)",
+                        "type" : "method"
+                      }
+                    ],
+                    "title" : "AudioPlayerDelegate Implementations",
+                    "type" : "groupMarker"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:didupdateprogressionto:percentageread:)-2jwva",
+                "title" : "func audioPlayer(AudioPlayer, didUpdateProgressionTo: TimeInterval, percentageRead: Float)",
+                "type" : "method"
+              },
+              {
+                "children" : [
+                  {
+                    "children" : [
+                      {
+                        "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:shouldstartplaying:)-7s4u",
+                        "title" : "func audioPlayer(AudioPlayer, shouldStartPlaying: AudioItem) -> Bool",
+                        "type" : "method"
+                      }
+                    ],
+                    "title" : "AudioPlayerDelegate Implementations",
+                    "type" : "groupMarker"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:shouldstartplaying:)-hcq6",
+                "title" : "func audioPlayer(AudioPlayer, shouldStartPlaying: AudioItem) -> Bool",
+                "type" : "method"
+              },
+              {
+                "children" : [
+                  {
+                    "children" : [
+                      {
+                        "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:willstartplaying:)-drp5",
+                        "title" : "func audioPlayer(AudioPlayer, willStartPlaying: AudioItem)",
+                        "type" : "method"
+                      }
+                    ],
+                    "title" : "AudioPlayerDelegate Implementations",
+                    "type" : "groupMarker"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate\/audioplayer(_:willstartplaying:)-351bu",
+                "title" : "func audioPlayer(AudioPlayer, willStartPlaying: AudioItem)",
+                "type" : "method"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/audioplayerdelegate",
+            "title" : "AudioPlayerDelegate",
+            "type" : "protocol"
+          },
+          {
+            "title" : "Structures",
+            "type" : "groupMarker"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitemurl\/init(quality:url:)",
+                "title" : "init?(quality: AudioQuality, url: URL?)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitemurl\/quality",
+                "title" : "let quality: AudioQuality",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioitemurl\/url",
+                "title" : "let url: URL",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/audioitemurl",
+            "title" : "AudioItemURL",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/init(rawvalue:)",
+                "title" : "init(rawValue: UInt)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/rawvalue",
+                "title" : "let rawValue: UInt",
+                "type" : "property"
+              },
+              {
+                "title" : "Type Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/normal",
+                "title" : "static let normal: AudioPlayerMode",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/repeat",
+                "title" : "static let `repeat`: AudioPlayerMode",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/repeatall",
+                "title" : "static let repeatAll: AudioPlayerMode",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/shuffle",
+                "title" : "static let shuffle: AudioPlayerMode",
+                "type" : "property"
+              },
+              {
+                "title" : "Default Implementations",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Operators",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/!=(_:_:)",
+                    "title" : "static func != (Self, Self) -> Bool",
+                    "type" : "op"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/equatable-implementations",
+                "title" : "Equatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/init()",
+                    "title" : "init()",
+                    "type" : "init"
+                  },
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/contains(_:)",
+                    "title" : "func contains(Self) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/formintersection(_:)",
+                    "title" : "func formIntersection(Self)",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/formsymmetricdifference(_:)",
+                    "title" : "func formSymmetricDifference(Self)",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/formunion(_:)",
+                    "title" : "func formUnion(Self)",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/insert(_:)",
+                    "title" : "func insert(Self.Element) -> (inserted: Bool, memberAfterInsert: Self.Element)",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/intersection(_:)",
+                    "title" : "func intersection(Self) -> Self",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/remove(_:)",
+                    "title" : "func remove(Self.Element) -> Self.Element?",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/symmetricdifference(_:)",
+                    "title" : "func symmetricDifference(Self) -> Self",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/union(_:)",
+                    "title" : "func union(Self) -> Self",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/update(with:)",
+                    "title" : "func update(with: Self.Element) -> Self.Element?",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/optionset-implementations",
+                "title" : "OptionSet Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Initializers",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/init(_:)",
+                    "title" : "init<S>(S)",
+                    "type" : "init"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/init(arrayliteral:)",
+                    "title" : "init(arrayLiteral: Self.Element...)",
+                    "type" : "init"
+                  },
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/isempty",
+                    "title" : "var isEmpty: Bool",
+                    "type" : "property"
+                  },
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/isdisjoint(with:)",
+                    "title" : "func isDisjoint(with: Self) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/isstrictsubset(of:)",
+                    "title" : "func isStrictSubset(of: Self) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/isstrictsuperset(of:)",
+                    "title" : "func isStrictSuperset(of: Self) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/issubset(of:)",
+                    "title" : "func isSubset(of: Self) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/issuperset(of:)",
+                    "title" : "func isSuperset(of: Self) -> Bool",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/subtract(_:)",
+                    "title" : "func subtract(Self)",
+                    "type" : "method"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/subtracting(_:)",
+                    "title" : "func subtracting(Self) -> Self",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayermode\/setalgebra-implementations",
+                "title" : "SetAlgebra Implementations",
+                "type" : "symbol"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/audioplayermode",
+            "title" : "AudioPlayerMode",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayabledynamicmetadata\/init(rate:position:duration:currentlanguageoptions:availablelanguageoptiongroups:)",
+                "title" : "init(rate: Float, position: Float, duration: Float, currentLanguageOptions: [MPNowPlayingInfoLanguageOption], availableLanguageOptionGroups: [MPNowPlayingInfoLanguageOptionGroup])",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayabledynamicmetadata\/availablelanguageoptiongroups",
+                "title" : "let availableLanguageOptionGroups: [MPNowPlayingInfoLanguageOptionGroup]",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayabledynamicmetadata\/currentlanguageoptions",
+                "title" : "let currentLanguageOptions: [MPNowPlayingInfoLanguageOption]",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayabledynamicmetadata\/duration",
+                "title" : "let duration: Float",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayabledynamicmetadata\/position",
+                "title" : "let position: Float",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayabledynamicmetadata\/rate",
+                "title" : "let rate: Float",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/nowplayabledynamicmetadata",
+            "title" : "NowPlayableDynamicMetadata",
+            "type" : "struct"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablestaticmetadata\/init(asseturl:mediatype:islivestream:title:artist:artwork:album:trackcount:tracknumber:)",
+                "title" : "init(assetURL: URL, mediaType: MPNowPlayingInfoMediaType, isLiveStream: Bool, title: String?, artist: String?, artwork: MPMediaItemArtwork?, album: String?, trackCount: NSNumber?, trackNumber: NSNumber?)",
+                "type" : "init"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablestaticmetadata\/album",
+                "title" : "let album: String?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablestaticmetadata\/artist",
+                "title" : "let artist: String?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablestaticmetadata\/artwork",
+                "title" : "let artwork: MPMediaItemArtwork?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablestaticmetadata\/asseturl",
+                "title" : "let assetURL: URL",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablestaticmetadata\/islivestream",
+                "title" : "let isLiveStream: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablestaticmetadata\/mediatype",
+                "title" : "let mediaType: MPNowPlayingInfoMediaType",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablestaticmetadata\/title",
+                "title" : "let title: String?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablestaticmetadata\/trackcount",
+                "title" : "let trackCount: NSNumber?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablestaticmetadata\/tracknumber",
+                "title" : "let trackNumber: NSNumber?",
+                "type" : "property"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/nowplayablestaticmetadata",
+            "title" : "NowPlayableStaticMetadata",
+            "type" : "struct"
+          },
+          {
+            "title" : "Type Aliases",
+            "type" : "groupMarker"
+          },
+          {
+            "path" : "\/documentation\/swiftaudiokit\/image",
+            "title" : "Image",
+            "type" : "typealias"
+          },
+          {
+            "path" : "\/documentation\/swiftaudiokit\/metadata",
+            "title" : "Metadata",
+            "type" : "typealias"
+          },
+          {
+            "path" : "\/documentation\/swiftaudiokit\/timerange",
+            "title" : "TimeRange",
+            "type" : "typealias"
+          },
+          {
+            "title" : "Enumerations",
+            "type" : "groupMarker"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Enumeration Cases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerbufferingstrategy\/defaultbuffering",
+                "title" : "case defaultBuffering",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerbufferingstrategy\/playwhenbuffernotempty",
+                "title" : "case playWhenBufferNotEmpty",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerbufferingstrategy\/playwhenpreferredbufferdurationfull",
+                "title" : "case playWhenPreferredBufferDurationFull",
+                "type" : "case"
+              },
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerbufferingstrategy\/init(rawvalue:)",
+                "title" : "init?(rawValue: Int)",
+                "type" : "init"
+              },
+              {
+                "title" : "Default Implementations",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Operators",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayerbufferingstrategy\/!=(_:_:)",
+                    "title" : "static func != (Self, Self) -> Bool",
+                    "type" : "op"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerbufferingstrategy\/equatable-implementations",
+                "title" : "Equatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayerbufferingstrategy\/hashvalue",
+                    "title" : "var hashValue: Int",
+                    "type" : "property"
+                  },
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayerbufferingstrategy\/hash(into:)",
+                    "title" : "func hash(into: inout Hasher)",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerbufferingstrategy\/rawrepresentable-implementations",
+                "title" : "RawRepresentable Implementations",
+                "type" : "symbol"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/audioplayerbufferingstrategy",
+            "title" : "AudioPlayerBufferingStrategy",
+            "type" : "enum"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Operators",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayererror\/==(_:_:)",
+                "title" : "static func == (AudioPlayerError, AudioPlayerError) -> Bool",
+                "type" : "op"
+              },
+              {
+                "title" : "Enumeration Cases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayererror\/foundationerror(_:)",
+                "title" : "case foundationError(any Error)",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayererror\/itemnotconsideredplayable",
+                "title" : "case itemNotConsideredPlayable",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayererror\/maximumretrycounthit",
+                "title" : "case maximumRetryCountHit",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayererror\/noitemsconsideredplayable",
+                "title" : "case noItemsConsideredPlayable",
+                "type" : "case"
+              },
+              {
+                "title" : "Default Implementations",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Operators",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayererror\/!=(_:_:)",
+                    "title" : "static func != (Self, Self) -> Bool",
+                    "type" : "op"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayererror\/equatable-implementations",
+                "title" : "Equatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayererror\/localizeddescription",
+                    "title" : "var localizedDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayererror\/error-implementations",
+                "title" : "Error Implementations",
+                "type" : "symbol"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/audioplayererror",
+            "title" : "AudioPlayerError",
+            "type" : "enum"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Enumeration Cases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/buffering",
+                "title" : "case buffering",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/failed(_:)",
+                "title" : "case failed(AudioPlayerError)",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/paused",
+                "title" : "case paused",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/playing",
+                "title" : "case playing",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/stopped",
+                "title" : "case stopped",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/waitingforconnection",
+                "title" : "case waitingForConnection",
+                "type" : "case"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/error",
+                "title" : "var error: AudioPlayerError?",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/isbuffering",
+                "title" : "var isBuffering: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/isfailed",
+                "title" : "var isFailed: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/ispaused",
+                "title" : "var isPaused: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/isplaying",
+                "title" : "var isPlaying: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/isstopped",
+                "title" : "var isStopped: Bool",
+                "type" : "property"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/iswaitingforconnection",
+                "title" : "var isWaitingForConnection: Bool",
+                "type" : "property"
+              },
+              {
+                "title" : "Default Implementations",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Operators",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/!=(_:_:)",
+                    "title" : "static func != (Self, Self) -> Bool",
+                    "type" : "op"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioplayerstate\/equatable-implementations",
+                "title" : "Equatable Implementations",
+                "type" : "symbol"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/audioplayerstate",
+            "title" : "AudioPlayerState",
+            "type" : "enum"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Enumeration Cases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioquality\/high",
+                "title" : "case high",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioquality\/low",
+                "title" : "case low",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioquality\/medium",
+                "title" : "case medium",
+                "type" : "case"
+              },
+              {
+                "title" : "Initializers",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/audioquality\/init(rawvalue:)",
+                "title" : "init?(rawValue: Int)",
+                "type" : "init"
+              },
+              {
+                "title" : "Default Implementations",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Operators",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioquality\/!=(_:_:)",
+                    "title" : "static func != (Self, Self) -> Bool",
+                    "type" : "op"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioquality\/equatable-implementations",
+                "title" : "Equatable Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioquality\/hashvalue",
+                    "title" : "var hashValue: Int",
+                    "type" : "property"
+                  },
+                  {
+                    "title" : "Instance Methods",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/audioquality\/hash(into:)",
+                    "title" : "func hash(into: inout Hasher)",
+                    "type" : "method"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/audioquality\/rawrepresentable-implementations",
+                "title" : "RawRepresentable Implementations",
+                "type" : "symbol"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/audioquality",
+            "title" : "AudioQuality",
+            "type" : "enum"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Enumeration Cases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/bookmark",
+                "title" : "case bookmark",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/changeplaybackposition",
+                "title" : "case changePlaybackPosition",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/changeplaybackrate",
+                "title" : "case changePlaybackRate",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/changerepeatmode",
+                "title" : "case changeRepeatMode",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/changeshufflemode",
+                "title" : "case changeShuffleMode",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/disablelanguageoption",
+                "title" : "case disableLanguageOption",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/dislike",
+                "title" : "case dislike",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/enablelanguageoption",
+                "title" : "case enableLanguageOption",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/like",
+                "title" : "case like",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/nexttrack",
+                "title" : "case nextTrack",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/pause",
+                "title" : "case pause",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/play",
+                "title" : "case play",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/previoustrack",
+                "title" : "case previousTrack",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/rating",
+                "title" : "case rating",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/seekbackward",
+                "title" : "case seekBackward",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/seekforward",
+                "title" : "case seekForward",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/skipbackward",
+                "title" : "case skipBackward",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/skipforward",
+                "title" : "case skipForward",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/stop",
+                "title" : "case stop",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/togglepauseplay",
+                "title" : "case togglePausePlay",
+                "type" : "case"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/remotecommand",
+                "title" : "var remoteCommand: MPRemoteCommand",
+                "type" : "property"
+              },
+              {
+                "title" : "Default Implementations",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Operators",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/!=(_:_:)",
+                    "title" : "static func != (Self, Self) -> Bool",
+                    "type" : "op"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand\/equatable-implementations",
+                "title" : "Equatable Implementations",
+                "type" : "symbol"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/nowplayablecommand",
+            "title" : "NowPlayableCommand",
+            "type" : "enum"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Enumeration Cases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableerror\/cannotactivatesession(_:)",
+                "title" : "case cannotActivateSession(any Error)",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableerror\/cannotreactivatesession(_:)",
+                "title" : "case cannotReactivateSession(any Error)",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableerror\/cannotsetcategory(_:)",
+                "title" : "case cannotSetCategory(any Error)",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableerror\/noregisteredcommands",
+                "title" : "case noRegisteredCommands",
+                "type" : "case"
+              },
+              {
+                "title" : "Instance Properties",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableerror\/errordescription",
+                "title" : "var errorDescription: String?",
+                "type" : "property"
+              },
+              {
+                "title" : "Default Implementations",
+                "type" : "groupMarker"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/nowplayableerror\/localizeddescription",
+                    "title" : "var localizedDescription: String",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableerror\/error-implementations",
+                "title" : "Error Implementations",
+                "type" : "symbol"
+              },
+              {
+                "children" : [
+                  {
+                    "title" : "Instance Properties",
+                    "type" : "groupMarker"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/nowplayableerror\/failurereason",
+                    "title" : "var failureReason: String?",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/nowplayableerror\/helpanchor",
+                    "title" : "var helpAnchor: String?",
+                    "type" : "property"
+                  },
+                  {
+                    "path" : "\/documentation\/swiftaudiokit\/nowplayableerror\/recoverysuggestion",
+                    "title" : "var recoverySuggestion: String?",
+                    "type" : "property"
+                  }
+                ],
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableerror\/localizederror-implementations",
+                "title" : "LocalizedError Implementations",
+                "type" : "symbol"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/nowplayableerror",
+            "title" : "NowPlayableError",
+            "type" : "enum"
+          },
+          {
+            "children" : [
+              {
+                "title" : "Enumeration Cases",
+                "type" : "groupMarker"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableinterruption\/began",
+                "title" : "case began",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableinterruption\/ended(_:)",
+                "title" : "case ended(Bool)",
+                "type" : "case"
+              },
+              {
+                "path" : "\/documentation\/swiftaudiokit\/nowplayableinterruption\/failed(_:)",
+                "title" : "case failed(any Error)",
+                "type" : "case"
+              }
+            ],
+            "path" : "\/documentation\/swiftaudiokit\/nowplayableinterruption",
+            "title" : "NowPlayableInterruption",
+            "type" : "enum"
+          }
+        ],
+        "path" : "\/documentation\/swiftaudiokit",
+        "title" : "SwiftAudioKit",
+        "type" : "module"
+      }
+    ]
+  },
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 1,
+    "patch" : 2
+  }
+}

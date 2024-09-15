@@ -1,0 +1,172 @@
+{
+  "abstract" : [
+    {
+      "text" : "Uses a strategy that simply starts playback whenever the AVPlayerItem buffer is non-empty. Requires iOS\/tvOS 10+ to have any effect.",
+      "type" : "text"
+    }
+  ],
+  "hierarchy" : {
+    "paths" : [
+      [
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit",
+        "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerBufferingStrategy"
+      ]
+    ]
+  },
+  "identifier" : {
+    "interfaceLanguage" : "swift",
+    "url" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerBufferingStrategy\/playWhenBufferNotEmpty"
+  },
+  "kind" : "symbol",
+  "metadata" : {
+    "externalID" : "s:13SwiftAudioKit0B23PlayerBufferingStrategyO22playWhenBufferNotEmptyyA2CmF",
+    "fragments" : [
+      {
+        "kind" : "keyword",
+        "text" : "case"
+      },
+      {
+        "kind" : "text",
+        "text" : " "
+      },
+      {
+        "kind" : "identifier",
+        "text" : "playWhenBufferNotEmpty"
+      }
+    ],
+    "modules" : [
+      {
+        "name" : "SwiftAudioKit"
+      }
+    ],
+    "role" : "symbol",
+    "roleHeading" : "Case",
+    "symbolKind" : "case",
+    "title" : "AudioPlayerBufferingStrategy.playWhenBufferNotEmpty"
+  },
+  "primaryContentSections" : [
+    {
+      "declarations" : [
+        {
+          "languages" : [
+            "swift"
+          ],
+          "platforms" : [
+            "macOS"
+          ],
+          "tokens" : [
+            {
+              "kind" : "keyword",
+              "text" : "case"
+            },
+            {
+              "kind" : "text",
+              "text" : " "
+            },
+            {
+              "kind" : "identifier",
+              "text" : "playWhenBufferNotEmpty"
+            }
+          ]
+        }
+      ],
+      "kind" : "declarations"
+    }
+  ],
+  "schemaVersion" : {
+    "major" : 0,
+    "minor" : 3,
+    "patch" : 0
+  },
+  "sections" : [
+
+  ],
+  "variants" : [
+    {
+      "paths" : [
+        "\/documentation\/swiftaudiokit\/audioplayerbufferingstrategy\/playwhenbuffernotempty"
+      ],
+      "traits" : [
+        {
+          "interfaceLanguage" : "swift"
+        }
+      ]
+    }
+  ]
+, 
+"references": {
+"doc://SwiftAudioKit/documentation/SwiftAudioKit": {
+  "abstract" : [
+
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit",
+  "kind" : "symbol",
+  "role" : "collection",
+  "title" : "SwiftAudioKit",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerBufferingStrategy": {
+  "abstract" : [
+    {
+      "text" : "Represents the strategy used for buffering of items before playback is started",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "enum"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "AudioPlayerBufferingStrategy"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerBufferingStrategy",
+  "kind" : "symbol",
+  "navigatorTitle" : [
+    {
+      "kind" : "identifier",
+      "text" : "AudioPlayerBufferingStrategy"
+    }
+  ],
+  "role" : "symbol",
+  "title" : "AudioPlayerBufferingStrategy",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerbufferingstrategy"
+},
+"doc://SwiftAudioKit/documentation/SwiftAudioKit/AudioPlayerBufferingStrategy/playWhenBufferNotEmpty": {
+  "abstract" : [
+    {
+      "text" : "Uses a strategy that simply starts playback whenever the AVPlayerItem buffer is non-empty. Requires iOS\/tvOS 10+ to have any effect.",
+      "type" : "text"
+    }
+  ],
+  "fragments" : [
+    {
+      "kind" : "keyword",
+      "text" : "case"
+    },
+    {
+      "kind" : "text",
+      "text" : " "
+    },
+    {
+      "kind" : "identifier",
+      "text" : "playWhenBufferNotEmpty"
+    }
+  ],
+  "identifier" : "doc:\/\/SwiftAudioKit\/documentation\/SwiftAudioKit\/AudioPlayerBufferingStrategy\/playWhenBufferNotEmpty",
+  "kind" : "symbol",
+  "role" : "symbol",
+  "title" : "AudioPlayerBufferingStrategy.playWhenBufferNotEmpty",
+  "type" : "topic",
+  "url" : "\/documentation\/swiftaudiokit\/audioplayerbufferingstrategy\/playwhenbuffernotempty"
+}
+}
+}
