@@ -12,11 +12,11 @@ import AVFoundation
 #if os(iOS) || os(tvOS)
     import UIKit
 
-    public typealias Image = UIImage
+    public typealias SystemImage = UIImage
 #else
     import Cocoa
 
-    public typealias Image = NSImage
+    public typealias SystemImage = NSImage
 #endif
 
 // MARK: - AudioQuality
@@ -154,7 +154,7 @@ open class AudioItem: ObservableObject {
     @Published open var trackNumber: NSNumber?
 
     /// The artwork image of the item.
-    open var artworkImage: Image? {
+    open var artworkImage: SystemImage? {
         get {
             return artwork?.image(at: imageSize ?? CGSize(width: 512, height: 512))
         }
@@ -181,16 +181,16 @@ open class AudioItem: ObservableObject {
         for item in items {
             if let commonKey = item.commonKey {
                 switch commonKey {
-                case AVMetadataKey.commonKeyTitle where title == nil:
+                case AVMetadataKey.commonKeyTitle:
                     title = item.value as? String
-                case AVMetadataKey.commonKeyArtist where artist == nil:
+                case AVMetadataKey.commonKeyArtist:
                     artist = item.value as? String
-                case AVMetadataKey.commonKeyAlbumName where album == nil:
+                case AVMetadataKey.commonKeyAlbumName:
                     album = item.value as? String
-                case AVMetadataKey.id3MetadataKeyTrackNumber where trackNumber == nil:
+                case AVMetadataKey.id3MetadataKeyTrackNumber:
                     trackNumber = item.value as? NSNumber
-                case AVMetadataKey.commonKeyArtwork where artwork == nil:
-                    artworkImage = (item.value as? Data).flatMap { Image(data: $0) }
+                case AVMetadataKey.commonKeyArtwork:
+                    artworkImage = (item.value as? Data).flatMap { SystemImage(data: $0) }
                 default:
                     break
                 }

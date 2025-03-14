@@ -476,7 +476,7 @@ public class AudioPlayer: NSObject {
     /// - Parameter active: A boolean value indicating whether the audio session should be set to active or not.
     func setAudioSession(active: Bool) {
         #if os(iOS) || os(tvOS)
-            _ = try? AVAudioSession.sharedInstance().setCategory(.playback)
+            _ = try? AVAudioSession.sharedInstance().setCategory(.playback, options: [.mixWithOthers, .allowBluetooth])
             _ = try? AVAudioSession.sharedInstance().setActive(active)
         #endif
 
