@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct AudioPlayerView: View {
-    @StateObject private var audioPlayerManager = AudioPlayerManager()
+    @StateObject
+    private var audioPlayerManager = AudioPlayerManager()
 
     var body: some View {
         VStack {

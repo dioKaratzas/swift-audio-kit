@@ -17,7 +17,7 @@ let package = Package(
             name: "SwiftAudioKit",
             targets: ["SwiftAudioKit"]
         ),
-    ], 
+    ],
     dependencies: [
         // Package dependencies
     ],

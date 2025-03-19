@@ -15,17 +15,20 @@
 class BackgroundHandler: NSObject {
     #if !os(OSX)
         /// The background task creator, typically `UIApplication.shared`.
-        var backgroundTaskCreator: UIApplication = UIApplication.shared
+        var backgroundTaskCreator: UIApplication = .shared
 
         /// The background task identifier if a background task has started. `nil` if not.
-        @SynchronizedLock private var taskIdentifier: UIBackgroundTaskIdentifier?
+        @SynchronizedLock
+        private var taskIdentifier: UIBackgroundTaskIdentifier?
     #else
         /// On macOS, background tasks are not supported in the same way as iOS, so we just use an integer identifier.
-        @SynchronizedLock private var taskIdentifier: Int?
+        @SynchronizedLock
+        private var taskIdentifier: Int?
     #endif
 
     /// The number of background task requests received. When this counter hits 0, the background task, if any, will be terminated.
-    @SynchronizedLock private var counter = 0
+    @SynchronizedLock
+    private var counter = 0
 
     /// Ends the background task, if any, upon deinitialization.
     deinit {
@@ -71,7 +74,7 @@ class BackgroundHandler: NSObject {
             guard counter == 0 else {
                 return false
             }
-        UIApplication.shared.beginBackgroundTask()
+            UIApplication.shared.beginBackgroundTask()
             if taskIdentifier != UIBackgroundTaskIdentifier.invalid {
                 backgroundTaskCreator.endBackgroundTask(taskIdentifier)
             }

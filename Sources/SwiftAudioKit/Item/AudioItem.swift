@@ -102,21 +102,21 @@ open class AudioItem: ObservableObject {
 
     /// Returns the highest quality URL found, or nil if no URLs are available.
     open var highestQualityURL: AudioItemURL {
-        return AudioItemURL(quality: .high, url: soundURLs[.high]) ??
+        AudioItemURL(quality: .high, url: soundURLs[.high]) ??
             AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
             AudioItemURL(quality: .low, url: soundURLs[.low])!
     }
 
     /// Returns the medium quality URL found, or nil if no URLs are available.
     open var mediumQualityURL: AudioItemURL {
-        return AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
+        AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
             AudioItemURL(quality: .low, url: soundURLs[.low]) ??
             AudioItemURL(quality: .high, url: soundURLs[.high])!
     }
 
     /// Returns the lowest quality URL found, or nil if no URLs are available.
     open var lowestQualityURL: AudioItemURL {
-        return AudioItemURL(quality: .low, url: soundURLs[.low]) ??
+        AudioItemURL(quality: .low, url: soundURLs[.low]) ??
             AudioItemURL(quality: .medium, url: soundURLs[.medium]) ??
             AudioItemURL(quality: .high, url: soundURLs[.high])!
     }
@@ -128,35 +128,40 @@ open class AudioItem: ObservableObject {
     func url(for quality: AudioQuality) -> AudioItemURL {
         switch quality {
         case .high:
-            return highestQualityURL
+            highestQualityURL
         case .medium:
-            return mediumQualityURL
+            mediumQualityURL
         default:
-            return lowestQualityURL
+            lowestQualityURL
         }
     }
 
     // MARK: Additional properties
 
     /// The artist of the item.
-    @Published open var artist: String?
+    @Published
+    open var artist: String?
 
     /// The title of the item.
-    @Published open var title: String?
+    @Published
+    open var title: String?
 
     /// The album of the item.
-    @Published open var album: String?
+    @Published
+    open var album: String?
 
     /// The track count of the item's album.
-    @Published open var trackCount: NSNumber?
+    @Published
+    open var trackCount: NSNumber?
 
     /// The track number of the item in its album.
-    @Published open var trackNumber: NSNumber?
+    @Published
+    open var trackNumber: NSNumber?
 
     /// The artwork image of the item.
     open var artworkImage: SystemImage? {
         get {
-            return artwork?.image(at: imageSize ?? CGSize(width: 512, height: 512))
+            artwork?.image(at: imageSize ?? CGSize(width: 512, height: 512))
         }
         set {
             imageSize = newValue?.size
@@ -168,7 +173,8 @@ open class AudioItem: ObservableObject {
         }
     }
 
-    @Published open var artwork: MPMediaItemArtwork?
+    @Published
+    open var artwork: MPMediaItemArtwork?
     private var imageSize: CGSize?
 
     // MARK: Metadata
@@ -201,6 +207,6 @@ open class AudioItem: ObservableObject {
 
 extension AudioItem: Equatable {
     public static func == (lhs: AudioItem, rhs: AudioItem) -> Bool {
-        return lhs === rhs
+        lhs === rhs
     }
 }

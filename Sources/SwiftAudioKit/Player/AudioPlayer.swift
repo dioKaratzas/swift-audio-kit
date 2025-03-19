@@ -24,9 +24,7 @@ public class AudioPlayer: NSObject {
     // MARK: Event producers
 
     /// The network event producer.
-    lazy var networkEventProducer: NetworkEventProducer = {
-        NetworkEventProducer(reachability: self.reachability)
-    }()
+    lazy var networkEventProducer: NetworkEventProducer = .init(reachability: self.reachability)
 
     /// The player event producer.
     let playerEventProducer = PlayerEventProducer()
@@ -148,7 +146,7 @@ public class AudioPlayer: NSObject {
     /// is 10 minutes.
     public var adjustQualityTimeInternal: TimeInterval {
         get {
-            return qualityAdjustmentEventProducer.adjustQualityTimeInterval
+            qualityAdjustmentEventProducer.adjustQualityTimeInterval
         }
         set {
             qualityAdjustmentEventProducer.adjustQualityTimeInterval = newValue
@@ -159,7 +157,7 @@ public class AudioPlayer: NSObject {
     /// downgrading the quality. Default value is 5.
     public var adjustQualityAfterInterruptionCount: Int {
         get {
-            return qualityAdjustmentEventProducer.adjustQualityAfterInterruptionCount
+            qualityAdjustmentEventProducer.adjustQualityAfterInterruptionCount
         }
         set {
             qualityAdjustmentEventProducer.adjustQualityAfterInterruptionCount = newValue
@@ -169,7 +167,7 @@ public class AudioPlayer: NSObject {
     /// The maximum number of interruption before putting the player to Stopped mode. Default value is 10.
     public var maximumRetryCount: Int {
         get {
-            return retryEventProducer.maximumRetryCount
+            retryEventProducer.maximumRetryCount
         }
         set {
             retryEventProducer.maximumRetryCount = newValue
@@ -179,7 +177,7 @@ public class AudioPlayer: NSObject {
     /// The delay to wait before cancelling last retry and retrying. Default value is 10 seconds.
     public var retryTimeout: TimeInterval {
         get {
-            return retryEventProducer.retryTimeout
+            retryEventProducer.retryTimeout
         }
         set {
             retryEventProducer.retryTimeout = newValue
@@ -375,6 +373,24 @@ public class AudioPlayer: NSObject {
         stop()
     }
 
+    public func reloadNowPlayingInfo() {
+        if setNowPlayingMetadata, let currentItem {
+            let isLiveStream = !currentItem.highestQualityURL.url.isOfflineURL
+            let metadata = NowPlayableStaticMetadata(
+                assetURL: currentItem.highestQualityURL.url,
+                mediaType: .audio,
+                isLiveStream: isLiveStream,
+                title: currentItem.title,
+                artist: currentItem.artist,
+                artwork: currentItem.artwork,
+                album: currentItem.album,
+                trackCount: currentItem.trackCount,
+                trackNumber: currentItem.trackNumber
+            )
+            nowPlayableService?.handleNowPlayableItemChange(metadata: metadata)
+        }
+    }
+
     // MARK: Utility methods
 
     /// Returns the current dynamic metadata for the currently playing item, including rate, position, and duration.
@@ -384,8 +400,8 @@ public class AudioPlayer: NSObject {
                 rate: player.rate,
                 position: Float(currentItemProgression),
                 duration: Float(currentItemDuration),
-                currentLanguageOptions: [.init()],
-                availableLanguageOptionGroups: [.init()]
+                currentLanguageOptions: [],
+                availableLanguageOptionGroups: []
             )
         }
         return nil
@@ -491,7 +507,7 @@ public class AudioPlayer: NSObject {
 
     /// Boolean value indicating whether the player should resume playing (after buffering)
     var shouldResumePlaying: Bool {
-        return !state.isPaused &&
+        !state.isPaused &&
             (stateWhenConnectionLost.map { !$0.isPaused } ?? true) &&
             (stateBeforeBuffering.map { !$0.isPaused } ?? true)
     }

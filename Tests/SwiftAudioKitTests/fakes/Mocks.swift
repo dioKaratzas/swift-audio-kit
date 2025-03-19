@@ -26,7 +26,7 @@ class MockReachability: Reachability {
     }
 
     override var currentReachabilityStatus: Reachability.NetworkStatus {
-        return reachabilityStatus
+        reachabilityStatus
     }
 }
 
@@ -41,7 +41,7 @@ class MockItem: AVPlayerItem {
     }
 
     override var isPlaybackBufferEmpty: Bool {
-        return bufferEmpty
+        bufferEmpty
     }
 
     var likelyToKeepUp = false {
@@ -54,7 +54,7 @@ class MockItem: AVPlayerItem {
     }
 
     override var isPlaybackLikelyToKeepUp: Bool {
-        return likelyToKeepUp
+        likelyToKeepUp
     }
 
     var timeRanges = [NSValue]() {
@@ -67,7 +67,7 @@ class MockItem: AVPlayerItem {
     }
 
     override var loadedTimeRanges: [NSValue] {
-        return timeRanges
+        timeRanges
     }
 
     var stat = AVPlayerItem.Status.unknown {
@@ -80,7 +80,7 @@ class MockItem: AVPlayerItem {
     }
 
     override var status: AVPlayerItem.Status {
-        return stat
+        stat
     }
 
     var dur = CMTime() {
@@ -93,7 +93,7 @@ class MockItem: AVPlayerItem {
     }
 
     override var duration: CMTime {
-        return dur
+        dur
     }
 }
 
@@ -115,7 +115,7 @@ class MockPlayer: AVPlayer {
     }
 
     override var currentItem: AVPlayerItem? {
-        return item
+        item
     }
 
     override func addPeriodicTimeObserver(
@@ -159,11 +159,11 @@ class MockMetadataItem: AVMetadataItem {
     }
 
     override var commonKey: AVMetadataKey? {
-        return _commonKey
+        _commonKey
     }
 
     override var value: NSCopying & NSObjectProtocol {
-        return _value
+        _value
     }
 }
 
@@ -172,7 +172,7 @@ class MockApplication: BackgroundTaskCreator {
     var onEnd: ((UIBackgroundTaskIdentifier) -> Void)?
 
     func beginBackgroundTask(expirationHandler handler: (() -> Void)?) -> UIBackgroundTaskIdentifier {
-        return onBegin?(handler) ?? UIBackgroundTaskIdentifier.invalid
+        onBegin?(handler) ?? UIBackgroundTaskIdentifier.invalid
     }
 
     func endBackgroundTask(_ identifier: UIBackgroundTaskIdentifier) {
@@ -185,7 +185,7 @@ class MockAudioPlayer: AudioPlayer {
 
     override var player: AVPlayer? {
         get {
-            return avPlayer
+            avPlayer
         }
         set {}
     }

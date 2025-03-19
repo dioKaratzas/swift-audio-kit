@@ -226,6 +226,6 @@ class AudioItemQueue {
     /// - Parameter item: The item to check.
     /// - Returns: A boolean value indicating whether the item should be considered playable.
     private func shouldConsiderItem(item: AudioItem) -> Bool {
-        return delegate?.audioItemQueue(self, shouldConsiderItem: item) ?? true
+        delegate?.audioItemQueue(self, shouldConsiderItem: item) ?? true
     }
 }

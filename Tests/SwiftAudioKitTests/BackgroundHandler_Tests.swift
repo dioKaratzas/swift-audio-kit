@@ -25,18 +25,18 @@ class BackgroundHandler_Tests: XCTestCase {
 
     func testMultipleBeginDoesNotChangeIdentifier() {
         application.onBegin = { handler in
-            return UIBackgroundTaskIdentifier(rawValue: 1)
+            UIBackgroundTaskIdentifier(rawValue: 1)
         }
         XCTAssert(backgroundHandler.beginBackgroundTask())
         application.onBegin = { handler in
-            return UIBackgroundTaskIdentifier(rawValue: 2)
+            UIBackgroundTaskIdentifier(rawValue: 2)
         }
         XCTAssertFalse(backgroundHandler.beginBackgroundTask())
     }
 
     func testStartingThenEndingResetState() {
         application.onBegin = { handler in
-            return UIBackgroundTaskIdentifier(rawValue: 1)
+            UIBackgroundTaskIdentifier(rawValue: 1)
         }
         XCTAssert(backgroundHandler.beginBackgroundTask())
 

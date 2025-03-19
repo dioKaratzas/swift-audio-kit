@@ -4,8 +4,10 @@ import AVFoundation
 import SwiftAudioKit
 
 class AudioPlayerManager: ObservableObject {
-    @Published var currentTrackTitle: String = "No Track"
-    @Published var isPlaying: Bool = false
+    @Published
+    var currentTrackTitle: String = "No Track"
+    @Published
+    var isPlaying: Bool = false
 
     private var audioPlayer: AudioPlayer
 

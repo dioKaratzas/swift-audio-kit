@@ -125,13 +125,13 @@ class Reachability: NSObject {
     // MARK: - *** Connection test methods ***
 
     func isReachable() -> Bool {
-        return isReachableWithTest({ (flags: SCNetworkReachabilityFlags) -> (Bool) in
+        isReachableWithTest({ (flags: SCNetworkReachabilityFlags) -> (Bool) in
             return self.isReachable(with: flags)
         })
     }
 
     func isReachableViaWiFi() -> Bool {
-        return isReachableWithTest { flags -> Bool in
+        isReachableWithTest { flags -> Bool in
             // Check we're reachable
             if self.isReachable(flags: flags) {
                 if self.isRunningOnDevice {
@@ -209,7 +209,7 @@ class Reachability: NSObject {
     }
 
     private func isReachable(flags: SCNetworkReachabilityFlags) -> Bool {
-        return flags.contains(.reachable)
+        flags.contains(.reachable)
     }
 
     private func isConnectionRequiredOrTransient(flags: SCNetworkReachabilityFlags) -> Bool {

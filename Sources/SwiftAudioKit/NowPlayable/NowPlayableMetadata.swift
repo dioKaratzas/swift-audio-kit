@@ -19,7 +19,17 @@ public struct NowPlayableStaticMetadata {
     public let trackCount: NSNumber? // MPMediaItemPropertyAlbumTrackCount
     public let trackNumber: NSNumber? // MPMediaItemPropertyAlbumTrackNumber
 
-    public init(assetURL: URL, mediaType: MPNowPlayingInfoMediaType, isLiveStream: Bool, title: String?, artist: String?, artwork: MPMediaItemArtwork?, album: String?, trackCount: NSNumber?, trackNumber: NSNumber?) {
+    public init(
+        assetURL: URL,
+        mediaType: MPNowPlayingInfoMediaType,
+        isLiveStream: Bool,
+        title: String?,
+        artist: String?,
+        artwork: MPMediaItemArtwork?,
+        album: String?,
+        trackCount: NSNumber?,
+        trackNumber: NSNumber?
+    ) {
         self.assetURL = assetURL
         self.mediaType = mediaType
         self.isLiveStream = isLiveStream
@@ -39,7 +49,13 @@ public struct NowPlayableDynamicMetadata {
     public let currentLanguageOptions: [MPNowPlayingInfoLanguageOption] // MPNowPlayingInfoPropertyCurrentLanguageOptions
     public let availableLanguageOptionGroups: [MPNowPlayingInfoLanguageOptionGroup] // MPNowPlayingInfoPropertyAvailableLanguageOptions
 
-    public init(rate: Float, position: Float, duration: Float, currentLanguageOptions: [MPNowPlayingInfoLanguageOption], availableLanguageOptionGroups: [MPNowPlayingInfoLanguageOptionGroup]) {
+    public init(
+        rate: Float,
+        position: Float,
+        duration: Float,
+        currentLanguageOptions: [MPNowPlayingInfoLanguageOption],
+        availableLanguageOptionGroups: [MPNowPlayingInfoLanguageOptionGroup]
+    ) {
         self.rate = rate
         self.position = position
         self.duration = duration

@@ -21,7 +21,7 @@ class AudioItemQueue_Tests: XCTestCase {
         }
 
         func audioItemQueue(_ queue: AudioItemQueue, shouldConsiderItem item: AudioItem) -> Bool {
-            return !ununavailableItems.contains(item)
+            !ununavailableItems.contains(item)
         }
     }
 

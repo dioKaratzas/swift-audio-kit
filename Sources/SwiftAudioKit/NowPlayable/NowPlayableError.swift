@@ -16,16 +16,16 @@ public enum NowPlayableError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .noRegisteredCommands:
-            return "At least one remote command must be registered."
+            "At least one remote command must be registered."
 
         case let .cannotSetCategory(error):
-            return "The audio session category could not be set:\n\(error)"
+            "The audio session category could not be set:\n\(error)"
 
         case let .cannotActivateSession(error):
-            return "The audio session could not be activated:\n\(error)"
+            "The audio session could not be activated:\n\(error)"
 
         case let .cannotReactivateSession(error):
-            return "The audio session could not be resumed after interruption:\n\(error)"
+            "The audio session could not be resumed after interruption:\n\(error)"
         }
     }
 }

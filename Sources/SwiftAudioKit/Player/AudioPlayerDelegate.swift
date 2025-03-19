@@ -81,7 +81,7 @@ public extension AudioPlayerDelegate {
     ) {}
 
     func audioPlayer(_ audioPlayer: AudioPlayer, shouldStartPlaying item: AudioItem) -> Bool {
-        return true
+        true
     }
 
     func audioPlayer(_ audioPlayer: AudioPlayer, willStartPlaying item: AudioItem) {}

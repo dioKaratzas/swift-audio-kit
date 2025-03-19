@@ -8,22 +8,22 @@
 extension AudioPlayer {
     /// The items in the queue if any.
     public var items: [AudioItem]? {
-        return queue?.queue
+        queue?.queue
     }
 
     /// The current item index in queue.
     public var currentItemIndexInQueue: Int? {
-        return currentItem.flatMap { queue?.items.firstIndex(of: $0) }
+        currentItem.flatMap { queue?.items.firstIndex(of: $0) }
     }
 
     /// A boolean value indicating whether there is a next item to play or not.
     public var hasNext: Bool {
-        return queue?.hasNextItem ?? false
+        queue?.hasNextItem ?? false
     }
 
     /// A boolean value indicating whether there is a previous item to play or not.
     public var hasPrevious: Bool {
-        return queue?.hasPreviousItem ?? false
+        queue?.hasPreviousItem ?? false
     }
 
     /// Plays an item.
@@ -88,6 +88,6 @@ extension AudioPlayer: AudioItemQueueDelegate {
     ///   - item: The item we ask the information for.
     /// - Returns: A boolean value indicating whether an item should be consider playable in the queue.
     func audioItemQueue(_ queue: AudioItemQueue, shouldConsiderItem item: AudioItem) -> Bool {
-        return delegate?.audioPlayer(self, shouldStartPlaying: item) ?? true
+        delegate?.audioPlayer(self, shouldStartPlaying: item) ?? true
     }
 }

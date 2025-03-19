@@ -24,12 +24,12 @@ public enum AudioPlayerError: Error, Equatable {
         case (.maximumRetryCountHit, .maximumRetryCountHit),
              (.itemNotConsideredPlayable, .itemNotConsideredPlayable),
              (.noItemsConsideredPlayable, .noItemsConsideredPlayable):
-            return true
+            true
         case let (.foundationError(lhsError), .foundationError(rhsError)):
-            return (lhsError as NSError).domain == (rhsError as NSError).domain &&
+            (lhsError as NSError).domain == (rhsError as NSError).domain &&
                 (lhsError as NSError).code == (rhsError as NSError).code
         default:
-            return false
+            false
         }
     }
 }
@@ -52,27 +52,27 @@ public enum AudioPlayerState: Equatable {
 
     /// A boolean value indicating whether the state is `buffering`.
     public var isBuffering: Bool {
-        return self == .buffering
+        self == .buffering
     }
 
     /// A boolean value indicating whether the state is `playing`.
     public var isPlaying: Bool {
-        return self == .playing
+        self == .playing
     }
 
     /// A boolean value indicating whether the state is `paused`.
     public var isPaused: Bool {
-        return self == .paused
+        self == .paused
     }
 
     /// A boolean value indicating whether the state is `stopped`.
     public var isStopped: Bool {
-        return self == .stopped
+        self == .stopped
     }
 
     /// A boolean value indicating whether the state is `waitingForConnection`.
     public var isWaitingForConnection: Bool {
-        return self == .waitingForConnection
+        self == .waitingForConnection
     }
 
     /// A boolean value indicating whether the state is `failed`.

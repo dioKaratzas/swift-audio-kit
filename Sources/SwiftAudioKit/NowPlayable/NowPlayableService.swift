@@ -47,18 +47,14 @@ public extension NowPlayableService {
     // Customization point: start a `NowPlayable` session, either by activating an audio session
     // or setting a playback state, depending on platform.
     func handleNowPlayableSessionStart() throws {
-        #if os(macOS)
-            MPNowPlayingInfoCenter.default().playbackState = .paused
-        #endif
+        MPNowPlayingInfoCenter.default().playbackState = .paused
     }
 
     // Customization point: end a `NowPlayable` session, to allow other apps to become the
     // current `NowPlayable` app, by deactivating an audio session, or setting a playback
     // state, depending on platform.
     func handleNowPlayableSessionEnd() {
-        #if os(macOS)
-            MPNowPlayingInfoCenter.default().playbackState = .stopped
-        #endif
+        MPNowPlayingInfoCenter.default().playbackState = .stopped
     }
 
     // Customization point: update the Now Playing Info metadata with application-supplied
@@ -80,16 +76,12 @@ public extension NowPlayableService {
     // Note that the playback position, once set, is updated automatically according to
     // the playback rate. There is no need for explicit period updates from the app.
     func handleNowPlayablePlaybackChange(isPlaying: Bool) {
-        #if os(macOS)
-            MPNowPlayingInfoCenter.default().playbackState = isPlaying ? .playing : .paused
-        #endif
+        MPNowPlayingInfoCenter.default().playbackState = isPlaying ? .playing : .paused
     }
 
     func handleNowPlayablePlaybackChange(isPlaying: Bool, metadata: NowPlayableDynamicMetadata) {
         setNowPlayingPlaybackInfo(metadata)
-        #if os(macOS)
-            handleNowPlayablePlaybackChange(isPlaying: isPlaying)
-        #endif
+        handleNowPlayablePlaybackChange(isPlaying: isPlaying)
     }
 
     // Install handlers for registered commands, and disable commands as necessary.
