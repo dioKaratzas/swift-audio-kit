@@ -74,7 +74,6 @@ class BackgroundHandler: NSObject {
             guard counter == 0 else {
                 return false
             }
-            UIApplication.shared.beginBackgroundTask()
             if taskIdentifier != UIBackgroundTaskIdentifier.invalid {
                 backgroundTaskCreator.endBackgroundTask(taskIdentifier)
             }
