@@ -63,24 +63,40 @@ public final class AudioPlayer {
     @ObservationIgnored private let background = BackgroundActivity()
     @ObservationIgnored private let networkMonitor = NetworkMonitor()
     @ObservationIgnored private var networkTask: Task<Void, Never>?
+    @ObservationIgnored private let nowPlaying: NowPlayingController?
+    @ObservationIgnored private var sessionTask: Task<Void, Never>?
+    @ObservationIgnored private let interruptions = InterruptionObserver()
     @ObservationIgnored private var engineTask: Task<Void, Never>?
     @ObservationIgnored private var retryTask: Task<Void, Never>?
     @ObservationIgnored private var connectionTask: Task<Void, Never>?
     @ObservationIgnored private var qualityTask: Task<Void, Never>?
 
-    public convenience init(configuration: AudioPlayerConfiguration = .default) {
-        self.init(configuration: configuration, engine: AVPlayerEngine(), scheduler: SystemScheduler())
+    public convenience init(
+        configuration: AudioPlayerConfiguration = .default,
+        remoteCommands: Set<RemoteCommand> = .default
+    ) {
+        let engine = AVPlayerEngine()
+        self.init(
+            configuration: configuration,
+            engine: engine,
+            scheduler: SystemScheduler(),
+            remoteCommands: remoteCommands,
+            nowPlaying: NowPlayingController(session: NowPlayingSession(players: engine.nowPlayingPlayers))
+        )
     }
 
     init(
         configuration: AudioPlayerConfiguration,
         engine: any PlaybackEngine,
-        scheduler: any PlaybackScheduler
+        scheduler: any PlaybackScheduler,
+        remoteCommands: Set<RemoteCommand> = [],
+        nowPlaying: NowPlayingController? = nil
     ) {
         machine = PlaybackMachine(configuration: configuration)
         self.engine = engine
         self.scheduler = scheduler
         session = AudioSessionController(policy: configuration.audioSession)
+        self.nowPlaying = nowPlaying
         quality = configuration.defaultQuality
         volume = engine.volume
         rate = engine.defaultRate
@@ -89,12 +105,17 @@ public final class AudioPlayer {
 
         observeEngine()
         observeNetwork()
+        observeInterruptions()
+        registerRemoteCommands(remoteCommands)
         scheduleQualityUpgrade()
     }
 
     isolated deinit {
         engineTask?.cancel()
         networkTask?.cancel()
+        sessionTask?.cancel()
+        nowPlaying?.unregisterAll()
+        nowPlaying?.clear()
         retryTask?.cancel()
         connectionTask?.cancel()
         qualityTask?.cancel()
@@ -187,6 +208,47 @@ public final class AudioPlayer {
         }
     }
 
+    private func observeInterruptions() {
+        let signals = interruptions.signals()
+        sessionTask = Task { [weak self] in
+            for await signal in signals {
+                switch signal {
+                case let .becameInactive(reason):
+                    self?.send(.interrupted(reason))
+                case let .resumptionRecommended(shouldResume):
+                    self?.send(.interruptionEnded(shouldResume: shouldResume))
+                }
+            }
+        }
+    }
+
+    private func registerRemoteCommands(_ commands: Set<RemoteCommand>) {
+        guard !commands.isEmpty, nowPlaying != nil else {
+            return
+        }
+        nowPlaying?.register(commands) { [weak self] command, position in
+            self?.handle(command, position: position)
+        }
+    }
+
+    private func handle(_ command: RemoteCommand, position: Duration?) {
+        switch command {
+        case .play: play()
+        case .pause: pause()
+        case .togglePlayPause: togglePlayPause()
+        case .stop: stop()
+        case .nextTrack: next()
+        case .previousTrack: previous()
+        case .skipForward: Task { await seek(by: .seconds(15)) }
+        case .skipBackward: Task { await seek(by: .seconds(-15)) }
+        case .changePlaybackPosition:
+            guard let position else {
+                return
+            }
+            Task { await seek(to: position) }
+        }
+    }
+
     private func observeNetwork() {
         networkTask = Task { [weak self, networkMonitor] in
             for await status in await networkMonitor.statuses() {
@@ -216,6 +278,13 @@ public final class AudioPlayer {
         quality = machine.quality
         network = machine.network
         upNext = machine.queue.upNext
+
+        nowPlaying?.update(
+            item: machine.state.item,
+            metadata: machine.metadata,
+            progress: machine.progress,
+            isPlaying: machine.state.isPlaying
+        )
     }
 
     private func perform(_ effects: [Effect]) {

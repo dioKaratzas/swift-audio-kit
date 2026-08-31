@@ -22,6 +22,10 @@ final class AVPlayerEngine: PlaybackEngine {
     private(set) var progress = PlaybackProgress.zero
     private(set) var timeControl = EngineTimeControl.paused
 
+    var nowPlayingPlayers: [AVPlayer] {
+        [player]
+    }
+
     var playheadInterval = Duration.seconds(1)
 
     var volume: Float {
