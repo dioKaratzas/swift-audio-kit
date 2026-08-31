@@ -1,0 +1,62 @@
+name: CI
+
+# Runs only when started by hand, so a pull request is reviewed before anything executes.
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  macos:
+    name: Test (macOS)
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      - run: swift build
+      - run: swift test
+
+  platforms:
+    name: Test (${{ matrix.name }})
+    runs-on: macos-26
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: iOS
+            destination: platform=iOS Simulator,name=iPhone 17
+          - name: tvOS
+            destination: platform=tvOS Simulator,name=Apple TV 4K (3rd generation)
+          - name: watchOS
+            destination: platform=watchOS Simulator,name=Apple Watch Series 11 (46mm)
+          - name: visionOS
+            destination: platform=visionOS Simulator,name=Apple Vision Pro
+          - name: Mac Catalyst
+            destination: platform=macOS,variant=Mac Catalyst
+    steps:
+      - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      - run: |
+          xcodebuild test \
+            -scheme SwiftAudioKit \
+            -destination '${{ matrix.destination }}' \
+            -skipPackagePluginValidation
+        shell: bash
+
+  format:
+    name: Format
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Lint every file
+        run: |
+          ./Scripts/swiftformat.sh format-all
+          git diff --exit-code

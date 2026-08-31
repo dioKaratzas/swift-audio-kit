@@ -7,3 +7,9 @@ DerivedData/
 .swiftpm/xcode
 .netrc
 Package.resolved
+
+# Vendored tool binaries (re-downloaded on demand by Scripts/swiftformat.sh)
+Scripts/Binaries/
+
+# Generated documentation
+/docs

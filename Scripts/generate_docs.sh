@@ -1,111 +1,192 @@
-#!/bin/zsh
+#!/usr/bin/env bash
+#
+# Builds the SwiftAudioKit DocC documentation.
+#
+#   ./Scripts/generate_docs.sh                  # static site into ./docs
+#   ./Scripts/generate_docs.sh --output build   # static site into ./build
+#   ./Scripts/generate_docs.sh --preview        # local preview server
+#
+# Publishing is GitHub Actions' job; see .github/workflows/docs.yml. This script
+# never touches git.
 
-# Set the environment variable
-export DOCC_JSON_PRETTYPRINT="YES"
+set -euo pipefail
 
-# Move to the directory one level up from the script's location
-cd "$(dirname "$0")"/..
-echo "📂 Moved to project root: $(pwd)"
+# The only place the plugin version is written. Bump it here.
+readonly DOCC_PLUGIN_URL="https://github.com/apple/swift-docc-plugin.git"
+readonly DOCC_PLUGIN_VERSION="1.5.0"
 
-# Function to ensure the swift-docc-plugin is available
-ensure_plugin_available() {
-    local manifest_names=("Package@swift-5.9.swift" "Package@swift-5.8.swift" "Package@swift-5.7.swift" "Package@swift-5.10.swift" "Package@swift-6.0.swift" "Package.swift")
-    local docc_plugin_dependency='.package(url: "https://github.com/apple/swift-docc-plugin.git", from: "1.3.0"),'
-    local insertion_marker='Package dependencies'
+readonly TARGET="SwiftAudioKit"
+readonly HOSTING_BASE_PATH="swift-audio-kit"
+readonly DEFAULT_OUTPUT="docs"
 
-    for manifest_name in "${manifest_names[@]}"; do
-        if [ -f "$manifest_name" ]; then
-            local manifest_contents
-            manifest_contents=$(cat "$manifest_name")
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+readonly ROOT
+readonly MANIFEST="$ROOT/Package.swift"
 
-            if [[ "$manifest_contents" == *"$insertion_marker"* ]]; then
-                if [[ "$manifest_contents" != *"$docc_plugin_dependency"* ]]; then
-                    echo "🧬  Injecting missing DocC plugin dependency in $manifest_name"
-                    
-                    # Insert the dependency in the dependencies section using the marker
-                    sed -i '' "/$insertion_marker/a\\
-        $docc_plugin_dependency
-                    " "$manifest_name"
-                else
-                    echo "✅  DocC plugin dependency already present in $manifest_name"
-                fi
-                return
-            fi
-        fi
-    done
+manifest_backup=""
 
-    echo "❌  ERROR: Can't inject swift-docc-plugin dependency (no usable manifest found with a dependencies array)."
+usage() {
+    cat <<EOF
+Usage: ${0##*/} [--output <dir>] [--preview] [--help]
+
+  --output <dir>  Write a static-hosting-ready site to <dir> (default: ./$DEFAULT_OUTPUT).
+                  The directory is emptied first.
+  --preview       Serve the documentation locally instead of writing it out.
+  --help          Show this message.
+
+SwiftAudioKit declares no dependencies, which is deliberate. The DocC plugin is
+appended to Package.swift only for the duration of this script and removed again
+on every exit path, including failures and interrupts.
+EOF
+}
+
+die() {
+    echo "error: $*" >&2
     exit 1
 }
 
-# Ensure the swift-docc-plugin is available in the manifest
-ensure_plugin_available
+# Restores Package.swift byte for byte. Runs on success, failure and interrupt.
+cleanup() {
+    local status=$?
+    if [[ -n "$manifest_backup" && -f "$manifest_backup" ]]; then
+        mv -f "$manifest_backup" "$MANIFEST"
+        manifest_backup=""
+    fi
+    return $status
+}
 
-# Remove the docs folder if it exists
-if [ -d "./docs" ]; then
-    echo "🗑️  Removing existing docs folder..."
-    rm -rf ./docs
-else
-    echo "📂 No existing docs folder found, proceeding..."
-fi
+# Appending to the manifest needs no marker comment to anchor on, so reformatting
+# Package.swift cannot break it. PackageDescription.Package is a class, which is why
+# `package` can be mutated after it is declared `let`.
+inject_plugin() {
+    if grep -q "swift-docc-plugin" "$MANIFEST"; then
+        echo "==> swift-docc-plugin already declared in Package.swift, leaving it alone"
+        return
+    fi
 
-# Remove the .build folder if it exists
-if [ -d "./.build" ]; then
-    echo "🗑️  Removing .build folder..."
-    rm -rf ./.build
-else
-    echo "📂 No .build folder found, proceeding..."
-fi
+    echo "==> Adding swift-docc-plugin $DOCC_PLUGIN_VERSION to Package.swift (temporarily)"
+    manifest_backup="$(mktemp "${TMPDIR:-/tmp}/Package.swift.XXXXXX")"
+    cp -p "$MANIFEST" "$manifest_backup"
 
-# Delete the local gh-pages branch if it exists
-if git show-ref --quiet refs/heads/gh-pages; then
-    echo "🗑️  Deleting existing local gh-pages branch..."
-    git branch -D gh-pages
-else
-    echo "📂 No local gh-pages branch found, proceeding..."
-fi
+    cat >>"$MANIFEST" <<EOF
 
-# Fetch the latest updates from the remote repository
-echo "🔄 Fetching the latest changes from the remote repository..."
-git fetch origin
+package.dependencies.append(
+    .package(url: "$DOCC_PLUGIN_URL", from: "$DOCC_PLUGIN_VERSION")
+)
+EOF
+}
 
-# Checkout the latest master branch as gh-pages
-echo "🌿 Checking out the latest master branch as gh-pages..."
-git checkout -b gh-pages origin/master || git checkout -b gh-pages master
+preview() {
+    echo "==> Previewing documentation for $TARGET"
+    swift package --package-path "$ROOT" --disable-sandbox \
+        preview-documentation --target "$TARGET"
+}
 
-# Generate Documentation
-echo "📖 Generating documentation for SwiftAudioKit..."
-swift package \
-    --allow-writing-to-directory ./docs \
-    generate-documentation --target SwiftAudioKit \
-    --disable-indexing \
-    --transform-for-static-hosting \
-    --hosting-base-path swift-audio-kit \
-    --output-path ./docs
+generate() {
+    local output="$1"
 
-# Check if the documentation generation was successful
-if [ $? -ne 0 ]; then
-    echo "❌ Documentation generation failed. Exiting..."
-    exit 1
-fi
+    echo "==> Generating documentation for $TARGET into $output"
+    rm -rf "$output"
+    mkdir -p "$output"
 
-echo "✅ Documentation successfully generated."
+    swift package --package-path "$ROOT" --allow-writing-to-directory "$output" \
+        generate-documentation \
+        --target "$TARGET" \
+        --disable-indexing \
+        --transform-for-static-hosting \
+        --hosting-base-path "$HOSTING_BASE_PATH" \
+        --output-path "$output"
 
-# Commit the generated documentation
-echo "📝 Committing the generated documentation..."
-git add docs
-git commit -m "Update documentation for SwiftAudioKit"
+    write_landing_redirect "$output"
 
-# Push the gh-pages branch to the remote repository
-echo "🚀 Pushing the gh-pages branch to the remote repository..."
-git push -f -u origin gh-pages
+    echo "==> Documentation written to $output"
+}
 
-# Check if the push was successful
-if [ $? -eq 0 ]; then
-    echo "✅ Documentation successfully pushed to the gh-pages branch."
-else
-    echo "❌ Failed to push to the gh-pages branch. Exiting..."
-    exit 1
-fi
+# DocC's root index.html is the app shell, which resolves to nothing when served as
+# static files. Point the site root at the module page instead.
+write_landing_redirect() {
+    local output="$1"
+    local module
+    module="$(echo "$TARGET" | tr '[:upper:]' '[:lower:]')"
+    local landing="/$HOSTING_BASE_PATH/documentation/$module/"
 
-echo "🎉 Script completed successfully."
+    [[ -f "$output/documentation/$module/index.html" ]] || {
+        echo "warning: no page at documentation/$module, skipping root redirect" >&2
+        return
+    }
+
+    cat >"$output/index.html" <<EOF
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>$TARGET</title>
+<meta http-equiv="refresh" content="0; url=$landing">
+<link rel="canonical" href="$landing">
+</head>
+<body><a href="$landing">$TARGET documentation</a></body>
+</html>
+EOF
+}
+
+main() {
+    local output=""
+    local mode="generate"
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --output)
+                [[ $# -ge 2 ]] || die "--output needs a directory"
+                output="$2"
+                shift 2
+                ;;
+            --output=*)
+                output="${1#*=}"
+                shift
+                ;;
+            --preview)
+                mode="preview"
+                shift
+                ;;
+            -h | --help)
+                usage
+                exit 0
+                ;;
+            *)
+                usage >&2
+                die "unknown argument: $1"
+                ;;
+        esac
+    done
+
+    [[ "$mode" == "generate" || -z "$output" ]] || die "--output and --preview are mutually exclusive"
+
+    command -v swift >/dev/null 2>&1 || die "swift not found on PATH"
+    [[ -f "$MANIFEST" ]] || die "no Package.swift at $ROOT"
+    [[ -d "$ROOT/Sources/$TARGET/$TARGET.docc" ]] || die "no DocC catalogue at Sources/$TARGET/$TARGET.docc"
+
+    # Interrupts exit rather than resuming, so the EXIT trap always gets to restore.
+    trap cleanup EXIT
+    trap 'exit 130' INT
+    trap 'exit 143' TERM
+
+    inject_plugin
+
+    if [[ "$mode" == "preview" ]]; then
+        preview
+        return
+    fi
+
+    output="${output:-$DEFAULT_OUTPUT}"
+    [[ "$output" = /* ]] || output="$ROOT/$output"
+    mkdir -p "$output" || die "cannot create $output"
+    # The directory is emptied before writing, so canonicalise it first: `.`, `..`
+    # and symlinks must not be able to point that delete somewhere unintended.
+    output="$(cd "$output" && pwd -P)"
+    [[ "$output" != "/" ]] || die "refusing to write to /"
+    [[ "$output" != "$(cd "$ROOT" && pwd -P)" ]] || die "refusing to write to the package root"
+
+    generate "$output"
+}
+
+main "$@"
