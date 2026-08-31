@@ -1,10 +1,9 @@
 name: CI
 
 on:
-  push:
-    branches: [master, "2.0"]
   pull_request:
-    branches: [master, "2.0"]
+    branches: [master]
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -58,4 +57,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - run: ./Scripts/swiftformat.sh lint-changed
+      - name: Lint changed files
+        if: github.event_name == 'pull_request'
+        run: ./Scripts/swiftformat.sh lint-changed
+      - name: Lint every file
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          ./Scripts/swiftformat.sh format-all
+          git diff --exit-code
