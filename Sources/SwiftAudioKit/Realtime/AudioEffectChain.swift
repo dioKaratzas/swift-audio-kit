@@ -5,6 +5,7 @@
 //
 
 #if canImport(MediaToolbox) && !os(watchOS)
+    import AudioToolbox
     import AVFoundation
     import MediaToolbox
     import Synchronization

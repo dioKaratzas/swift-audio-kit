@@ -5,6 +5,7 @@
 //
 
 #if canImport(MediaToolbox) && !os(watchOS)
+    import AudioToolbox
     import AVFoundation
     import MediaToolbox
 
@@ -23,10 +24,6 @@
         static func makeAudioMix(for asset: AVAsset, chain: AudioEffectChain) async -> AVAudioMix? {
             let track = try? await asset.loadTracks(withMediaType: .audio).first
 
-            if track == nil, #unavailable(macOS 27, iOS 27, tvOS 27, visionOS 27) {
-                return nil
-            }
-
             var callbacks = MTAudioProcessingTapCallbacks(
                 version: kMTAudioProcessingTapCallbacksVersion_0,
                 clientInfo: UnsafeMutableRawPointer(Unmanaged.passRetained(chain).toOpaque()),
@@ -37,46 +34,53 @@
                 process: tapProcess
             )
 
-            var tap: MTAudioProcessingTap?
-            let status: OSStatus
-
-            if track != nil {
-                status = MTAudioProcessingTapCreate(
-                    kCFAllocatorDefault,
-                    &callbacks,
-                    kMTAudioProcessingTapCreationFlag_PreEffects,
-                    &tap
-                )
-            } else if #available(macOS 27, iOS 27, tvOS 27, visionOS 27, *) {
-                // Tapping the mix rather than one track leaves the processing format undefined,
-                // so one has to be asked for.
-                status = MTAudioProcessingTapCreateWithPreferredFormat(
-                    kCFAllocatorDefault,
-                    &callbacks,
-                    kMTAudioProcessingTapCreationFlag_PreEffects,
-                    nil,
-                    &tap
-                )
-            } else {
-                status = errSecUnimplemented
-            }
-
-            guard status == noErr, let tap else {
+            /// Balances the retain taken above on every path that never reaches a tap, since
+            /// the finalize callback that would otherwise balance it is never called.
+            func abandon() -> AVAudioMix? {
                 if let clientInfo = callbacks.clientInfo {
                     Unmanaged<AudioEffectChain>.fromOpaque(clientInfo).release()
                 }
                 return nil
             }
 
+            var tap: MTAudioProcessingTap?
             let parameters: AVMutableAudioMixInputParameters
+
             if let track {
+                let status = MTAudioProcessingTapCreate(
+                    kCFAllocatorDefault,
+                    &callbacks,
+                    kMTAudioProcessingTapCreationFlag_PreEffects,
+                    &tap
+                )
+                guard status == noErr, tap != nil else {
+                    return abandon()
+                }
                 parameters = AVMutableAudioMixInputParameters(track: track)
-            } else if #available(macOS 27, iOS 27, tvOS 27, visionOS 27, *) {
-                parameters = AVMutableAudioMixInputParameters()
-                parameters.trackID = AVAudioMixInputParametersTrackID.mixID.rawValue
             } else {
-                return nil
+                #if compiler(>=6.4)
+                    guard #available(macOS 27, iOS 27, tvOS 27, visionOS 27, *) else {
+                        return abandon()
+                    }
+                    // Tapping the mix rather than one track leaves the processing format
+                    // undefined, so one has to be asked for.
+                    let status = MTAudioProcessingTapCreateWithPreferredFormat(
+                        kCFAllocatorDefault,
+                        &callbacks,
+                        kMTAudioProcessingTapCreationFlag_PreEffects,
+                        nil,
+                        &tap
+                    )
+                    guard status == noErr, tap != nil else {
+                        return abandon()
+                    }
+                    parameters = AVMutableAudioMixInputParameters()
+                    parameters.trackID = AVAudioMixInputParametersTrackID.mixID.rawValue
+                #else
+                    return abandon()
+                #endif
             }
+
             parameters.audioTapProcessor = tap
 
             let mix = AVMutableAudioMix()

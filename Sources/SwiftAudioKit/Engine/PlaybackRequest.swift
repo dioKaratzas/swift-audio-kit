@@ -33,10 +33,13 @@ struct PlaybackRequest: Sendable, Hashable {
 
     var supportsAudioProcessing: Bool {
         // From OS 27 a mix can name the mix of all audio tracks rather than one track, which is
-        // the only way to tap a stream that exposes no track of its own.
-        if #available(macOS 27, iOS 27, tvOS 27, visionOS 27, *) {
-            return true
-        }
+        // the only way to tap a stream that exposes no track of its own. The symbol that does it
+        // is newer than the oldest SDK this package builds against, hence the compiler check.
+        #if compiler(>=6.4)
+            if #available(macOS 27, iOS 27, tvOS 27, visionOS 27, *) {
+                return true
+            }
+        #endif
         return !url.isHLSPlaylist
     }
 }
