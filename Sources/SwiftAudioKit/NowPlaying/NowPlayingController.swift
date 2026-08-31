@@ -12,6 +12,10 @@ final class NowPlayingController {
     private let session: NowPlayingSession
     private var tokens = [RemoteCommand: Any]()
     private let skipInterval = Duration.seconds(15)
+    private var artworkURL: URL?
+    private var loadedArtwork: MPMediaItemArtwork?
+    private var artworkTask: Task<Void, Never>?
+    private var lastUpdate: (item: AudioItem, metadata: AudioMetadata, progress: PlaybackProgress, isPlaying: Bool)?
 
     init(session: NowPlayingSession) {
         self.session = session
@@ -55,6 +59,7 @@ final class NowPlayingController {
             clear()
             return
         }
+        lastUpdate = (item, metadata, progress, isPlaying)
 
         var info: [String: Any] = [
             MPNowPlayingInfoPropertyAssetURL: item.sources.highest.url,
@@ -71,7 +76,7 @@ final class NowPlayingController {
         info[MPMediaItemPropertyAlbumTrackNumber] = metadata.trackNumber
         info[MPMediaItemPropertyAlbumTrackCount] = metadata.trackCount
         info[MPMediaItemPropertyPlaybackDuration] = progress.duration?.totalSeconds
-        info[MPMediaItemPropertyArtwork] = metadata.artwork?.mediaItemArtwork
+        info[MPMediaItemPropertyArtwork] = artwork(for: metadata.artwork)
 
         session.infoCenter.nowPlayingInfo = info
         setPlaybackState(isPlaying: isPlaying)
@@ -79,8 +84,60 @@ final class NowPlayingController {
     }
 
     func clear() {
+        lastUpdate = nil
+        artworkTask?.cancel()
+        artworkURL = nil
+        loadedArtwork = nil
         session.infoCenter.nowPlayingInfo = nil
         setPlaybackState(isPlaying: false)
+    }
+
+    /// Remote artwork is fetched once per URL and cached, because now playing information is
+    /// rewritten on every playhead tick.
+    private func artwork(for artwork: Artwork?) -> MPMediaItemArtwork? {
+        switch artwork {
+        case let .data(data):
+            return MPMediaItemArtwork(data: data)
+        case let .url(url):
+            guard url != artworkURL else {
+                return loadedArtwork
+            }
+            load(url)
+            return nil
+        case nil:
+            artworkTask?.cancel()
+            artworkURL = nil
+            loadedArtwork = nil
+            return nil
+        }
+    }
+
+    private func load(_ url: URL) {
+        artworkURL = url
+        loadedArtwork = nil
+        artworkTask?.cancel()
+
+        artworkTask = Task { [weak self] in
+            let data = try? await URLSession.shared.data(from: url).0
+            guard let self, !Task.isCancelled, artworkURL == url,
+                  let artwork = data.flatMap(MPMediaItemArtwork.init(data:)) else {
+                return
+            }
+            loadedArtwork = artwork
+            republish()
+        }
+    }
+
+    private func republish() {
+        guard let lastUpdate else {
+            return
+        }
+        update(
+            item: lastUpdate.item,
+            metadata: lastUpdate.metadata,
+            progress: lastUpdate.progress,
+            isPlaying: lastUpdate.isPlaying
+        )
     }
 
     private func setPlaybackState(isPlaying: Bool) {
@@ -113,11 +170,11 @@ private extension RemoteCommand {
     }
 }
 
-private extension Artwork {
-    var mediaItemArtwork: MPMediaItemArtwork? {
-        guard case let .data(data) = self, let image = PlatformImage(data: data) else {
+private extension MPMediaItemArtwork {
+    convenience init?(data: Data) {
+        guard let image = PlatformImage(data: data) else {
             return nil
         }
-        return MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+        self.init(boundsSize: image.size) { _ in image }
     }
 }
