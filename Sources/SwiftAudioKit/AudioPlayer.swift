@@ -59,6 +59,10 @@ public final class AudioPlayer {
     @ObservationIgnored private let engine: any PlaybackEngine
     @ObservationIgnored private let scheduler: any PlaybackScheduler
     @ObservationIgnored private let broadcaster = EventBroadcaster()
+    @ObservationIgnored private let session: AudioSessionController
+    @ObservationIgnored private let background = BackgroundActivity()
+    @ObservationIgnored private let networkMonitor = NetworkMonitor()
+    @ObservationIgnored private var networkTask: Task<Void, Never>?
     @ObservationIgnored private var engineTask: Task<Void, Never>?
     @ObservationIgnored private var retryTask: Task<Void, Never>?
     @ObservationIgnored private var connectionTask: Task<Void, Never>?
@@ -76,6 +80,7 @@ public final class AudioPlayer {
         machine = PlaybackMachine(configuration: configuration)
         self.engine = engine
         self.scheduler = scheduler
+        session = AudioSessionController(policy: configuration.audioSession)
         quality = configuration.defaultQuality
         volume = engine.volume
         rate = engine.defaultRate
@@ -83,11 +88,13 @@ public final class AudioPlayer {
         isShuffled = false
 
         observeEngine()
+        observeNetwork()
         scheduleQualityUpgrade()
     }
 
     isolated deinit {
         engineTask?.cancel()
+        networkTask?.cancel()
         retryTask?.cancel()
         connectionTask?.cancel()
         qualityTask?.cancel()
@@ -164,6 +171,30 @@ public final class AudioPlayer {
 
     // MARK: Wiring
 
+    /// Takes the audio session up front, so a conflict with another app surfaces before
+    /// playback rather than as a silent failure.
+    public func prepareForPlayback() async throws(AudioPlayerError) {
+        try await session.activate()
+    }
+
+    private func activateSession() {
+        Task { [weak self, session] in
+            do {
+                try await session.activate()
+            } catch let error as AudioPlayerError {
+                self?.send(.sessionFailed(error))
+            } catch {}
+        }
+    }
+
+    private func observeNetwork() {
+        networkTask = Task { [weak self, networkMonitor] in
+            for await status in await networkMonitor.statuses() {
+                self?.send(.network(status))
+            }
+        }
+    }
+
     private func observeEngine() {
         let signals = engine.signals
         engineTask = Task { [weak self] in
@@ -217,8 +248,14 @@ public final class AudioPlayer {
             qualityTask = schedule(after: after) { .qualityUpgradeDue }
         case let .emit(event):
             broadcaster.emit(event)
-        case .activateSession, .deactivateSession, .beginBackgroundActivity, .endBackgroundActivity:
-            break
+        case .activateSession:
+            activateSession()
+        case .deactivateSession:
+            Task { [session] in try? await session.deactivate() }
+        case .beginBackgroundActivity:
+            background.begin()
+        case .endBackgroundActivity:
+            background.end()
         }
     }
 

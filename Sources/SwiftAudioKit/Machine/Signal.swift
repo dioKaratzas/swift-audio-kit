@@ -19,6 +19,7 @@ enum Signal: Sendable, Hashable {
     case engine(EngineSignal)
     case network(NetworkStatus)
 
+    case sessionFailed(AudioPlayerError)
     case interrupted(PauseReason)
     case interruptionEnded(shouldResume: Bool)
 

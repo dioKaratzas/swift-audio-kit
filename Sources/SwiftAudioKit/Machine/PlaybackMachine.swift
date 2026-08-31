@@ -44,6 +44,7 @@ struct PlaybackMachine: Sendable {
         case let .setSkipped(ids): skipped = ids; return []
         case let .engine(signal): return handle(engine: signal)
         case let .network(status): return handle(network: status)
+        case let .sessionFailed(error): fail(with: error)
         case let .interrupted(reason): interrupt(reason)
         case let .interruptionEnded(shouldResume): endInterruption(shouldResume: shouldResume)
         case let .retryDue(generation): retry(generation: generation)

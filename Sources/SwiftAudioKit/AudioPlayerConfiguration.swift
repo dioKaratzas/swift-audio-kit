@@ -13,6 +13,7 @@ public struct AudioPlayerConfiguration: Sendable, Hashable {
     public var resumesAfterInterruption: Bool
     public var resumesAfterConnectionLoss: Bool
     public var progressUpdateInterval: Duration
+    public var audioSession: AudioSessionPolicy
 
     public init(
         defaultQuality: AudioQuality = .high,
@@ -22,7 +23,8 @@ public struct AudioPlayerConfiguration: Sendable, Hashable {
         maximumConnectionLossTime: Duration = .seconds(60),
         resumesAfterInterruption: Bool = true,
         resumesAfterConnectionLoss: Bool = true,
-        progressUpdateInterval: Duration = .seconds(1)
+        progressUpdateInterval: Duration = .seconds(1),
+        audioSession: AudioSessionPolicy = .managed
     ) {
         self.defaultQuality = defaultQuality
         self.quality = quality
@@ -32,6 +34,7 @@ public struct AudioPlayerConfiguration: Sendable, Hashable {
         self.resumesAfterInterruption = resumesAfterInterruption
         self.resumesAfterConnectionLoss = resumesAfterConnectionLoss
         self.progressUpdateInterval = progressUpdateInterval
+        self.audioSession = audioSession
     }
 
     public static let `default` = AudioPlayerConfiguration()
