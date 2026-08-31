@@ -188,3 +188,52 @@ struct AudioPlayerTests {
         #expect(harness.player.state == .idle)
     }
 }
+
+@Suite("Audio player restored surface")
+@MainActor
+struct AudioPlayerRestoredSurfaceTests {
+    @Test("The queue position follows the playing track")
+    func currentIndex() async {
+        let harness = Harness()
+        #expect(harness.player.currentIndex == nil)
+
+        await harness.startPlaying()
+        #expect(harness.player.currentIndex == 0)
+
+        harness.player.next()
+        await harness.settle()
+        #expect(harness.player.currentIndex == 1)
+    }
+
+    @Test("Seeking to the live edge lands inside the seekable range")
+    func seekToLiveEdge() async {
+        let harness = Harness()
+        await harness.startPlaying()
+        harness.engine.emit(.bufferChanged(loaded: nil, seekable: .seconds(10) ... .seconds(100)))
+        await harness.settle()
+
+        await harness.player.seekToLiveEdge()
+
+        #expect(harness.engine.seeks.last == .seconds(99))
+    }
+
+    @Test("Seeking to the start lands at the earliest kept point")
+    func seekToStart() async {
+        let harness = Harness()
+        await harness.startPlaying()
+        harness.engine.emit(.bufferChanged(loaded: nil, seekable: .seconds(10) ... .seconds(100)))
+        await harness.settle()
+
+        await harness.player.seekToStart()
+
+        #expect(harness.engine.seeks.last == .seconds(11))
+    }
+
+    @Test("A live stream with no seekable range cannot reach the edge")
+    func liveEdgeWithoutRange() async {
+        let harness = Harness()
+        await harness.startPlaying()
+
+        #expect(await !harness.player.seekToLiveEdge())
+    }
+}

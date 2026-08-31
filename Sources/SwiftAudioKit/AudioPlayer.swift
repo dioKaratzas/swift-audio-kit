@@ -178,6 +178,24 @@ public final class AudioPlayer {
         await seek(to: progress.elapsed + offset)
     }
 
+    /// Jumps to the start of what can be seeked, which is the earliest point a live stream keeps.
+    @discardableResult
+    public func seekToStart(padding: Duration = .seconds(1)) async -> Bool {
+        guard let seekable = progress.seekable else {
+            return await seek(to: .zero, clampingToSeekableRange: false)
+        }
+        return await seek(to: seekable.lowerBound + padding)
+    }
+
+    /// Jumps to the newest point available, catching a live stream up to now.
+    @discardableResult
+    public func seekToLiveEdge(padding: Duration = .seconds(1)) async -> Bool {
+        guard let seekable = progress.seekable else {
+            return false
+        }
+        return await seek(to: seekable.upperBound - padding)
+    }
+
     // MARK: Queue
 
     public var hasNext: Bool {
@@ -220,6 +238,16 @@ public final class AudioPlayer {
 
     public var items: [AudioItem] {
         machine.queue.items
+    }
+
+    /// Position of the playing track within the playback order, or `nil` before one starts.
+    public var currentIndex: Int? {
+        machine.queue.currentIndex
+    }
+
+    /// Rewrites the system's now playing information from the current state.
+    public func refreshNowPlayingInfo() {
+        publish()
     }
 
     public func setQuality(_ quality: AudioQuality) {
@@ -322,6 +350,9 @@ public final class AudioPlayer {
         network = machine.network
         upNext = machine.queue.upNext
 
+        guard machine.configuration.updatesNowPlayingInfo else {
+            return
+        }
         nowPlaying?.update(
             item: machine.state.item,
             metadata: machine.metadata,
