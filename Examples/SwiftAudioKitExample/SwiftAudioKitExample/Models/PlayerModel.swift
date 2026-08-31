@@ -13,6 +13,7 @@ import SwiftAudioKit
 @MainActor
 final class PlayerModel {
     let player: AudioPlayer
+    let equalizer = EqualizerModel()
     let log = EventLog()
 
     private(set) var sessionError: AudioPlayerError?
@@ -34,6 +35,7 @@ final class PlayerModel {
         )
 
         player.metadataParser = RadioMetadataParser()
+        player.audioProcessing.units = [equalizer.unit]
         observeEvents()
     }
 

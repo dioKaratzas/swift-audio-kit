@@ -9,6 +9,7 @@ import SwiftUI
 enum Destination: String, CaseIterable, Identifiable {
     case nowPlaying = "Now Playing"
     case queue = "Queue"
+    case equalizer = "Equalizer"
     case settings = "Settings"
     case events = "Events"
 
@@ -20,6 +21,7 @@ enum Destination: String, CaseIterable, Identifiable {
         switch self {
         case .nowPlaying: "play.circle"
         case .queue: "list.bullet"
+        case .equalizer: "slider.vertical.3"
         case .settings: "slider.horizontal.3"
         case .events: "waveform.badge.magnifyingglass"
         }
@@ -29,6 +31,7 @@ enum Destination: String, CaseIterable, Identifiable {
         switch self {
         case .nowPlaying: NowPlayingView()
         case .queue: QueueView()
+        case .equalizer: EqualizerView()
         case .settings: PlaybackSettingsView()
         case .events: EventsView()
         }
