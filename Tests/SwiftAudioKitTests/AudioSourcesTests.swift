@@ -73,7 +73,9 @@ struct AudioSourcesTests {
     @Test("Locality requires every source to be local")
     func locality() throws {
         #expect(AudioSources(url: Fixtures.file).isLocal)
-        #expect(try !#require(AudioSources([.low: Fixtures.file, .high: Fixtures.high])).isLocal)
+        let mixed = try #require(AudioSources([.low: Fixtures.file, .high: Fixtures.high]))
+
+        #expect(!mixed.isLocal)
     }
 
     @Test("HLS playlists cannot carry an audio mix")

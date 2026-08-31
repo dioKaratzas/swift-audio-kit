@@ -20,7 +20,9 @@ struct URLLocalTests {
         ]
     )
     func localURLs(_ string: String) throws {
-        #expect(try #require(URL(string: string)).isLocal)
+        let url = try #require(URL(string: string))
+
+        #expect(url.isLocal)
     }
 
     @Test(
@@ -32,7 +34,9 @@ struct URLLocalTests {
         ]
     )
     func remoteURLs(_ string: String) throws {
-        #expect(try !#require(URL(string: string)).isLocal)
+        let url = try #require(URL(string: string))
+
+        #expect(!url.isLocal)
     }
 
     @Test(
@@ -44,6 +48,8 @@ struct URLLocalTests {
         ]
     )
     func hlsDetection(_ string: String, _ isPlaylist: Bool) throws {
-        #expect(try #require(URL(string: string)).isHLSPlaylist == isPlaylist)
+        let url = try #require(URL(string: string))
+
+        #expect(url.isHLSPlaylist == isPlaylist)
     }
 }

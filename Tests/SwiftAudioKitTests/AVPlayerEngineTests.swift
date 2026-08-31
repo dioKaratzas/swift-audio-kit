@@ -37,7 +37,9 @@ struct AVPlayerEngineTests {
             }
             return duration
         }
-        #expect(try #require(resolved.last).totalSeconds == 2.0)
+        let duration = try #require(resolved.last)
+
+        #expect(duration.totalSeconds == 2.0)
     }
 
     @Test("Loading a missing file reports a failure")
