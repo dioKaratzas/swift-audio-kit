@@ -125,6 +125,7 @@ final class AVPlayerEngine: PlaybackEngine {
                     continuation.yield(.statusChanged(.ready))
                 case .failed:
                     let failure = PlaybackFailure(item.error ?? URLError(.unknown))
+                    Log.engine.error("item failed: \(failure.domain, privacy: .public) \(failure.code)")
                     continuation.yield(.statusChanged(.failed(failure)))
                     continuation.yield(.failed(failure))
                 default:

@@ -237,6 +237,7 @@ public final class AudioPlayer {
             do {
                 try await session.activate()
             } catch let error as AudioPlayerError {
+                Log.session.error("activation failed: \(error.logDescription, privacy: .public)")
                 self?.send(.sessionFailed(error))
             } catch {}
         }
@@ -301,7 +302,13 @@ public final class AudioPlayer {
     }
 
     private func send(_ signal: Signal) {
+        let previous = machine.state
         perform(machine.handle(signal))
+        if machine.state != previous {
+            Log.player.notice(
+                "state \(previous.logDescription, privacy: .public) → \(self.machine.state.logDescription, privacy: .public)"
+            )
+        }
         publish()
     }
 
@@ -363,6 +370,7 @@ public final class AudioPlayer {
     }
 
     private func load(_ request: PlaybackRequest, generation: Int) {
+        Log.engine.debug("load \(request.url.host() ?? "local", privacy: .public) generation \(generation)")
         Task { [weak self] in
             await self?.engine.load(request)
             self?.discardIfStale(generation)
