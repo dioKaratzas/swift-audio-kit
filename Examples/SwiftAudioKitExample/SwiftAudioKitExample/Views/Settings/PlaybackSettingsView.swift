@@ -21,30 +21,30 @@ struct PlaybackSettingsView: View {
                         Text("One").tag(RepeatMode.one)
                         Text("All").tag(RepeatMode.all)
                     }
+                    .pickerStyle(.segmented)
+
                     Toggle("Shuffle", isOn: $player.isShuffled)
                 }
 
                 Section {
                     LabeledContent("Volume") {
-                        HStack {
+                        HStack(spacing: 10) {
                             Image(systemName: "speaker.fill")
                             Slider(value: $player.volume, in: 0 ... 1)
                             Image(systemName: "speaker.wave.3.fill")
                         }
                         .foregroundStyle(.secondary)
-                        .frame(minWidth: 220)
+                        .frame(maxWidth: 280)
                     }
 
-                    LabeledContent {
-                        HStack {
+                    LabeledContent("Rate") {
+                        HStack(spacing: 12) {
                             Slider(value: $player.rate, in: 0.5 ... 2, step: 0.25)
-                            Text(String(format: "%.2f×", player.rate))
-                                .font(.caption.monospacedDigit())
-                                .frame(width: 48, alignment: .trailing)
+                            Text(player.rate, format: .number.precision(.fractionLength(2)))
+                                .font(.callout.monospacedDigit())
+                                .frame(width: 40, alignment: .trailing)
                         }
-                        .frame(minWidth: 220)
-                    } label: {
-                        Text("Rate")
+                        .frame(maxWidth: 280)
                     }
                 } header: {
                     Text("Output")
@@ -53,28 +53,29 @@ struct PlaybackSettingsView: View {
                 }
 
                 Section {
-                    Picker("Quality", selection: qualityBinding) {
+                    Picker("Preferred", selection: qualityBinding) {
                         ForEach(AudioQuality.allCases, id: \.self) { quality in
                             Text(quality.label).tag(quality)
                         }
                     }
+                    .pickerStyle(.segmented)
                 } header: {
                     Text("Quality")
                 } footer: {
-                    Text("Chosen quality is a preference. The nearest available stream is used, "
-                        + "and metered connections drop to the reduced bitrate.")
+                    Text("The nearest available stream is used, and metered connections drop to the reduced bitrate.")
                 }
 
                 Section("Current") {
                     LabeledContent("State", value: player.state.label)
+                    LabeledContent("Source", value: player.progress.isLive ? "Live stream" : "On demand")
                     LabeledContent("Network", value: player.network.label)
                     LabeledContent("Metered", value: player.network.prefersReducedData ? "Yes" : "No")
-                    LabeledContent("Source", value: player.progress.isLive ? "Live stream" : "On demand")
                     if let duration = player.progress.duration {
                         LabeledContent("Duration", value: duration.formattedTime)
                     }
                 }
             }
+            .formStyle(.grouped)
             .navigationTitle("Settings")
         }
     }

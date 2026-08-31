@@ -25,64 +25,89 @@ struct NowPlayingView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 24) {
-                    ArtworkView(artwork: player.metadata.artwork)
-                        .frame(maxWidth: 300)
-                        .padding(.top, 8)
-
-                    titles
-                    PlaybackProgressView(player: player)
-
-                    if showsTransport {
-                        TransportControls(player: player)
-                        SeekControls(player: player)
-                    }
-
-                    badges
-                    failureBanner
-                }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 24)
-                .frame(maxWidth: 520)
-                .frame(maxWidth: .infinity)
+            ViewThatFits(in: .horizontal) {
+                wideLayout
+                narrowLayout
             }
-            .navigationTitle("Now Playing")
+            .padding(28)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(backdrop)
+            .navigationTitle("Now Playing")
         }
     }
 
-    private var titles: some View {
-        VStack(spacing: 6) {
+    private var wideLayout: some View {
+        HStack(alignment: .top, spacing: 32) {
+            ArtworkView(artwork: player.metadata.artwork)
+                .frame(width: 260, height: 260)
+
+            VStack(alignment: .leading, spacing: 20) {
+                titles(alignment: .leading)
+                PlaybackProgressView(player: player)
+                if showsTransport {
+                    TransportControls(player: player)
+                    SeekControls(player: player)
+                }
+                badges(alignment: .leading)
+                failureBanner
+                Spacer(minLength: 0)
+            }
+            .frame(minWidth: 260, maxWidth: 420, alignment: .leading)
+        }
+        .frame(maxWidth: 760)
+    }
+
+    private var narrowLayout: some View {
+        ScrollView {
+            VStack(spacing: 22) {
+                ArtworkView(artwork: player.metadata.artwork)
+                    .frame(maxWidth: 280)
+                titles(alignment: .center)
+                PlaybackProgressView(player: player)
+                if showsTransport {
+                    TransportControls(player: player)
+                    SeekControls(player: player)
+                }
+                badges(alignment: .center)
+                failureBanner
+            }
+            .frame(maxWidth: 460)
+            .frame(maxWidth: .infinity)
+        }
+    }
+
+    private func titles(alignment: HorizontalAlignment) -> some View {
+        VStack(alignment: alignment, spacing: 6) {
             Text(player.metadata.title ?? player.currentItem.map(Catalog.station) ?? "Nothing playing")
                 .font(.title2.weight(.semibold))
-                .multilineTextAlignment(.center)
-                .contentTransition(.opacity)
+                .lineLimit(2)
 
             if let artist = player.metadata.artist {
                 Text(artist)
                     .font(.title3)
                     .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
+                    .lineLimit(1)
             }
 
             if let item = player.currentItem {
                 Text(Catalog.station(for: item))
-                    .font(.caption.weight(.medium))
+                    .font(.caption.weight(.semibold))
                     .foregroundStyle(.tertiary)
                     .textCase(.uppercase)
             }
         }
+        .multilineTextAlignment(alignment == .center ? .center : .leading)
+        .frame(maxWidth: .infinity, alignment: alignment == .center ? .center : .leading)
         .animation(.default, value: player.metadata)
     }
 
-    private var badges: some View {
+    private func badges(alignment: HorizontalAlignment) -> some View {
         HStack(spacing: 10) {
             StateBadge(state: player.state)
             QualityBadge(quality: player.quality)
             NetworkBadge(status: player.network)
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, alignment: alignment == .center ? .center : .leading)
     }
 
     @ViewBuilder private var failureBanner: some View {
