@@ -22,7 +22,10 @@ public final class AudioPlayer {
 
     public var configuration: AudioPlayerConfiguration {
         get { machine.configuration }
-        set { machine.configuration = newValue }
+        set {
+            machine.configuration = newValue
+            engine.playheadInterval = newValue.progressUpdateInterval
+        }
     }
 
     public var metadataParser: any MetadataParser {
@@ -100,6 +103,7 @@ public final class AudioPlayer {
         quality = configuration.defaultQuality
         volume = engine.volume
         rate = engine.defaultRate
+        engine.playheadInterval = configuration.progressUpdateInterval
         repeatMode = .off
         isShuffled = false
 
@@ -184,6 +188,32 @@ public final class AudioPlayer {
 
     public func append(_ item: AudioItem) {
         append([item])
+    }
+
+    /// Queues a track to follow the one playing.
+    public func insertNext(_ item: AudioItem) {
+        send(.insertNext(item))
+    }
+
+    public func remove(_ id: AudioItem.ID) {
+        send(.remove(id))
+    }
+
+    public func move(from source: Int, to destination: Int) {
+        send(.move(from: source, to: destination))
+    }
+
+    public func removeAll() {
+        send(.removeAll)
+    }
+
+    /// Jumps straight to a queued track and plays it.
+    public func play(_ id: AudioItem.ID) {
+        send(.jump(id))
+    }
+
+    public var items: [AudioItem] {
+        machine.queue.items
     }
 
     public func setQuality(_ quality: AudioQuality) {

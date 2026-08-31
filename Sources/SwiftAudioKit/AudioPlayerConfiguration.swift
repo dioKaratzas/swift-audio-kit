@@ -93,9 +93,15 @@ public struct RetryPolicy: Sendable, Hashable {
 public struct BufferingPolicy: Sendable, Hashable {
     public var preferredForwardDuration: Duration?
     public var preferredPeakBitRate: Double?
+    public var preferredPeakBitRateOnExpensiveNetworks: Double?
 
-    public init(preferredForwardDuration: Duration? = nil, preferredPeakBitRate: Double? = nil) {
+    public init(
+        preferredForwardDuration: Duration? = nil,
+        preferredPeakBitRate: Double? = nil,
+        preferredPeakBitRateOnExpensiveNetworks: Double? = nil
+    ) {
         self.preferredForwardDuration = preferredForwardDuration
         self.preferredPeakBitRate = preferredPeakBitRate
+        self.preferredPeakBitRateOnExpensiveNetworks = preferredPeakBitRateOnExpensiveNetworks
     }
 }

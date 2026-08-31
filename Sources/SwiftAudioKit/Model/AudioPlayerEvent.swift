@@ -15,5 +15,6 @@ public enum AudioPlayerEvent: Sendable, Hashable {
     case networkChanged(NetworkStatus)
     case interrupted(PauseReason)
     case interruptionEnded(shouldResume: Bool)
+    case recoverableErrorLogged(PlaybackFailure)
     case failed(AudioPlayerError)
 }

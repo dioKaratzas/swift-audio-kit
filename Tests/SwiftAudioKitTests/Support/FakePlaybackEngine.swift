@@ -23,6 +23,7 @@ final class FakePlaybackEngine: PlaybackEngine {
     var timeControl = EngineTimeControl.paused
     var volume: Float = 1
     var defaultRate: Float = 1
+    var playheadInterval = Duration.seconds(1)
 
     init() {
         (signals, continuation) = AsyncStream.makeStream(bufferingPolicy: .unbounded)

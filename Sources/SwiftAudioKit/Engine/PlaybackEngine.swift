@@ -11,6 +11,7 @@ protocol PlaybackEngine: AnyObject {
     var timeControl: EngineTimeControl { get }
     var volume: Float { get set }
     var defaultRate: Float { get set }
+    var playheadInterval: Duration { get set }
 
     func load(_ request: PlaybackRequest) async
     func unload()

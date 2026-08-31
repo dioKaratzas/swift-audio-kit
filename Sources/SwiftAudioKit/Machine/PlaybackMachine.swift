@@ -37,6 +37,11 @@ struct PlaybackMachine: Sendable {
         case .stop: stop()
         case let .playItems(items, index): playItems(items, startingAt: index)
         case let .append(items): append(items)
+        case let .insertNext(item): queue.insertNext(item)
+        case let .remove(id): remove(id)
+        case let .move(from, to): queue.move(from: from, to: to)
+        case .removeAll: clearQueue()
+        case let .jump(id): jump(to: id)
         case .next: advance(userInitiated: true)
         case .previous: retreat()
         case let .setQuality(quality): change(to: quality)
@@ -108,6 +113,33 @@ struct PlaybackMachine: Sendable {
         queue.append(contentsOf: items)
     }
 
+    private mutating func remove(_ id: AudioItem.ID) {
+        let wasPlaying = state.item?.id == id
+        queue.remove(id: id)
+
+        guard wasPlaying else {
+            return
+        }
+        if let next = queue.current {
+            startPlaying(next)
+        } else {
+            stop()
+        }
+    }
+
+    private mutating func clearQueue() {
+        queue.removeAll()
+        stop()
+    }
+
+    private mutating func jump(to id: AudioItem.ID) {
+        guard let item = queue.jump(to: id) else {
+            return
+        }
+        intent = .play
+        startPlaying(item)
+    }
+
     private mutating func advance(userInitiated: Bool) {
         guard let item = queue.advance(skipping: skipped) else {
             if userInitiated || intent == .play {
@@ -154,11 +186,20 @@ struct PlaybackMachine: Sendable {
         ])
     }
 
+    /// Metered and Low Data Mode links get the reduced ceiling when one is configured.
+    private var preferredPeakBitRate: Double? {
+        let buffering = configuration.buffering
+        guard network.prefersReducedData else {
+            return buffering.preferredPeakBitRate
+        }
+        return buffering.preferredPeakBitRateOnExpensiveNetworks ?? buffering.preferredPeakBitRate
+    }
+
     private func request(for item: AudioItem) -> PlaybackRequest {
         PlaybackRequest(
             url: item.sources.resolve(preferring: quality).url,
             preferredForwardBufferDuration: configuration.buffering.preferredForwardDuration,
-            preferredPeakBitRate: configuration.buffering.preferredPeakBitRate
+            preferredPeakBitRate: preferredPeakBitRate
         )
     }
 
@@ -203,7 +244,10 @@ struct PlaybackMachine: Sendable {
         case let .metadataReceived(entries):
             updateMetadata(from: entries, for: item)
 
-        case .statusChanged, .errorLogged:
+        case let .errorLogged(failure):
+            effects.append(.emit(.recoverableErrorLogged(failure)))
+
+        case .statusChanged:
             break
         }
 

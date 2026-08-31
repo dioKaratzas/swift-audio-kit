@@ -10,6 +10,11 @@ enum Signal: Sendable, Hashable {
     case stop
     case playItems([AudioItem], startingAt: Int)
     case append([AudioItem])
+    case insertNext(AudioItem)
+    case remove(AudioItem.ID)
+    case move(from: Int, to: Int)
+    case removeAll
+    case jump(AudioItem.ID)
     case next
     case previous
     case setQuality(AudioQuality)
