@@ -177,3 +177,60 @@ struct MetadataPrecedenceTests {
         #expect(machine.metadata.artwork == .url(streamURL))
     }
 }
+
+@Suite("Automatic quality upgrades")
+struct QualityUpgradeTests {
+    private var sources: AudioSources {
+        AudioSources([
+            .low: URL(string: "https://example.com/low.mp3")!,
+            .high: URL(string: "https://example.com/high.mp3")!
+        ])!
+    }
+
+    private func machine() -> PlaybackMachine {
+        var machine = PlaybackMachine(configuration: AudioPlayerConfiguration(
+            defaultQuality: .low,
+            quality: .automatic(interval: .seconds(60), downgradeAfterInterruptions: 2)
+        ))
+        _ = machine.handle(.network(Tracks.online))
+        _ = machine.handle(.playItems([AudioItem(sources: sources)], startingAt: 0))
+        _ = machine.handle(.engine(.statusChanged(.ready)))
+        return machine
+    }
+
+    @Test("Every window arms the next one")
+    func windowRearms() {
+        var machine = machine()
+
+        let effects = machine.send(.qualityUpgradeDue)
+
+        #expect(effects.contains { effect in
+            if case .scheduleQualityUpgrade = effect {
+                true
+            } else {
+                false
+            }
+        })
+    }
+
+    @Test("A quiet window steps the quality up")
+    func quietWindowUpgrades() {
+        var machine = machine()
+
+        machine.send(.qualityUpgradeDue)
+
+        #expect(machine.quality == .medium)
+    }
+
+    @Test("A stall delays the upgrade by one window rather than blocking it forever")
+    func stallDelaysRatherThanBlocks() {
+        var machine = machine()
+        machine.send(.engine(.timeControlChanged(.waiting(reason: .minimizingStalls))))
+
+        machine.send(.qualityUpgradeDue)
+        #expect(machine.quality == .low)
+
+        machine.send(.qualityUpgradeDue)
+        #expect(machine.quality == .medium)
+    }
+}

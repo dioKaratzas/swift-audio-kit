@@ -408,7 +408,16 @@ struct PlaybackMachine: Sendable {
         change(to: lower)
     }
 
+    /// Each window re-arms the next one and starts counting stalls again, so a single stall
+    /// delays an upgrade rather than preventing every later one.
     private mutating func upgradeQuality() {
+        defer {
+            interruptionCount = 0
+            if let interval = configuration.quality.interval {
+                effects.append(.scheduleQualityUpgrade(after: interval))
+            }
+        }
+
         guard configuration.quality.isAutomatic, interruptionCount == 0, let higher = quality.higher else {
             return
         }

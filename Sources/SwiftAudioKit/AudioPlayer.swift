@@ -6,54 +6,86 @@
 
 import Observation
 
+/// Observable, main-actor, and driven entirely by a synchronous state machine behind it.
 @Observable
 @MainActor
 public final class AudioPlayer {
+    /// What the player is doing right now, carrying the track it is doing it to.
     public private(set) var state = PlaybackState.idle
+
+    /// The item's metadata with stream data filled into its gaps; `currentItem` keeps the
+    /// metadata the caller supplied.
     public private(set) var metadata = AudioMetadata()
+
+    /// Refreshed on `configuration.progressUpdateInterval`, and reset to zero on every track change.
     public private(set) var progress = PlaybackProgress.zero
+
+    /// The rung actually in use, which the automatic policy may move without being asked.
     public private(set) var quality: AudioQuality
+
+    /// `unknown` until the first path is reported, which still counts as usable.
     public private(set) var network = NetworkStatus.unknown
+
+    /// What follows the current track in playback order, excluding the current track.
     public private(set) var upNext = [AudioItem]()
 
+    /// The track `state` concerns, whose metadata is the caller's rather than the merged one.
     public var currentItem: AudioItem? {
         state.item
     }
 
+    /// Every knob the player reads. Assigning a new value takes effect immediately, including
+    /// the audio session policy.
     public var configuration: AudioPlayerConfiguration {
         get { machine.configuration }
         set {
+            let previousSession = machine.configuration.audioSession
             machine.configuration = newValue
             engine.playheadInterval = newValue.progressUpdateInterval
+
+            guard newValue.audioSession != previousSession else {
+                return
+            }
+            Task { [session, policy = newValue.audioSession] in
+                await session.update(policy: policy)
+            }
         }
     }
 
+    /// Swapped in for streams the default parser does not understand.
     public var metadataParser: any MetadataParser {
         get { machine.metadataParser }
         set { machine.metadataParser = newValue }
     }
 
+    /// The player's own gain from `0` to `1`, independent of the system volume.
     public var volume: Float {
         didSet { engine.volume = volume }
     }
 
+    /// A live stream plays at `1` whatever is set here, having no buffer to run ahead into.
     public var rate: Float {
         didSet { engine.defaultRate = rate }
     }
 
+    /// Under `.one`, `next()` and `previous()` restart the current track rather than moving.
     public var repeatMode: RepeatMode {
         didSet { send(.setMode(PlaybackMode(repeatMode: repeatMode, isShuffled: isShuffled))) }
     }
 
+    /// Toggling reshuffles only what has not played yet, keeping the current track in place.
     public var isShuffled: Bool {
         didSet { send(.setMode(PlaybackMode(repeatMode: repeatMode, isShuffled: isShuffled))) }
     }
 
-    /// Tracks the queue steps over when advancing.
+    /// Tracks the queue steps over when advancing. Read on every move, so the set can change
+    /// mid-playback, but the track already playing is left alone.
     public var skippedItems = Set<AudioItem.ID>() {
         didSet { send(.setSkipped(skippedItems)) }
     }
 
+    /// Each access makes an independent stream, buffered to the newest 64 events: a consumer
+    /// that falls behind loses the oldest rather than blocking the player.
     public var events: AsyncStream<AudioPlayerEvent> {
         broadcaster.makeStream()
     }
@@ -74,6 +106,7 @@ public final class AudioPlayer {
     @ObservationIgnored private var connectionTask: Task<Void, Never>?
     @ObservationIgnored private var qualityTask: Task<Void, Never>?
 
+    /// Builds the AVFoundation engine and registers the given remote commands with the system.
     public convenience init(
         configuration: AudioPlayerConfiguration = .default,
         remoteCommands: Set<RemoteCommand> = .default
@@ -129,38 +162,47 @@ public final class AudioPlayer {
 
     // MARK: Transport
 
+    /// Replaces the queue with this one track.
     public func play(_ item: AudioItem) {
         play([item])
     }
 
+    /// Replaces the queue outright; an out-of-range index starts from the first playable track.
     public func play(_ items: [AudioItem], startingAt index: Int = 0) {
         send(.playItems(items, startingAt: index))
     }
 
+    /// Resumes what is loaded, advances when nothing is, and reloads from scratch after a failure.
     public func play() {
         send(.play)
     }
 
+    /// Records that the listener wants silence, so nothing resumes on its own afterwards.
     public func pause() {
         send(.pause)
     }
 
+    /// Pauses only while sound is actually coming out, so a stall resolves towards playing.
     public func togglePlayPause() {
         state.isPlaying ? pause() : play()
     }
 
+    /// Unloads the item and hands back the audio session, unlike `pause()`.
     public func stop() {
         send(.stop)
     }
 
+    /// Steps over `skippedItems`, and emits `queueExhausted` rather than wrapping under `.off`.
     public func next() {
         send(.next)
     }
 
+    /// Seeks to the start of the current track when there is nothing behind it.
     public func previous() {
         send(.previous)
     }
 
+    /// `false` when nothing is loaded yet or the engine refuses the target.
     @discardableResult
     public func seek(to time: Duration, clampingToSeekableRange: Bool = true) async -> Bool {
         let target = clampingToSeekableRange ? progress.clampingToSeekableRange(time) : time
@@ -173,6 +215,7 @@ public final class AudioPlayer {
         return landed
     }
 
+    /// Relative to the playhead; a negative offset rewinds, and the result is clamped as usual.
     @discardableResult
     public func seek(by offset: Duration) async -> Bool {
         await seek(to: progress.elapsed + offset)
@@ -187,7 +230,8 @@ public final class AudioPlayer {
         return await seek(to: seekable.lowerBound + padding)
     }
 
-    /// Jumps to the newest point available, catching a live stream up to now.
+    /// Jumps to the newest point available, catching a live stream up to now. `false` when
+    /// nothing is seekable yet, which is the case until the engine reports a range.
     @discardableResult
     public func seekToLiveEdge(padding: Duration = .seconds(1)) async -> Bool {
         guard let seekable = progress.seekable else {
@@ -198,18 +242,22 @@ public final class AudioPlayer {
 
     // MARK: Queue
 
+    /// Accounts for `skippedItems` and the repeat mode, so `.all` makes it always true.
     public var hasNext: Bool {
         machine.queue.hasNext(skipping: skippedItems)
     }
 
+    /// False before playback starts, since there is no cursor to step back from.
     public var hasPrevious: Bool {
         machine.queue.hasPrevious(skipping: skippedItems)
     }
 
+    /// Items already in the queue are ignored, matched by id.
     public func append(_ items: [AudioItem]) {
         send(.append(items))
     }
 
+    /// Lands at the end of the playback order, and is ignored when the id is already queued.
     public func append(_ item: AudioItem) {
         append([item])
     }
@@ -219,14 +267,18 @@ public final class AudioPlayer {
         send(.insertNext(item))
     }
 
+    /// Removing the playing track starts whatever slides into its slot, or stops the player.
     public func remove(_ id: AudioItem.ID) {
         send(.remove(id))
     }
 
+    /// `destination` is an index into the queue with the item already lifted out, which is one
+    /// less than SwiftUI's `onMove` offset when moving a track later.
     public func move(from source: Int, to destination: Int) {
         send(.move(from: source, to: destination))
     }
 
+    /// Empties the queue and stops, which also hands back the audio session.
     public func removeAll() {
         send(.removeAll)
     }
@@ -236,6 +288,7 @@ public final class AudioPlayer {
         send(.jump(id))
     }
 
+    /// In the order they were added, which is not the playback order once shuffled.
     public var items: [AudioItem] {
         machine.queue.items
     }
@@ -250,6 +303,7 @@ public final class AudioPlayer {
         publish()
     }
 
+    /// Reloads whatever is playing at the new quality and seeks back to where it was.
     public func setQuality(_ quality: AudioQuality) {
         send(.setQuality(quality))
     }

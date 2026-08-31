@@ -6,13 +6,19 @@
 
 import AVFoundation
 
+/// Runs on every burst of timed metadata, and what it returns only fills the gaps the item's
+/// own metadata left.
 public protocol MetadataParser: Sendable {
+    /// Called with one burst at a time, so it sees a slice of the stream and not the whole of it.
     func metadata(from entries: [MetadataEntry]) -> AudioMetadata
 }
 
+/// Reads the common AVFoundation keys, ID3 track numbering, and Shoutcast's artwork field.
 public struct DefaultMetadataParser: MetadataParser {
+    /// Stateless, so one instance can serve any number of players.
     public init() {}
 
+    /// Unrecognised entries are dropped rather than guessed at.
     public func metadata(from entries: [MetadataEntry]) -> AudioMetadata {
         var metadata = AudioMetadata()
 

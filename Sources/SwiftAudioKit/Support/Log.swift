@@ -7,15 +7,26 @@
 import os
 import Synchronization
 
+/// The one knob on the library's logging; everything else goes through the unified log.
 public enum AudioPlayerLog {
     /// Mirrors the unified log's own levels, which have no `trace` or `warning`.
     public enum Level: Int, Sendable, Hashable, CaseIterable, Comparable {
+        /// Every effect and engine signal, which is a line or more per second while playing.
         case debug
+
+        /// Unused by the library itself, and so a level that silences it in practice.
         case info
+
+        /// State changes, retries and quality shifts: the shape of a session.
         case notice
+
+        /// Only what stopped playback.
         case error
+
+        /// Nothing at all, including the messages that would otherwise be built.
         case off
 
+        /// Orders the levels from `debug` upwards, so `off` compares highest.
         public static func < (lhs: Level, rhs: Level) -> Bool {
             lhs.rawValue < rhs.rawValue
         }

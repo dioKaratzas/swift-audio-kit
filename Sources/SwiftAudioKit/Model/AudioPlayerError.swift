@@ -6,14 +6,27 @@
 
 import Foundation
 
+/// Everything that stops playback for good, as opposed to the stalls the player rides out.
 public enum AudioPlayerError: Error, Sendable, Hashable {
+    /// The retry budget ran out, carrying how many attempts were spent.
     case retryLimitReached(attempts: Int)
+
+    /// The engine could not play the item, carrying what AVFoundation said.
     case playbackFailed(PlaybackFailure)
+
+    /// No route came back within the configured deadline, carrying that deadline.
     case connectionLost(after: Duration)
+
+    /// A named item cannot be played and was given up on.
     case itemUnavailable(AudioItem.ID)
+
+    /// Asked to play an empty queue, or one where everything is skipped.
     case noPlayableItems
+
+    /// The audio session refused to configure or activate, usually to another app.
     case audioSessionFailed(PlaybackFailure)
 
+    /// Whether playing again is worth trying, not whether the player still intends to.
     public var isRetryable: Bool {
         switch self {
         case .playbackFailed, .connectionLost, .audioSessionFailed:
@@ -23,6 +36,7 @@ public enum AudioPlayerError: Error, Sendable, Hashable {
         }
     }
 
+    /// The underlying system error, where one crossed out of AVFoundation to cause this.
     public var failure: PlaybackFailure? {
         switch self {
         case let .playbackFailed(failure), let .audioSessionFailed(failure):
@@ -34,6 +48,7 @@ public enum AudioPlayerError: Error, Sendable, Hashable {
 }
 
 extension AudioPlayerError: LocalizedError {
+    /// Wording aimed at a listener, so it never names a domain or a code.
     public var errorDescription: String? {
         switch self {
         case let .retryLimitReached(attempts):
