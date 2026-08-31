@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  macos:
     name: Test (macOS)
     runs-on: macos-15
     steps:
@@ -22,21 +22,21 @@ jobs:
       - run: swift build
       - run: swift test
 
-  build:
-    name: Build (${{ matrix.name }})
+  platforms:
+    name: Test (${{ matrix.name }})
     runs-on: macos-15
     strategy:
       fail-fast: false
       matrix:
         include:
           - name: iOS
-            destination: generic/platform=iOS
+            destination: platform=iOS Simulator,name=iPhone 17
           - name: tvOS
-            destination: generic/platform=tvOS
+            destination: platform=tvOS Simulator,name=Apple TV 4K (3rd generation)
           - name: watchOS
-            destination: generic/platform=watchOS
+            destination: platform=watchOS Simulator,name=Apple Watch Series 11 (46mm)
           - name: visionOS
-            destination: generic/platform=visionOS
+            destination: platform=visionOS Simulator,name=Apple Vision Pro
           - name: Mac Catalyst
             destination: platform=macOS,variant=Mac Catalyst
     steps:
@@ -45,11 +45,10 @@ jobs:
         with:
           xcode-version: latest
       - run: |
-          xcodebuild build \
+          xcodebuild test \
             -scheme SwiftAudioKit \
             -destination '${{ matrix.destination }}' \
-            -skipPackagePluginValidation \
-            | xcbeautify
+            -skipPackagePluginValidation
         shell: bash
 
   format:
