@@ -12,7 +12,6 @@ private enum Fixtures {
     static let low = URL(string: "https://example.com/low.mp3")!
     static let medium = URL(string: "https://example.com/medium.mp3")!
     static let high = URL(string: "https://example.com/high.mp3")!
-    static let playlist = URL(string: "https://example.com/stream.m3u8")!
     static let file = URL(fileURLWithPath: "/tmp/track.mp3")
 }
 
@@ -76,11 +75,5 @@ struct AudioSourcesTests {
         let mixed = try #require(AudioSources([.low: Fixtures.file, .high: Fixtures.high]))
 
         #expect(!mixed.isLocal)
-    }
-
-    @Test("HLS playlists cannot carry an audio mix")
-    func audioProcessingSupport() {
-        #expect(!AudioSources(url: Fixtures.playlist).highest.supportsAudioProcessing)
-        #expect(AudioSources(url: Fixtures.high).highest.supportsAudioProcessing)
     }
 }

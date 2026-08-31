@@ -47,15 +47,6 @@ public struct AudioSources: Sendable, Hashable {
         public var isLocal: Bool {
             url.isLocal
         }
-
-        /// Whether an `AVAudioMix` can be attached to this stream.
-        ///
-        /// `false` for HLS playlists, recognised by an `m3u8` path extension. An HLS
-        /// playlist exposes no audio track until a variant is selected, so AVFoundation has
-        /// nothing to attach a mix to.
-        public var supportsAudioProcessing: Bool {
-            !url.isHLSPlaylist
-        }
     }
 
     /// The best stream on offer.
