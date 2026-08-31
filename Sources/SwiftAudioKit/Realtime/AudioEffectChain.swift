@@ -5,7 +5,7 @@
 //
 
 #if canImport(MediaToolbox) && !os(watchOS)
-    import AudioToolbox
+    import CoreAudio
     import AVFoundation
     import MediaToolbox
     import Synchronization
@@ -19,26 +19,26 @@
     /// chain, and only that tap is allowed to render or tear down.
     ///
     /// The processing callback is hard realtime: it cannot allocate, lock, or await. The graph is
-    /// built in `prepare`, off the realtime thread, and only rendered afterwards. Audio units are
+    /// built in `prepare`, off the realtime thread, and only rendered afterwards. Each tap carries
+    /// the units it was built with, so nothing here is shared mutable state. Audio units are
     /// sendable and their parameters are safe to set from another thread, which is how a caller's
     /// live changes cross over without a lock.
     final class AudioEffectChain: @unchecked Sendable {
         private let engine = AVAudioEngine()
         private let owner = Atomic<UInt>(0)
-        private let pendingUnits = Mutex<[AVAudioUnit]>([])
         private var attachedUnits = [AVAudioUnit]()
         private var sourceBuffer: UnsafeMutableAudioBufferListPointer?
-
-        /// Sets the units the next `prepare` builds a graph from. Safe from any thread.
-        func setUnits(_ units: [AVAudioUnit]) {
-            pendingUnits.withLock { $0 = units }
-        }
 
         // MARK: Tap lifecycle
 
         /// Builds the render graph and hands the chain to `tap`. Called before any audio flows,
         /// off the realtime thread.
-        func prepare(for tap: MTAudioProcessingTap, format: AudioStreamBasicDescription, maximumFrames: Int) {
+        func prepare(
+            for tap: MTAudioProcessingTap,
+            units: [AVAudioUnit],
+            format: AudioStreamBasicDescription,
+            maximumFrames: Int
+        ) {
             var description = format
             guard let renderFormat = AVAudioFormat(streamDescription: &description) else {
                 Log.emit(.engine, .error, "audio processing could not read the stream format")
@@ -46,7 +46,6 @@
             }
             release()
 
-            let units = pendingUnits.withLock { $0 }
             do {
                 try engine.enableManualRenderingMode(
                     .realtime,

@@ -25,6 +25,9 @@ final class AVPlayerEngine: PlaybackEngine {
 
     #if canImport(MediaToolbox) && !os(watchOS)
         private let effects = AudioEffectChain()
+        private var audioUnits = [AVAudioUnit]()
+    #elseif !os(watchOS)
+        private var audioUnits = [AVAudioUnit]()
     #endif
 
     var nowPlayingPlayers: [AVPlayer] {
@@ -92,9 +95,7 @@ final class AVPlayerEngine: PlaybackEngine {
 
     #if !os(watchOS)
         func setAudioUnits(_ units: [AVAudioUnit]) {
-            #if canImport(MediaToolbox)
-                effects.setUnits(units)
-            #endif
+            audioUnits = units
         }
     #endif
 
@@ -103,7 +104,11 @@ final class AVPlayerEngine: PlaybackEngine {
     private func attachEffects(to item: AVPlayerItem, request: PlaybackRequest) async {
         #if canImport(MediaToolbox) && !os(watchOS)
             guard request.supportsAudioProcessing,
-                  let mix = await AudioProcessingTap.makeAudioMix(for: item.asset, chain: effects) else {
+                  let mix = await AudioProcessingTap.makeAudioMix(
+                      for: item.asset,
+                      chain: effects,
+                      units: audioUnits
+                  ) else {
                 supportsAudioProcessing = false
                 return
             }

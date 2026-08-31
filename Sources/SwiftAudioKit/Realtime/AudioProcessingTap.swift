@@ -5,15 +5,16 @@
 //
 
 #if canImport(MediaToolbox) && !os(watchOS)
-    import AudioToolbox
+    import CoreAudio
     import AVFoundation
     import MediaToolbox
 
     /// Builds the `AVAudioMix` that routes an item's audio through an effect chain.
     ///
-    /// The tap's callbacks are C function pointers with no context of their own, so the chain is
-    /// passed through `clientInfo` and recovered with `Unmanaged`. The retain taken here is
-    /// balanced in the finalize callback, which is the only place it can be.
+    /// The tap's callbacks are C function pointers with no context of their own, so the chain and
+    /// the units to build a graph from travel through `clientInfo` as a ``TapContext`` and are
+    /// recovered with `Unmanaged`. The retain taken here is balanced in the finalize callback,
+    /// which is the only place it can be.
     enum AudioProcessingTap {
         /// Returns a mix that renders an item's audio through `chain`, or `nil` when this system
         /// cannot process it.
@@ -21,12 +22,18 @@
         /// A file or progressive download exposes an `AVAssetTrack` to attach to. A live stream
         /// and an HLS playlist expose none, and can only be tapped from the release that added
         /// `AVAudioMixInputParametersTrackMixID`, which taps the mix of all audio tracks.
-        static func makeAudioMix(for asset: AVAsset, chain: AudioEffectChain) async -> AVAudioMix? {
+        static func makeAudioMix(
+            for asset: AVAsset,
+            chain: AudioEffectChain,
+            units: [AVAudioUnit]
+        ) async -> AVAudioMix? {
             let track = try? await asset.loadTracks(withMediaType: .audio).first
 
             var callbacks = MTAudioProcessingTapCallbacks(
                 version: kMTAudioProcessingTapCallbacksVersion_0,
-                clientInfo: UnsafeMutableRawPointer(Unmanaged.passRetained(chain).toOpaque()),
+                clientInfo: UnsafeMutableRawPointer(
+                    Unmanaged.passRetained(TapContext(chain: chain, units: units)).toOpaque()
+                ),
                 init: tapInit,
                 finalize: tapFinalize,
                 prepare: tapPrepare,
@@ -38,7 +45,7 @@
             /// the finalize callback that would otherwise balance it is never called.
             func abandon() -> AVAudioMix? {
                 if let clientInfo = callbacks.clientInfo {
-                    Unmanaged<AudioEffectChain>.fromOpaque(clientInfo).release()
+                    Unmanaged<TapContext>.fromOpaque(clientInfo).release()
                 }
                 return nil
             }
@@ -101,7 +108,7 @@
         guard let storage = MTAudioProcessingTapGetStorage(tap) as UnsafeMutableRawPointer? else {
             return
         }
-        Unmanaged<AudioEffectChain>.fromOpaque(storage).release()
+        Unmanaged<TapContext>.fromOpaque(storage).release()
     }
 
     private func tapPrepare(
@@ -109,11 +116,19 @@
         maxFrames: CMItemCount,
         processingFormat: UnsafePointer<AudioStreamBasicDescription>
     ) {
-        chain(for: tap)?.prepare(for: tap, format: processingFormat.pointee, maximumFrames: Int(maxFrames))
+        guard let context = context(for: tap) else {
+            return
+        }
+        context.chain.prepare(
+            for: tap,
+            units: context.units,
+            format: processingFormat.pointee,
+            maximumFrames: Int(maxFrames)
+        )
     }
 
     private func tapUnprepare(tap: MTAudioProcessingTap) {
-        chain(for: tap)?.teardown(for: tap)
+        context(for: tap)?.chain.teardown(for: tap)
     }
 
     private func tapProcess(
@@ -135,17 +150,29 @@
         guard status == noErr else {
             return
         }
-        chain(for: tap)?.process(
+        context(for: tap)?.chain.process(
             for: tap,
             buffers: UnsafeMutableAudioBufferListPointer(bufferListInOut),
             frames: Int(framesOut.pointee)
         )
     }
 
-    private func chain(for tap: MTAudioProcessingTap) -> AudioEffectChain? {
+    /// What a tap carries: the chain to render through, and the units its graph is built from.
+    /// Units are fixed when the tap is made, which is what keeps them off any shared state.
+    private final class TapContext: Sendable {
+        let chain: AudioEffectChain
+        let units: [AVAudioUnit]
+
+        init(chain: AudioEffectChain, units: [AVAudioUnit]) {
+            self.chain = chain
+            self.units = units
+        }
+    }
+
+    private func context(for tap: MTAudioProcessingTap) -> TapContext? {
         guard let storage = MTAudioProcessingTapGetStorage(tap) as UnsafeMutableRawPointer? else {
             return nil
         }
-        return Unmanaged<AudioEffectChain>.fromOpaque(storage).takeUnretainedValue()
+        return Unmanaged<TapContext>.fromOpaque(storage).takeUnretainedValue()
     }
 #endif
