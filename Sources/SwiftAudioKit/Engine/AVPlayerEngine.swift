@@ -21,6 +21,11 @@ final class AVPlayerEngine: PlaybackEngine {
 
     private(set) var progress = PlaybackProgress.zero
     private(set) var timeControl = EngineTimeControl.paused
+    private(set) var supportsAudioProcessing = false
+
+    #if canImport(MediaToolbox) && !os(watchOS)
+        private let effects = AudioEffectChain()
+    #endif
 
     var nowPlayingPlayers: [AVPlayer] {
         [player]
@@ -70,6 +75,7 @@ final class AVPlayerEngine: PlaybackEngine {
         }
 
         observe(item)
+        await attachEffects(to: item, request: request)
         player.replaceCurrentItem(with: item)
         observePlayhead()
 
@@ -80,7 +86,32 @@ final class AVPlayerEngine: PlaybackEngine {
 
     func unload() {
         unloadItem()
+        supportsAudioProcessing = false
         continuation.yield(.statusChanged(.idle))
+    }
+
+    #if !os(watchOS)
+        func setAudioUnits(_ units: [AVAudioUnit]) {
+            #if canImport(MediaToolbox)
+                effects.setUnits(units)
+            #endif
+        }
+    #endif
+
+    /// A live stream and an HLS playlist expose no audio track, so before the release that can
+    /// tap the mix of all tracks there is nothing to attach a processor to.
+    private func attachEffects(to item: AVPlayerItem, request: PlaybackRequest) async {
+        #if canImport(MediaToolbox) && !os(watchOS)
+            guard request.supportsAudioProcessing,
+                  let mix = await AudioProcessingTap.makeAudioMix(for: item.asset, chain: effects) else {
+                supportsAudioProcessing = false
+                return
+            }
+            item.audioMix = mix
+            supportsAudioProcessing = true
+        #else
+            supportsAudioProcessing = false
+        #endif
     }
 
     func play() {

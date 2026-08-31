@@ -4,6 +4,9 @@
 //  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
 //
 
+#if !os(watchOS)
+    import AVFAudio
+#endif
 @testable import SwiftAudioKit
 
 @MainActor
@@ -24,6 +27,10 @@ final class FakePlaybackEngine: PlaybackEngine {
     var volume: Float = 1
     var defaultRate: Float = 1
     var playheadInterval = Duration.seconds(1)
+    var supportsAudioProcessing = false
+    #if !os(watchOS)
+        private(set) var audioUnits = [AVAudioUnit]()
+    #endif
 
     init() {
         (signals, continuation) = AsyncStream.makeStream(bufferingPolicy: .unbounded)
@@ -36,6 +43,12 @@ final class FakePlaybackEngine: PlaybackEngine {
     func unload() {
         unloadCount += 1
     }
+
+    #if !os(watchOS)
+        func setAudioUnits(_ units: [AVAudioUnit]) {
+            audioUnits = units
+        }
+    #endif
 
     func play() {
         playCount += 1

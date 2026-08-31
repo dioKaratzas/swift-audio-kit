@@ -81,6 +81,15 @@ public final class AudioPlayer {
     /// listed in ``skippedItems``, which the player will pass over rather than remove.
     public private(set) var upNext = [AudioItem]()
 
+    #if canImport(AVFAudio) && !os(watchOS)
+        /// The audio units playback is rendered through.
+        ///
+        /// Empty by default, which routes audio straight through. Assign any `AVAudioUnit` —
+        /// an equalizer, a reverb, a compressor, an AUv3 of your own — and keep your own
+        /// reference to change its parameters while it plays. See ``AudioProcessing``.
+        public let audioProcessing = AudioProcessing()
+    #endif
+
     /// The track ``state`` concerns, or `nil` when nothing is loaded.
     ///
     /// Carries the metadata you supplied rather than the merged metadata published on
@@ -255,6 +264,12 @@ public final class AudioPlayer {
         engine.playheadInterval = configuration.progressUpdateInterval
         repeatMode = .off
         isShuffled = false
+
+        #if canImport(AVFAudio) && !os(watchOS)
+            audioProcessing.onChange = { [weak engine] units in
+                engine?.setAudioUnits(units)
+            }
+        #endif
 
         observeEngine()
         observeNetwork()
@@ -675,6 +690,9 @@ public final class AudioPlayer {
         quality = machine.quality
         network = machine.network
         upNext = machine.queue.upNext
+        #if canImport(AVFAudio) && !os(watchOS)
+            audioProcessing.setAvailable(engine.supportsAudioProcessing)
+        #endif
 
         guard machine.configuration.publishesNowPlayingInfo else {
             return
