@@ -132,10 +132,4 @@ Contributions are welcome! To contribute:
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
-
----
-
-### Acknowledgments
-
-This project is based on the original [AudioPlayer](https://github.com/delannoyk/AudioPlayer) by [Kevin Delannoy](https://github.com/delannoyk). Special thanks to Kevin for his foundational work, which has been instrumental in the development of SwiftAudioKit.
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for more information.
