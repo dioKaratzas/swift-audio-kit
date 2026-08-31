@@ -6,12 +6,26 @@
 [![Documentation](https://img.shields.io/badge/Documentation-DocC-1E88E5.svg)](https://diokaratzas.github.io/swift-audio-kit/documentation/swiftaudiokit/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)](LICENSE)
 
-Queue-driven audio playback built on `AVPlayer`. `AudioPlayer` is `@MainActor` and `@Observable`, so a
-SwiftUI view reads `state`, `progress`, `metadata`, `quality`, `network` and `upNext` directly and stays
-current — there is no delegate to implement and no view model to keep in sync. Underneath, every decision
-the player makes is taken by a synchronous state machine that is unit-tested on its own, which is why
-retries, connection losses, interruptions and quality changes behave the same way every time instead of
-depending on how `AVPlayer` happened to interleave its callbacks.
+**An audio player for apps that stream.** Radio stations, podcasts, music libraries — anything where the
+audio comes off the network rather than out of the bundle.
+
+`AVPlayer` will happily play a URL. What it will not do is everything around that URL. A stream stalls
+halfway through a track and you have to notice. The connection drops in a lift and you have to decide
+whether to wait or give up. A radio station announces the song that just started and you have to parse
+it out of the stream. The listener takes a call, unplugs their headphones, locks the screen, or drops
+onto cellular and expects the bitrate to follow. Written by hand, that is a few hundred lines of
+callbacks and flags per app, and it is where the bugs live.
+
+SwiftAudioKit is that layer. You give it a queue of tracks and it handles the rest: retrying failed
+loads, waiting out a lost connection and picking up where it stopped, stepping quality down when a
+stream keeps stalling and back up when it settles, reading titles and cover art off the stream, keeping
+the lock screen and Control Center current, and pausing and resuming around interruptions.
+
+Playback state is published rather than delivered through a delegate, so a SwiftUI view reads `state`,
+`progress`, `metadata` and `upNext` directly and stays current with no mirroring layer. Underneath, the
+decisions are made by a synchronous state machine that is tested on its own — which is why recovery
+behaves the same way every time instead of depending on how `AVPlayer` happened to interleave its
+callbacks.
 
 ## Features
 
@@ -101,70 +115,38 @@ do {
 
 ## SwiftUI
 
-The player publishes its own state, so the view reads it directly.
+The player publishes its own state, so a view reads it directly — no view model, no delegate, nothing to
+keep in sync.
 
 ```swift
-import SwiftUI
 import SwiftAudioKit
-
-@main
-struct RadioApp: App {
-    @State private var player = AudioPlayer(remoteCommands: .default)
-
-    var body: some Scene {
-        WindowGroup {
-            PlayerView(player: player, tracks: Catalog.all)
-        }
-    }
-}
+import SwiftUI
 
 struct PlayerView: View {
-    let player: AudioPlayer
-    let tracks: [AudioItem]
+    let episodes: [AudioItem]
+
+    @State private var player = AudioPlayer()
 
     var body: some View {
         VStack(spacing: 16) {
-            Text(player.metadata.title ?? player.currentItem?.displayTitle ?? "Nothing playing")
-                .font(.headline)
-
-            if let artist = player.metadata.artist {
-                Text(artist).foregroundStyle(.secondary)
-            }
+            Text(player.metadata.title ?? "Nothing playing")
 
             if let fraction = player.progress.fraction {
                 ProgressView(value: fraction)
-            } else if player.state.isTransient {
-                ProgressView()
             }
 
-            HStack(spacing: 24) {
-                Button("Previous", systemImage: "backward.fill") { player.previous() }
-                    .disabled(!player.hasPrevious)
-
-                Button(
-                    player.state.isPlaying ? "Pause" : "Play",
-                    systemImage: player.state.isPlaying ? "pause.fill" : "play.fill"
-                ) {
-                    player.togglePlayPause()
-                }
-                .disabled(player.currentItem == nil)
-
-                Button("Next", systemImage: "forward.fill") { player.next() }
-                    .disabled(!player.hasNext)
+            Button(player.state.isPlaying ? "Pause" : "Play") {
+                player.togglePlayPause()
             }
-            .labelStyle(.iconOnly)
-
-            if let error = player.state.error {
-                Text(error.errorDescription ?? "Playback failed")
-                    .foregroundStyle(.red)
-            }
+            .disabled(player.currentItem == nil)
         }
-        .onAppear { player.play(tracks) }
+        .onAppear { player.play(episodes) }
     }
 }
 ```
 
-`player.repeatMode`, `player.isShuffled`, `player.volume` and `player.rate` are settable properties, so
+Every property the view touches — `state`, `metadata`, `progress`, `quality`, `network`, `upNext` —
+updates the view when it changes. `repeatMode`, `isShuffled`, `volume` and `rate` are settable, so
 `@Bindable` gives you bindings for pickers, toggles and sliders.
 
 ### Seeking
@@ -226,7 +208,7 @@ let player = AudioPlayer(
         resumesAfterInterruption: true,
         progressUpdateInterval: .milliseconds(500),
         audioSession: .managed,
-        updatesNowPlayingInfo: true
+        publishesNowPlayingInfo: true
     ),
     remoteCommands: .default
 )
@@ -309,7 +291,7 @@ let player = AudioPlayer(remoteCommands: .default)
 // or an explicit set: [.play, .pause, .stop, .skipForward, .skipBackward]
 ```
 
-While `configuration.updatesNowPlayingInfo` is true, `MPNowPlayingInfoCenter` is kept in step with the
+While `configuration.publishesNowPlayingInfo` is true, `MPNowPlayingInfoCenter` is kept in step with the
 current item, metadata, elapsed time, duration and playback rate, and live streams are flagged as such.
 Artwork comes from `AudioMetadata.artwork`, which is either embedded data or a URL:
 
@@ -323,8 +305,10 @@ Remote artwork is fetched once per URL and cached, then the Now Playing entry is
 you supply on the item outranks metadata the stream sends, so a station can keep one fixed cover while
 another follows the track. Call `player.refreshNowPlayingInfo()` to republish on demand.
 
-Streams that carry timed metadata are parsed by `DefaultMetadataParser`. Replace it to handle a
-station's own conventions:
+## Stream metadata
+
+Streams that carry timed metadata are parsed by `DefaultMetadataParser`, which maps the common keys and
+reads the cover art URL that Shoutcast stations send. Replace it to handle a station's own conventions:
 
 ```swift
 struct RadioMetadataParser: MetadataParser {
