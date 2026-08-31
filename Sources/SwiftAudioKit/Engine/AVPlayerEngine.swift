@@ -36,7 +36,9 @@ final class AVPlayerEngine: PlaybackEngine {
 
     init() {
         (signals, continuation) = AsyncStream.makeStream(bufferingPolicy: .bufferingNewest(64))
-        player.allowsExternalPlayback = false
+        #if !os(watchOS) && !os(visionOS)
+            player.allowsExternalPlayback = false
+        #endif
         observePlayer()
     }
 
