@@ -1,8 +1,13 @@
+//
+//  SwiftAudioKit
+//
+//  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
+//
+
 import SwiftUI
 
 struct AudioPlayerView: View {
-    @StateObject
-    private var audioPlayerManager = AudioPlayerManager()
+    @StateObject private var audioPlayerManager = AudioPlayerManager()
 
     var body: some View {
         VStack {

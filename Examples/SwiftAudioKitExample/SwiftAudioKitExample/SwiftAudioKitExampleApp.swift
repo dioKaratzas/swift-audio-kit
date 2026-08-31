@@ -1,8 +1,7 @@
 //
-//  SwiftAudioKitExampleApp.swift
-//  SwiftAudioKitExample
+//  SwiftAudioKit
 //
-//  Created by Dionisis Karatzas on 1/8/24.
+//  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
 //
 
 import SwiftUI

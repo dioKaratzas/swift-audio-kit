@@ -1,13 +1,17 @@
+//
+//  SwiftAudioKit
+//
+//  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
+//
+
 import SwiftUI
 import Combine
 import AVFoundation
 import SwiftAudioKit
 
 class AudioPlayerManager: ObservableObject {
-    @Published
-    var currentTrackTitle: String = "No Track"
-    @Published
-    var isPlaying: Bool = false
+    @Published var currentTrackTitle = "No Track"
+    @Published var isPlaying = false
 
     private var audioPlayer: AudioPlayer
 

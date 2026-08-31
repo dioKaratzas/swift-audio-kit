@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [master, "2.0"]
+  pull_request:
+    branches: [master, "2.0"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test (macOS)
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest
+      - run: swift build
+      - run: swift test
+
+  build:
+    name: Build (${{ matrix.name }})
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: iOS
+            destination: generic/platform=iOS
+          - name: tvOS
+            destination: generic/platform=tvOS
+          - name: watchOS
+            destination: generic/platform=watchOS
+          - name: visionOS
+            destination: generic/platform=visionOS
+          - name: Mac Catalyst
+            destination: platform=macOS,variant=Mac Catalyst
+    steps:
+      - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest
+      - run: |
+          xcodebuild build \
+            -scheme SwiftAudioKit \
+            -destination '${{ matrix.destination }}' \
+            -skipPackagePluginValidation \
+            | xcbeautify
+        shell: bash
+
+  format:
+    name: Format
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: ./Scripts/swiftformat.sh lint-changed
