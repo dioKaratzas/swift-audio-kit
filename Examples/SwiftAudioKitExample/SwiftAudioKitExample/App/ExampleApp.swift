@@ -1,5 +1,5 @@
 //
-//  SwiftAudioKit
+//  SwiftAudioKitExample
 //
 //  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
 //
@@ -7,10 +7,13 @@
 import SwiftUI
 
 @main
-struct SwiftAudioKitExampleApp: App {
+struct ExampleApp: App {
+    @State private var model = PlayerModel()
+
     var body: some Scene {
         WindowGroup {
-            AudioPlayerView()
+            RootView()
+                .environment(model)
         }
     }
 }
