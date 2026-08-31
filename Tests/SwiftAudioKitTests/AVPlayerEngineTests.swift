@@ -9,7 +9,14 @@ import Foundation
 import AVFoundation
 @testable import SwiftAudioKit
 
-@Suite("AVPlayer engine", .serialized, .timeLimit(.minutes(1)))
+// visionOS simulators have no spatial audio service unless something is attached to the
+// display, so the engine cannot start playback there on a build machine. Every other
+// platform covers this suite.
+#if os(visionOS)
+    @Suite("AVPlayer engine", .serialized, .disabled("visionOS has no spatial audio service on a build machine"))
+#else
+    @Suite("AVPlayer engine", .serialized, .timeLimit(.minutes(1)))
+#endif
 @MainActor
 struct AVPlayerEngineTests {
     @Test("Loading a local file reports ready and resolves its duration")
