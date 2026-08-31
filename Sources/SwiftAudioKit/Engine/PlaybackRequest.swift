@@ -30,10 +30,6 @@ struct PlaybackRequest: Sendable, Hashable {
         self.overrideMIMEType = overrideMIMEType
         self.httpUserAgent = httpUserAgent
     }
-
-    var supportsAudioProcessing: Bool {
-        !url.isHLSPlaylist
-    }
 }
 
 struct SeekTolerance: Sendable, Hashable {

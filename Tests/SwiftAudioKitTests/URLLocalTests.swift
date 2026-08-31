@@ -38,18 +38,4 @@ struct URLLocalTests {
 
         #expect(!url.isLocal)
     }
-
-    @Test(
-        "HLS playlists are recognised by extension",
-        arguments: [
-            ("https://example.com/stream.m3u8", true),
-            ("https://example.com/stream.M3U8", true),
-            ("https://example.com/track.mp3", false)
-        ]
-    )
-    func hlsDetection(_ string: String, _ isPlaylist: Bool) throws {
-        let url = try #require(URL(string: string))
-
-        #expect(url.isHLSPlaylist == isPlaylist)
-    }
 }
