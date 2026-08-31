@@ -167,6 +167,8 @@ public final class AudioPlayer {
         let landed = await engine.seek(to: target, tolerance: .relaxed)
         if landed {
             send(.seeked(to: target))
+        } else {
+            Log.engine.debug("seek to \(target.totalSeconds, privacy: .public)s was refused")
         }
         return landed
     }
@@ -267,6 +269,8 @@ public final class AudioPlayer {
     }
 
     private func handle(_ command: RemoteCommand, position: Duration?) {
+        Log.nowPlaying.debug("remote command \(String(describing: command), privacy: .public)")
+
         switch command {
         case .play: play()
         case .pause: pause()
@@ -335,6 +339,8 @@ public final class AudioPlayer {
     }
 
     private func perform(_ effect: Effect) {
+        Log.record(effect)
+
         switch effect {
         case let .load(request, generation):
             load(request, generation: generation)
@@ -357,6 +363,7 @@ public final class AudioPlayer {
         case let .scheduleQualityUpgrade(after):
             qualityTask = schedule(after: after) { .qualityUpgradeDue }
         case let .emit(event):
+            Log.record(event)
             broadcaster.emit(event)
         case .activateSession:
             activateSession()
@@ -370,7 +377,6 @@ public final class AudioPlayer {
     }
 
     private func load(_ request: PlaybackRequest, generation: Int) {
-        Log.engine.debug("load \(request.url.host() ?? "local", privacy: .public) generation \(generation)")
         Task { [weak self] in
             await self?.engine.load(request)
             self?.discardIfStale(generation)
@@ -395,6 +401,7 @@ public final class AudioPlayer {
     /// Results for a track the listener has already left are dropped rather than applied.
     private func discardIfStale(_ generation: Int) {
         guard generation == machine.generation else {
+            Log.engine.debug("discarded result for generation \(generation), now \(self.machine.generation)")
             return
         }
         publish()
