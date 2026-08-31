@@ -83,7 +83,7 @@
 --stored-var-attributes same-line
 --strip-unused-args always
 --struct-threshold 0
---swiftversion 6.4
+--swiftversion 6.3
 --tab-width unspecified
 --throw-capturing
 --timezone system
