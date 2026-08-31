@@ -1,7 +1,11 @@
 name: CI
 
-# Runs only when started by hand, so a pull request is reviewed before anything executes.
+# A draft pull request costs nothing; marking it ready for review starts the run. Workflows
+# from an outside contributor's fork wait for approval, which is a repository setting.
 on:
+  pull_request:
+    branches: [master]
+    types: [opened, reopened, synchronize, ready_for_review]
   workflow_dispatch:
 
 concurrency:
@@ -11,6 +15,7 @@ concurrency:
 jobs:
   macos:
     name: Test (macOS)
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v5
@@ -22,6 +27,7 @@ jobs:
 
   platforms:
     name: Test (${{ matrix.name }})
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: macos-26
     strategy:
       fail-fast: false
@@ -51,6 +57,7 @@ jobs:
 
   format:
     name: Format
+    if: ${{ !github.event.pull_request.draft }}
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v5
