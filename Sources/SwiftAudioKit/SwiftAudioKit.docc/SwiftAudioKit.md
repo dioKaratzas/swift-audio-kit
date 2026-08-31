@@ -28,6 +28,9 @@ Behaviour is set through ``AudioPlayerConfiguration``, which bundles the retry,
 buffering, quality and audio session policies. ``AudioPlayerConfiguration/podcast``
 and ``AudioPlayerConfiguration/liveRadio`` are presets for the two common shapes.
 
+Playback can be rendered through audio units of your own — an equalizer, a reverb,
+an AUv3 — through ``AudioPlayer/audioProcessing``. See <doc:ProcessingAudio>.
+
 The package has no dependencies outside the Apple SDKs.
 
 ## Topics
@@ -75,6 +78,11 @@ The package has no dependencies outside the Apple SDKs.
 - ``MetadataParser``
 - ``DefaultMetadataParser``
 - ``MetadataEntry``
+
+### Audio processing
+
+- <doc:ProcessingAudio>
+- ``AudioProcessing``
 
 ### Now Playing
 

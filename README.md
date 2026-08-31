@@ -44,6 +44,8 @@ callbacks.
 - **Quality adaptation.** An item can carry a URL per `AudioQuality`. The player downgrades after
   repeated stalls, retries the higher bitrate on an interval, and falls back to the nearest available
   quality when an exact match is missing.
+- **Real-time audio processing.** Hand the player any `AVAudioUnit` chain — an equalizer, a reverb,
+  a compressor, your own AUv3 — and the stream is rendered through it, live streams included.
 - **Now Playing and remote commands.** Lock screen, Control Center and the media keys, including remote
   cover art fetched from a URL and cached.
 - **Interruption and route handling.** Calls, other apps and unplugged headphones pause with a
@@ -324,6 +326,45 @@ struct RadioMetadataParser: MetadataParser {
 player.metadataParser = RadioMetadataParser()
 ```
 
+## Audio processing
+
+`AVPlayer` streams; `AVAudioEngine` processes. Neither does the other well, so the player runs both:
+audio is pulled out of the item, rendered through an `AVAudioEngine` graph of your audio units, and put
+back. Assign the chain and keep your own reference to whatever you want to control:
+
+```swift
+let equalizer = AVAudioUnitEQ(numberOfBands: 10)
+let reverb = AVAudioUnitReverb()
+player.audioProcessing.units = [equalizer, reverb]
+```
+
+Units are connected first to last. Their parameters are safe to set while audio renders and take effect
+immediately, with no reload and no gap:
+
+```swift
+equalizer.bands[0].frequency = 60
+equalizer.bands[0].gain = 6
+equalizer.bypass = false
+```
+
+Anything `AVAudioEngine` can host works — `AVAudioUnitEQ`, `AVAudioUnitReverb`, `AVAudioUnitDelay`,
+`AVAudioUnitDistortion`, and any Audio Unit you load yourself with
+`AVAudioUnit.instantiate(with:options:)`.
+
+Two limits, both enforced rather than left to discover:
+
+- An `AVAudioUnitTimeEffect` — `AVAudioUnitTimePitch` and `AVAudioUnitVarispeed` — is dropped from the
+  chain and logged. Every block the player hands over has to come back the same length, and a time
+  effect by definition returns a different one. Use `player.rate` to change speed.
+- Not every stream can be processed. A local file and a progressive download always can. A live stream
+  and an HLS playlist expose no audio track, and can only be processed on systems that can tap the mix
+  of all audio tracks instead. `player.audioProcessing.isAvailable` reports what the item playing can
+  do, so read it before offering the controls.
+
+Replacing `units` rebuilds the render graph, so a new chain takes effect on the next item. Reach for a
+unit's own `bypass` to switch an effect off in place. There is no audio processing on watchOS, where
+neither the audio units nor the underlying framework exist.
+
 ## Logging
 
 Everything the package logs goes to the unified log under the `com.swiftaudiokit` subsystem, in the
@@ -361,7 +402,8 @@ Build it locally with `./Scripts/generate_docs.sh`.
 
 [`Examples/SwiftAudioKitExample`](Examples/SwiftAudioKitExample) is a multiplatform SwiftUI app that
 exercises the whole surface: queue editing, per-track skipping, live scrubbing, quality switching,
-network and state badges, a custom metadata parser, and a live event log. It plays real multi-bitrate
+network and state badges, a ten-band equalizer with named presets, a custom metadata parser, and a
+live event log. It plays real multi-bitrate
 radio streams, so quality changes and stream metadata are visible as they happen.
 
 ## Contributing
@@ -369,8 +411,8 @@ radio streams, so quality changes and stream metadata are visible as they happen
 Pull requests are welcome.
 
 1. Fork the repository and branch off `master`.
-2. Make your change, and add tests — the state machine is covered by synchronous unit tests
-   (145 in total), so most behaviour can be tested without touching `AVPlayer`.
+2. Make your change, and add tests — the state machine is covered by synchronous unit tests, so most
+   behaviour can be tested without touching `AVPlayer`.
 3. Run `swift test` and `./Scripts/swiftformat.sh lint-changed`. CI runs the tests on all six
    platforms and checks formatting.
 4. Open a pull request describing the behaviour that changed.
