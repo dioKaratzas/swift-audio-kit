@@ -168,7 +168,7 @@ public final class AudioPlayer {
         if landed {
             send(.seeked(to: target))
         } else {
-            Log.engine.debug("seek to \(target.totalSeconds, privacy: .public)s was refused")
+            Log.emit(.engine, .debug, "seek to \(target.totalSeconds)s was refused")
         }
         return landed
     }
@@ -239,7 +239,7 @@ public final class AudioPlayer {
             do {
                 try await session.activate()
             } catch let error as AudioPlayerError {
-                Log.session.error("activation failed: \(error.logDescription, privacy: .public)")
+                Log.emit(.session, .error, "activation failed: \(error.logDescription)")
                 self?.send(.sessionFailed(error))
             } catch {}
         }
@@ -269,7 +269,7 @@ public final class AudioPlayer {
     }
 
     private func handle(_ command: RemoteCommand, position: Duration?) {
-        Log.nowPlaying.debug("remote command \(String(describing: command), privacy: .public)")
+        Log.emit(.nowPlaying, .debug, "remote command \(command)")
 
         switch command {
         case .play: play()
@@ -309,9 +309,7 @@ public final class AudioPlayer {
         let previous = machine.state
         perform(machine.handle(signal))
         if machine.state != previous {
-            Log.player.notice(
-                "state \(previous.logDescription, privacy: .public) → \(self.machine.state.logDescription, privacy: .public)"
-            )
+            Log.emit(.player, .notice, "state \(previous.logDescription) → \(self.machine.state.logDescription)")
         }
         publish()
     }
@@ -401,7 +399,7 @@ public final class AudioPlayer {
     /// Results for a track the listener has already left are dropped rather than applied.
     private func discardIfStale(_ generation: Int) {
         guard generation == machine.generation else {
-            Log.engine.debug("discarded result for generation \(generation), now \(self.machine.generation)")
+            Log.emit(.engine, .debug, "discarded result for generation \(generation), now \(self.machine.generation)")
             return
         }
         publish()

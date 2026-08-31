@@ -19,9 +19,7 @@ actor NetworkMonitor {
 
         monitor.pathUpdateHandler = { path in
             let status = NetworkStatus(path)
-            Log.network.debug(
-                "path \(String(describing: status.reachability), privacy: .public) expensive \(status.isExpensive)"
-            )
+            Log.emit(.network, .debug, "path \(status.reachability) expensive \(status.isExpensive)")
             continuation.yield(status)
         }
         continuation.onTermination = { [monitor] _ in

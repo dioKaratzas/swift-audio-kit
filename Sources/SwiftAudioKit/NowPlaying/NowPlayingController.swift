@@ -120,7 +120,7 @@ final class NowPlayingController {
         artworkTask = Task { [weak self] in
             let data = try? await URLSession.shared.data(from: url).0
             if data == nil {
-                Log.nowPlaying.debug("artwork fetch failed for \(url.host() ?? "-", privacy: .public)")
+                Log.emit(.nowPlaying, .debug, "artwork fetch failed for \(url.host() ?? "-")")
             }
             guard let self, !Task.isCancelled, artworkURL == url,
                   let artwork = data.flatMap(MPMediaItemArtwork.init(data:)) else {

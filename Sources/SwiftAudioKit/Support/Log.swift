@@ -5,17 +5,74 @@
 //
 
 import os
+import Synchronization
 
-/// Messages are filterable with `log stream --predicate 'subsystem == "com.swiftaudiokit"'`,
-/// and silenced entirely with `log config --subsystem com.swiftaudiokit --mode level:off`.
+public enum AudioPlayerLog {
+    /// Mirrors the unified log's own levels, which have no `trace` or `warning`.
+    public enum Level: Int, Sendable, Hashable, CaseIterable, Comparable {
+        case debug
+        case info
+        case notice
+        case error
+        case off
+
+        public static func < (lhs: Level, rhs: Level) -> Bool {
+            lhs.rawValue < rhs.rawValue
+        }
+    }
+
+    /// Messages below this level are never built or emitted. Defaults to `.debug`, because the
+    /// unified log already keeps debug messages off disk.
+    public static var level: Level {
+        get { Level(rawValue: storage.load(ordering: .relaxed)) ?? .debug }
+        set { storage.store(newValue.rawValue, ordering: .relaxed) }
+    }
+
+    private static let storage = Atomic<Int>(Level.debug.rawValue)
+}
+
+/// Messages are filterable with `log stream --predicate 'subsystem == "com.swiftaudiokit"'`.
 enum Log {
-    static let player = Logger(subsystem: subsystem, category: "player")
-    static let engine = Logger(subsystem: subsystem, category: "engine")
-    static let session = Logger(subsystem: subsystem, category: "session")
-    static let network = Logger(subsystem: subsystem, category: "network")
-    static let nowPlaying = Logger(subsystem: subsystem, category: "nowPlaying")
+    enum Category: String {
+        case player
+        case engine
+        case session
+        case network
+        case nowPlaying
+    }
+
+    static func emit(_ category: Category, _ level: AudioPlayerLog.Level, _ message: @autoclosure () -> String) {
+        guard level != .off, level >= AudioPlayerLog.level else {
+            return
+        }
+        let logger = logger(for: category)
+        let text = message()
+
+        switch level {
+        case .debug: logger.debug("\(text, privacy: .public)")
+        case .info: logger.info("\(text, privacy: .public)")
+        case .notice: logger.notice("\(text, privacy: .public)")
+        case .error: logger.error("\(text, privacy: .public)")
+        case .off: break
+        }
+    }
+
+    private static func logger(for category: Category) -> Logger {
+        switch category {
+        case .player: player
+        case .engine: engine
+        case .session: session
+        case .network: network
+        case .nowPlaying: nowPlaying
+        }
+    }
 
     private static let subsystem = "com.swiftaudiokit"
+    private static let player = Logger(subsystem: subsystem, category: Category.player.rawValue)
+    private static let engine = Logger(subsystem: subsystem, category: Category.engine.rawValue)
+    private static let session = Logger(subsystem: subsystem, category: Category.session.rawValue)
+    private static let network = Logger(subsystem: subsystem, category: Category.network.rawValue)
+    private static let nowPlaying = Logger(subsystem: subsystem, category: Category.nowPlaying.rawValue)
 }
 
 extension PlaybackState {
@@ -52,22 +109,22 @@ extension Log {
     static func record(_ effect: Effect) {
         switch effect {
         case .load, .unload, .play, .pause:
-            engine.debug("\(effect.name, privacy: .public)")
+            emit(.engine, .debug, effect.name)
 
         case let .seek(time, generation):
-            engine.debug("seek to \(time.totalSeconds, privacy: .public)s generation \(generation)")
+            emit(.engine, .debug, "seek to \(time.totalSeconds)s generation \(generation)")
 
         case .activateSession, .deactivateSession, .beginBackgroundActivity, .endBackgroundActivity:
-            session.debug("\(effect.name, privacy: .public)")
+            emit(.session, .debug, effect.name)
 
         case let .scheduleRetry(after, _):
-            player.notice("retrying in \(after.totalSeconds, privacy: .public)s")
+            emit(.player, .notice, "retrying in \(after.totalSeconds)s")
 
         case let .startConnectionLossTimer(deadline, _):
-            player.notice("waiting up to \(deadline.totalSeconds, privacy: .public)s for the connection")
+            emit(.player, .notice, "waiting up to \(deadline.totalSeconds)s for the connection")
 
         case .cancelRetry, .cancelConnectionLossTimer, .scheduleQualityUpgrade:
-            player.debug("\(effect.name, privacy: .public)")
+            emit(.player, .debug, effect.name)
 
         case .emit:
             break
@@ -77,25 +134,25 @@ extension Log {
     static func record(_ event: AudioPlayerEvent) {
         switch event {
         case let .qualityChanged(from, to):
-            player.notice("quality \(from.name, privacy: .public) → \(to.name, privacy: .public)")
+            emit(.player, .notice, "quality \(from.name) → \(to.name)")
         case .queueExhausted:
-            player.notice("queue exhausted")
+            emit(.player, .notice, "queue exhausted")
         case .itemChanged:
-            player.notice("item changed")
+            emit(.player, .notice, "item changed")
         case let .interrupted(reason):
-            player.notice("interrupted by \(String(describing: reason), privacy: .public)")
+            emit(.player, .notice, "interrupted by \(reason)")
         case let .interruptionEnded(shouldResume):
-            player.notice("interruption ended, resume \(shouldResume, privacy: .public)")
+            emit(.player, .notice, "interruption ended, resume \(shouldResume)")
         case let .failed(error):
-            player.error("failed: \(error.logDescription, privacy: .public)")
+            emit(.player, .error, "failed: \(error.logDescription)")
         case let .recoverableErrorLogged(failure):
-            engine.debug("recovered from \(failure.domain, privacy: .public) \(failure.code)")
+            emit(.engine, .debug, "recovered from \(failure.domain) \(failure.code)")
         case .itemFinished:
-            player.debug("item finished")
+            emit(.player, .debug, "item finished")
         case let .durationResolved(duration, _):
-            engine.debug("duration \(duration.totalSeconds, privacy: .public)s")
+            emit(.engine, .debug, "duration \(duration.totalSeconds)s")
         case .metadataUpdated:
-            engine.debug("metadata updated")
+            emit(.engine, .debug, "metadata updated")
         case .stateChanged, .networkChanged:
             break
         }
