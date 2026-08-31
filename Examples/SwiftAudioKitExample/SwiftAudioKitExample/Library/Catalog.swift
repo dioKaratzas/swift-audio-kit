@@ -1,5 +1,5 @@
 //
-//  SwiftAudioKitExample
+//  SwiftAudioKit
 //
 //  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
 //
@@ -7,35 +7,41 @@
 import Foundation
 import SwiftAudioKit
 
+/// Radio Paradise is used throughout because it reports itself as live and sends real
+/// per-track metadata, including cover art.
 enum Catalog {
-    /// One stream published at three bitrates, which is what the quality system is for.
-    static let grooveSalad = AudioItem(
+    /// One station published at three bitrates, which is what the quality system is for.
+    static let mainMix = AudioItem(
         sources: AudioSources([
-            .low: url("groovesalad-64-aac"),
-            .medium: url("groovesalad-128-mp3"),
-            .high: url("groovesalad-256-mp3")
+            .low: url("mp3-128"),
+            .medium: url("mp3-192"),
+            .high: url("aac-320")
         ])!,
-        metadata: AudioMetadata(title: "Groove Salad", artist: "SomaFM", album: "Ambient")
+        metadata: AudioMetadata(album: "Main Mix")
     )
 
-    static let droneZone = AudioItem(
-        url: url("dronezone-128-mp3"),
-        metadata: AudioMetadata(title: "Drone Zone", artist: "SomaFM", album: "Atmospheric")
+    static let mellowMix = AudioItem(
+        url: url("mellow-192"),
+        metadata: AudioMetadata(album: "Mellow Mix")
     )
 
-    static let deepSpaceOne = AudioItem(
-        url: url("deepspaceone-128-mp3"),
-        metadata: AudioMetadata(title: "Deep Space One", artist: "SomaFM", album: "Ambient")
+    static let rockMix = AudioItem(
+        url: url("rock-192"),
+        metadata: AudioMetadata(album: "Rock Mix")
     )
 
-    static let indiePop = AudioItem(
-        url: url("indiepop-128-mp3"),
-        metadata: AudioMetadata(title: "Indie Pop Rocks", artist: "SomaFM", album: "Indie")
+    static let globalMix = AudioItem(
+        url: url("global-192"),
+        metadata: AudioMetadata(album: "Global Mix")
     )
 
-    static let all: [AudioItem] = [grooveSalad, droneZone, deepSpaceOne, indiePop]
+    static let all: [AudioItem] = [mainMix, mellowMix, rockMix, globalMix]
+
+    static func station(for item: AudioItem) -> String {
+        item.metadata.album ?? "Radio Paradise"
+    }
 
     private static func url(_ mount: String) -> URL {
-        URL(string: "https://ice1.somafm.com/\(mount)")!
+        URL(string: "https://stream.radioparadise.com/\(mount)")!
     }
 }

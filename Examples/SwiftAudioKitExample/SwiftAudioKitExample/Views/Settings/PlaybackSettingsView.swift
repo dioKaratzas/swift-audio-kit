@@ -1,11 +1,11 @@
 //
-//  SwiftAudioKitExample
+//  SwiftAudioKit
 //
 //  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
 //
 
-import SwiftAudioKit
 import SwiftUI
+import SwiftAudioKit
 
 struct PlaybackSettingsView: View {
     @Environment(PlayerModel.self) private var model
@@ -24,18 +24,32 @@ struct PlaybackSettingsView: View {
                     Toggle("Shuffle", isOn: $player.isShuffled)
                 }
 
-                Section("Output") {
+                Section {
                     LabeledContent("Volume") {
-                        Slider(value: $player.volume, in: 0 ... 1)
-                            .frame(width: 160)
-                    }
-                    LabeledContent("Rate") {
-                        Slider(value: $player.rate, in: 0.5 ... 2, step: 0.25)
-                            .frame(width: 160)
-                    }
-                    Text(String(format: "%.2f×", player.rate))
-                        .font(.caption.monospacedDigit())
+                        HStack {
+                            Image(systemName: "speaker.fill")
+                            Slider(value: $player.volume, in: 0 ... 1)
+                            Image(systemName: "speaker.wave.3.fill")
+                        }
                         .foregroundStyle(.secondary)
+                        .frame(minWidth: 220)
+                    }
+
+                    LabeledContent {
+                        HStack {
+                            Slider(value: $player.rate, in: 0.5 ... 2, step: 0.25)
+                            Text(String(format: "%.2f×", player.rate))
+                                .font(.caption.monospacedDigit())
+                                .frame(width: 48, alignment: .trailing)
+                        }
+                        .frame(minWidth: 220)
+                    } label: {
+                        Text("Rate")
+                    }
+                } header: {
+                    Text("Output")
+                } footer: {
+                    Text("Rate applies to on-demand tracks. A live stream always plays at 1×.")
                 }
 
                 Section {
@@ -55,6 +69,7 @@ struct PlaybackSettingsView: View {
                     LabeledContent("State", value: player.state.label)
                     LabeledContent("Network", value: player.network.label)
                     LabeledContent("Metered", value: player.network.prefersReducedData ? "Yes" : "No")
+                    LabeledContent("Source", value: player.progress.isLive ? "Live stream" : "On demand")
                     if let duration = player.progress.duration {
                         LabeledContent("Duration", value: duration.formattedTime)
                     }

@@ -1,5 +1,5 @@
 //
-//  SwiftAudioKitExample
+//  SwiftAudioKit
 //
 //  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
 //
@@ -18,7 +18,7 @@ struct LoggedEvent: Identifiable {
 @Observable
 @MainActor
 final class EventLog {
-    private(set) var entries: [LoggedEvent] = []
+    private(set) var entries = [LoggedEvent]()
 
     var limit = 200
 

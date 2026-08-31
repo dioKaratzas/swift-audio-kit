@@ -1,5 +1,5 @@
 //
-//  SwiftAudioKitExample
+//  SwiftAudioKit
 //
 //  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
 //
@@ -12,7 +12,9 @@ enum Destination: String, CaseIterable, Identifiable {
     case settings = "Settings"
     case events = "Events"
 
-    var id: Self { self }
+    var id: Self {
+        self
+    }
 
     var symbol: String {
         switch self {
@@ -23,8 +25,7 @@ enum Destination: String, CaseIterable, Identifiable {
         }
     }
 
-    @ViewBuilder
-    var view: some View {
+    @ViewBuilder var view: some View {
         switch self {
         case .nowPlaying: NowPlayingView()
         case .queue: QueueView()
@@ -42,8 +43,7 @@ struct RootView: View {
             .task { await model.start() }
     }
 
-    @ViewBuilder
-    private var content: some View {
+    @ViewBuilder private var content: some View {
         #if os(macOS)
             SidebarLayout()
         #else

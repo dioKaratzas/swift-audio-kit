@@ -1,11 +1,11 @@
 //
-//  SwiftAudioKitExample
+//  SwiftAudioKit
 //
 //  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
 //
 
-import SwiftAudioKit
 import SwiftUI
+import SwiftAudioKit
 
 struct PlaybackProgressView: View {
     let player: AudioPlayer
@@ -33,6 +33,8 @@ struct PlaybackProgressView: View {
                 Spacer()
                 if let remaining = player.progress.remaining {
                     Text("-\(remaining.formattedTime)")
+                } else if let ahead = player.progress.bufferedAhead {
+                    Text("buffered \(ahead.formattedTime)")
                 }
             }
             .font(.caption.monospacedDigit())
@@ -41,10 +43,15 @@ struct PlaybackProgressView: View {
     }
 
     private var liveIndicator: some View {
-        Label("Live", systemImage: "dot.radiowaves.left.and.right")
-            .font(.caption)
-            .foregroundStyle(.red)
-            .frame(maxWidth: .infinity, alignment: .leading)
+        HStack(spacing: 6) {
+            Circle()
+                .fill(.red)
+                .frame(width: 7, height: 7)
+            Text("LIVE")
+                .font(.caption2.weight(.bold))
+                .foregroundStyle(.red)
+            Spacer()
+        }
     }
 
     private var target: Duration? {

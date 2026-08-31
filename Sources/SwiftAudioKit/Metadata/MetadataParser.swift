@@ -43,6 +43,9 @@ public struct DefaultMetadataParser: MetadataParser {
             metadata.title = metadata.title ?? entry.stringValue
         case AVMetadataIdentifier.id3MetadataLeadPerformer.rawValue:
             metadata.artist = metadata.artist ?? entry.stringValue
+        // Shoutcast stations put the cover art URL in the stream URL field.
+        case "icy/StreamUrl":
+            metadata.artwork = entry.stringValue.flatMap(URL.init(string:)).map(Artwork.url)
         default:
             break
         }

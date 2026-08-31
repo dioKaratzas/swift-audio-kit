@@ -44,6 +44,7 @@ struct PlaybackMachine: Sendable {
         case let .jump(id): jump(to: id)
         case .next: advance(userInitiated: true)
         case .previous: retreat()
+        case let .seeked(time): progress.elapsed = time
         case let .setQuality(quality): change(to: quality)
         case let .setMode(mode): setMode(mode)
         case let .setSkipped(ids): skipped = ids; return []

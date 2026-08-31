@@ -1,18 +1,18 @@
 //
-//  SwiftAudioKitExample
+//  SwiftAudioKit
 //
 //  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
 //
 
 #if os(macOS)
+    import SwiftUI
     import SwiftAudioKit
-import SwiftUI
 
     /// The Mac gets a sidebar with a persistent transport bar, rather than tabs that hide
     /// the controls behind a selection.
     struct SidebarLayout: View {
         @Environment(PlayerModel.self) private var model
-        @State private var selection: Destination = .nowPlaying
+        @State private var selection = Destination.nowPlaying
 
         var body: some View {
             NavigationSplitView {
@@ -36,16 +36,21 @@ import SwiftUI
     struct MiniTransportBar: View {
         @Environment(PlayerModel.self) private var model
 
-        private var player: AudioPlayer { model.player }
+        private var player: AudioPlayer {
+            model.player
+        }
 
         var body: some View {
-            HStack(spacing: 20) {
+            HStack(spacing: 16) {
+                ArtworkView(artwork: player.metadata.artwork, cornerRadius: 6)
+                    .frame(width: 44, height: 44)
+
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(player.metadata.title ?? player.currentItem?.displayTitle ?? "Nothing playing")
+                    Text(player.metadata.title ?? player.currentItem.map(Catalog.station) ?? "Nothing playing")
                         .font(.callout.weight(.medium))
                         .lineLimit(1)
-                    if let subtitle = player.metadata.subtitle {
-                        Text(subtitle)
+                    if let artist = player.metadata.artist {
+                        Text(artist)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                             .lineLimit(1)

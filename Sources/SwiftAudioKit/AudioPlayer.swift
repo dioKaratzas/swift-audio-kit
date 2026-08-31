@@ -164,7 +164,11 @@ public final class AudioPlayer {
     @discardableResult
     public func seek(to time: Duration, clampingToSeekableRange: Bool = true) async -> Bool {
         let target = clampingToSeekableRange ? progress.clampingToSeekableRange(time) : time
-        return await engine.seek(to: target, tolerance: .relaxed)
+        let landed = await engine.seek(to: target, tolerance: .relaxed)
+        if landed {
+            send(.seeked(to: target))
+        }
+        return landed
     }
 
     @discardableResult
@@ -370,8 +374,13 @@ public final class AudioPlayer {
             guard let self else {
                 return
             }
-            await engine.seek(to: time, tolerance: .relaxed)
-            discardIfStale(generation)
+            let landed = await engine.seek(to: time, tolerance: .relaxed)
+            guard generation == machine.generation else {
+                return
+            }
+            if landed {
+                send(.seeked(to: time))
+            }
         }
     }
 

@@ -17,6 +17,7 @@ enum Signal: Sendable, Hashable {
     case jump(AudioItem.ID)
     case next
     case previous
+    case seeked(to: Duration)
     case setQuality(AudioQuality)
     case setMode(PlaybackMode)
     case setSkipped(Set<AudioItem.ID>)

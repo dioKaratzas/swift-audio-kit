@@ -1,16 +1,18 @@
 //
-//  SwiftAudioKitExample
+//  SwiftAudioKit
 //
 //  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
 //
 
-import SwiftAudioKit
 import SwiftUI
+import SwiftAudioKit
 
 struct QueueView: View {
     @Environment(PlayerModel.self) private var model
 
-    private var player: AudioPlayer { model.player }
+    private var player: AudioPlayer {
+        model.player
+    }
 
     var body: some View {
         NavigationStack {
@@ -55,23 +57,35 @@ struct QueueView: View {
         }
     }
 
+    private func artwork(for item: AudioItem) -> Artwork? {
+        player.currentItem?.id == item.id ? player.metadata.artwork : nil
+    }
+
     private func row(for item: AudioItem) -> some View {
         Button {
             player.play(item.id)
         } label: {
-            HStack {
+            HStack(spacing: 12) {
+                ArtworkView(artwork: artwork(for: item), cornerRadius: 6)
+                    .frame(width: 44, height: 44)
+
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(item.displayTitle)
+                    Text(Catalog.station(for: item))
                         .foregroundStyle(model.isSkipped(item) ? .secondary : .primary)
-                    if let subtitle = item.metadata.subtitle {
-                        Text(subtitle)
+                    if player.currentItem?.id == item.id, let title = player.metadata.title {
+                        Text(title)
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                            .lineLimit(1)
                     }
                 }
 
                 Spacer()
 
+                if model.isSkipped(item) {
+                    Image(systemName: "forward.end.circle")
+                        .foregroundStyle(.orange)
+                }
                 if item.sources.availableQualities.count > 1 {
                     Image(systemName: "square.stack.3d.up")
                         .foregroundStyle(.secondary)
@@ -79,6 +93,7 @@ struct QueueView: View {
                 if player.currentItem?.id == item.id {
                     Image(systemName: "speaker.wave.2.fill")
                         .foregroundStyle(.tint)
+                        .symbolEffect(.variableColor, isActive: player.state.isPlaying)
                 }
             }
         }

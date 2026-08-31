@@ -35,7 +35,14 @@ final class AVPlayerEngine: PlaybackEngine {
 
     var defaultRate: Float {
         get { player.defaultRate }
-        set { player.defaultRate = newValue }
+        set {
+            player.defaultRate = newValue
+            // `defaultRate` only takes effect on the next `play()`, so a change made while
+            // playing has to be applied to the current rate as well.
+            if player.timeControlStatus == .playing {
+                player.rate = newValue
+            }
+        }
     }
 
     init() {

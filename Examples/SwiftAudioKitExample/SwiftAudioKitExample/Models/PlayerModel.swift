@@ -1,5 +1,5 @@
 //
-//  SwiftAudioKitExample
+//  SwiftAudioKit
 //
 //  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
 //
@@ -33,6 +33,7 @@ final class PlayerModel {
             remoteCommands: .default
         )
 
+        player.metadataParser = RadioMetadataParser()
         observeEvents()
     }
 

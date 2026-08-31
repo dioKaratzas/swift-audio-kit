@@ -1,11 +1,11 @@
 //
-//  SwiftAudioKitExample
+//  SwiftAudioKit
 //
 //  Copyright (c) 2026 Dionysios Karatzas. All rights reserved.
 //
 
-import SwiftAudioKit
 import SwiftUI
+import SwiftAudioKit
 
 struct TransportControls: View {
     let player: AudioPlayer
