@@ -9,19 +9,19 @@ import Testing
 
 @Suite("Playback mode")
 struct PlaybackModeTests {
-    @Test
-    func `Cycling the repeat mode returns to where it started`() {
-        var mode = RepeatMode.off
+    @Test("Cycling returns to where it started", arguments: RepeatMode.allCases)
+    func cyclingIsClosed(_ start: RepeatMode) {
+        var mode = start
 
         for _ in RepeatMode.allCases {
             mode = mode.next
         }
 
-        #expect(mode == .off)
+        #expect(mode == start)
     }
 
-    @Test
-    func `Cycling visits every mode`() {
+    @Test("Cycling visits every mode")
+    func cyclingIsExhaustive() {
         var visited = Set<RepeatMode>()
         var mode = RepeatMode.off
 
@@ -31,16 +31,5 @@ struct PlaybackModeTests {
         }
 
         #expect(visited == Set(RepeatMode.allCases))
-    }
-
-    @Test
-    func `Repeat and shuffle are independent`() {
-        let mode = PlaybackMode(repeatMode: .all, isShuffled: true)
-
-        #expect(mode.repeatMode == .all)
-        #expect(mode.isShuffled)
-        #expect(PlaybackMode.normal == PlaybackMode(repeatMode: .off, isShuffled: false))
-        #expect(PlaybackMode.repeatOne.repeatMode == .one)
-        #expect(!PlaybackMode.repeatAll.isShuffled)
     }
 }

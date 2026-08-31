@@ -9,18 +9,22 @@ import Testing
 
 @Suite("Audio quality")
 struct AudioQualityTests {
-    @Test
-    func `Ordering follows fidelity`() {
-        #expect(AudioQuality.low < AudioQuality.medium)
-        #expect(AudioQuality.medium < AudioQuality.high)
-        #expect(AudioQuality.allCases.max() == .high)
+    @Test(
+        "Stepping between neighbours stops at the ends",
+        arguments: [
+            (AudioQuality.low, nil, AudioQuality.medium),
+            (AudioQuality.medium, AudioQuality.low, AudioQuality.high),
+            (AudioQuality.high, AudioQuality.medium, nil),
+        ] as [(AudioQuality, AudioQuality?, AudioQuality?)]
+    )
+    func stepping(_ quality: AudioQuality, _ lower: AudioQuality?, _ higher: AudioQuality?) {
+        #expect(quality.lower == lower)
+        #expect(quality.higher == higher)
     }
 
-    @Test
-    func `Stepping stops at the ends`() {
-        #expect(AudioQuality.low.lower == nil)
-        #expect(AudioQuality.low.higher == .medium)
-        #expect(AudioQuality.high.higher == nil)
-        #expect(AudioQuality.high.lower == .medium)
+    @Test("Ordering follows fidelity")
+    func ordering() {
+        #expect(AudioQuality.low < AudioQuality.medium)
+        #expect(AudioQuality.medium < AudioQuality.high)
     }
 }

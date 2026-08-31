@@ -24,8 +24,8 @@ struct PlaybackQueueTests {
 
     // MARK: Traversal
 
-    @Test
-    func `An empty queue goes nowhere`() {
+    @Test("An empty queue goes nowhere")
+    func anEmptyQueueGoesNowhere() {
         var queue = PlaybackQueue()
 
         #expect(queue.isEmpty)
@@ -36,8 +36,8 @@ struct PlaybackQueueTests {
         #expect(queue.current == nil)
     }
 
-    @Test
-    func `Advancing walks the queue once in normal mode`() {
+    @Test("Advancing walks the queue once in normal mode")
+    func advancingWalksTheQueueOnceInNormalMode() {
         var queue = queue()
 
         #expect(queue.advance() == first)
@@ -47,8 +47,8 @@ struct PlaybackQueueTests {
         #expect(queue.current == third)
     }
 
-    @Test
-    func `Retreating walks back to the start and stops`() {
+    @Test("Retreating walks back to the start and stops")
+    func retreatingWalksBackToTheStartAndStops() {
         var queue = queue()
         queue.advance()
         queue.advance()
@@ -60,8 +60,8 @@ struct PlaybackQueueTests {
         #expect(queue.current == first)
     }
 
-    @Test
-    func `Availability agrees with traversal`() {
+    @Test("Availability agrees with traversal")
+    func availabilityAgreesWithTraversal() {
         var queue = queue()
 
         #expect(queue.hasNext())
@@ -82,8 +82,8 @@ struct PlaybackQueueTests {
 
     // MARK: Skipping
 
-    @Test
-    func `Skipped items are stepped over going forward`() {
+    @Test("Skipped items are stepped over going forward")
+    func skippedItemsAreSteppedOverGoingForward() {
         var queue = queue()
         let skip: Set = [second.id]
 
@@ -92,8 +92,8 @@ struct PlaybackQueueTests {
         #expect(queue.advance(skipping: skip) == nil)
     }
 
-    @Test
-    func `Skipped items are stepped over going backward`() {
+    @Test("Skipped items are stepped over going backward")
+    func skippedItemsAreSteppedOverGoingBackward() {
         var queue = queue()
         let skip: Set = [second.id]
         queue.advance()
@@ -103,8 +103,8 @@ struct PlaybackQueueTests {
         #expect(queue.retreat(skipping: skip) == first)
     }
 
-    @Test
-    func `A fully skipped queue has nowhere to go`() {
+    @Test("A fully skipped queue has nowhere to go")
+    func aFullySkippedQueueHasNowhereToGo() {
         var queue = queue()
         let skip = Set(threeItems.map(\.id))
 
@@ -112,8 +112,8 @@ struct PlaybackQueueTests {
         #expect(queue.advance(skipping: skip) == nil)
     }
 
-    @Test
-    func `Availability accounts for skipped items`() {
+    @Test("Availability accounts for skipped items")
+    func availabilityAccountsForSkippedItems() {
         var queue = queue()
         queue.advance()
 
@@ -123,8 +123,8 @@ struct PlaybackQueueTests {
 
     // MARK: Repeat
 
-    @Test
-    func `Repeat one yields the same item indefinitely`() {
+    @Test("Repeat one yields the same item indefinitely")
+    func repeatOneYieldsTheSameItemIndefinitely() {
         var queue = queue(.repeatOne)
         queue.advance()
 
@@ -134,15 +134,15 @@ struct PlaybackQueueTests {
         #expect(queue.retreat() == first)
     }
 
-    @Test
-    func `Repeat one still needs a first advance to pick an item`() {
+    @Test("Repeat one still needs a first advance to pick an item")
+    func repeatOneStillNeedsAFirstAdvanceToPickAnItem() {
         var queue = queue(.repeatOne)
 
         #expect(queue.advance() == first)
     }
 
-    @Test
-    func `Repeat all wraps forward past the end`() {
+    @Test("Repeat all wraps forward past the end")
+    func repeatAllWrapsForwardPastTheEnd() {
         var queue = queue(.repeatAll)
         queue.advance()
         queue.advance()
@@ -152,8 +152,8 @@ struct PlaybackQueueTests {
         #expect(queue.advance() == first)
     }
 
-    @Test
-    func `Repeat all wraps backward past the start`() {
+    @Test("Repeat all wraps backward past the start")
+    func repeatAllWrapsBackwardPastTheStart() {
         var queue = queue(.repeatAll)
         queue.advance()
 
@@ -161,8 +161,8 @@ struct PlaybackQueueTests {
         #expect(queue.retreat() == third)
     }
 
-    @Test
-    func `Repeat all skips unavailable items while wrapping`() {
+    @Test("Repeat all skips unavailable items while wrapping")
+    func repeatAllSkipsUnavailableItemsWhileWrapping() {
         var queue = queue(.repeatAll)
         let skip: Set = [first.id]
         queue.advance(skipping: skip)
@@ -174,16 +174,16 @@ struct PlaybackQueueTests {
 
     // MARK: Shuffle
 
-    @Test
-    func `Shuffling keeps every item exactly once`() {
+    @Test("Shuffling keeps every item exactly once")
+    func shufflingKeepsEveryItemExactlyOnce() {
         let queue = queue(.shuffle)
 
         #expect(Set(queue.order) == Set(threeItems.map(\.id)))
         #expect(queue.order.count == threeItems.count)
     }
 
-    @Test
-    func `A seeded shuffle is reproducible`() {
+    @Test("A seeded shuffle is reproducible")
+    func aSeededShuffleIsReproducible() {
         var left = queue()
         var right = queue()
         var leftGenerator = SplitMix64(seed: 42)
@@ -196,8 +196,8 @@ struct PlaybackQueueTests {
         #expect(Set(left.order) == Set(threeItems.map(\.id)))
     }
 
-    @Test
-    func `Shuffling leaves played items where they are`() {
+    @Test("Shuffling leaves played items where they are")
+    func shufflingLeavesPlayedItemsWhereTheyAre() {
         var queue = queue()
         queue.advance()
         var generator = SplitMix64(seed: 7)
@@ -208,8 +208,8 @@ struct PlaybackQueueTests {
         #expect(queue.current == first)
     }
 
-    @Test
-    func `Leaving shuffle restores source order and keeps the current item`() {
+    @Test("Leaving shuffle restores source order and keeps the current item")
+    func leavingShuffleRestoresSourceOrderAndKeepsTheCurrentItem() {
         var queue = queue(.shuffle)
         queue.advance()
         let playing = queue.current
@@ -220,8 +220,8 @@ struct PlaybackQueueTests {
         #expect(queue.current == playing)
     }
 
-    @Test
-    func `Entering shuffle keeps the current item`() {
+    @Test("Entering shuffle keeps the current item")
+    func enteringShuffleKeepsTheCurrentItem() {
         var queue = queue()
         queue.advance()
         queue.advance()
@@ -234,8 +234,8 @@ struct PlaybackQueueTests {
 
     // MARK: Mutation
 
-    @Test
-    func `Appending adds to the end`() {
+    @Test("Appending adds to the end")
+    func appendingAddsToTheEnd() {
         var queue = PlaybackQueue(items: [first])
 
         queue.append(second)
@@ -244,8 +244,8 @@ struct PlaybackQueueTests {
         #expect(queue.count == 2)
     }
 
-    @Test
-    func `Appending an item already queued does nothing`() {
+    @Test("Appending an item already queued does nothing")
+    func appendingAnItemAlreadyQueuedDoesNothing() {
         var queue = PlaybackQueue(items: [first])
 
         queue.append(first)
@@ -253,8 +253,8 @@ struct PlaybackQueueTests {
         #expect(queue.count == 1)
     }
 
-    @Test
-    func `Inserting next puts an item straight after the current one`() {
+    @Test("Inserting next puts an item straight after the current one")
+    func insertingNextPutsAnItemStraightAfterTheCurrentOne() {
         var queue = PlaybackQueue(items: [first, second])
         queue.advance()
 
@@ -264,8 +264,8 @@ struct PlaybackQueueTests {
         #expect(queue.advance() == third)
     }
 
-    @Test
-    func `Removing an item ahead leaves the cursor on the same track`() {
+    @Test("Removing an item ahead leaves the cursor on the same track")
+    func removingAnItemAheadLeavesTheCursorOnTheSameTrack() {
         var queue = queue()
         queue.advance()
 
@@ -275,8 +275,8 @@ struct PlaybackQueueTests {
         #expect(queue.count == 2)
     }
 
-    @Test
-    func `Removing an item behind keeps the cursor on the same track`() {
+    @Test("Removing an item behind keeps the cursor on the same track")
+    func removingAnItemBehindKeepsTheCursorOnTheSameTrack() {
         var queue = queue()
         queue.advance()
         queue.advance()
@@ -286,8 +286,8 @@ struct PlaybackQueueTests {
         #expect(queue.current == second)
     }
 
-    @Test
-    func `Removing the current item lands on what took its place`() {
+    @Test("Removing the current item lands on what took its place")
+    func removingTheCurrentItemLandsOnWhatTookItsPlace() {
         var queue = queue()
         queue.advance()
 
@@ -296,8 +296,8 @@ struct PlaybackQueueTests {
         #expect(queue.current == second)
     }
 
-    @Test
-    func `Removing the last remaining item clears the cursor`() {
+    @Test("Removing the last remaining item clears the cursor")
+    func removingTheLastRemainingItemClearsTheCursor() {
         var queue = PlaybackQueue(items: [first])
         queue.advance()
 
@@ -307,8 +307,8 @@ struct PlaybackQueueTests {
         #expect(queue.isEmpty)
     }
 
-    @Test
-    func `Moving an item keeps the cursor on the same track`() {
+    @Test("Moving an item keeps the cursor on the same track")
+    func movingAnItemKeepsTheCursorOnTheSameTrack() {
         var queue = queue()
         queue.advance()
         queue.advance()
@@ -319,8 +319,8 @@ struct PlaybackQueueTests {
         #expect(queue.order == [first.id, third.id, second.id])
     }
 
-    @Test
-    func `Clearing empties everything`() {
+    @Test("Clearing empties everything")
+    func clearingEmptiesEverything() {
         var queue = queue()
         queue.advance()
 
@@ -331,8 +331,8 @@ struct PlaybackQueueTests {
         #expect(queue.history.isEmpty)
     }
 
-    @Test
-    func `Updating writes a new payload under the same identity`() {
+    @Test("Updating writes a new payload under the same identity")
+    func updatingWritesANewPayloadUnderTheSameIdentity() {
         var queue = queue()
         queue.advance()
         var updated = first
@@ -344,19 +344,19 @@ struct PlaybackQueueTests {
         #expect(queue.order == threeItems.map(\.id))
     }
 
-    @Test
-    func `Jumping moves straight to an item`() {
+    @Test("Jumping moves straight to an item")
+    func jumpingMovesStraightToAnItem() {
         var queue = queue()
 
         #expect(queue.jump(to: third.id) == third)
         #expect(queue.current == third)
-        #expect(queue.jump(to: AudioItem.ID()) == nil)
+        #expect(queue.jump(to: UUID()) == nil)
     }
 
     // MARK: Up next and history
 
-    @Test
-    func `Up next lists what follows the current item`() {
+    @Test("Up next lists what follows the current item")
+    func upNextListsWhatFollowsTheCurrentItem() {
         var queue = queue()
 
         #expect(queue.upNext == threeItems)
@@ -369,8 +369,8 @@ struct PlaybackQueueTests {
         #expect(queue.upNext.isEmpty)
     }
 
-    @Test
-    func `History records what was played`() {
+    @Test("History records what was played")
+    func historyRecordsWhatWasPlayed() {
         var queue = queue()
         queue.advance()
         queue.advance()
@@ -378,8 +378,8 @@ struct PlaybackQueueTests {
         #expect(queue.history == [first.id, second.id])
     }
 
-    @Test
-    func `History is bounded by its limit`() {
+    @Test("History is bounded by its limit")
+    func historyIsBoundedByItsLimit() {
         var queue = PlaybackQueue(items: threeItems, mode: .repeatAll, historyLimit: 2)
 
         for _ in 0 ..< 10 {
@@ -389,8 +389,8 @@ struct PlaybackQueueTests {
         #expect(queue.history.count == 2)
     }
 
-    @Test
-    func `Lowering the history limit trims immediately`() {
+    @Test("Lowering the history limit trims immediately")
+    func loweringTheHistoryLimitTrimsImmediately() {
         var queue = queue()
         queue.advance()
         queue.advance()

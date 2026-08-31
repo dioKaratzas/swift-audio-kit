@@ -7,26 +7,18 @@
 import Foundation
 
 public struct AudioItem: Sendable, Hashable, Identifiable {
-    public struct ID: Sendable, Hashable {
-        public let rawValue: UUID
-
-        public init(rawValue: UUID = UUID()) {
-            self.rawValue = rawValue
-        }
-    }
-
-    public let id: ID
+    public let id: UUID
     public var sources: AudioSources
     public var metadata: AudioMetadata
 
-    public init(id: ID = ID(), sources: AudioSources, metadata: AudioMetadata = AudioMetadata()) {
+    public init(id: UUID = UUID(), sources: AudioSources, metadata: AudioMetadata = AudioMetadata()) {
         self.id = id
         self.sources = sources
         self.metadata = metadata
     }
 
     public init(
-        id: ID = ID(),
+        id: UUID = UUID(),
         url: URL,
         quality: AudioQuality = .high,
         metadata: AudioMetadata = AudioMetadata()
