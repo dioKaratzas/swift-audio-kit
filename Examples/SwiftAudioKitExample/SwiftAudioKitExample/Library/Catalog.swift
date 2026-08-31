@@ -30,9 +30,14 @@ enum Catalog {
         metadata: AudioMetadata(album: "Rock Mix")
     )
 
+    /// Artwork supplied here outranks whatever the stream sends, so this station keeps one
+    /// cover while the others follow the track.
     static let globalMix = AudioItem(
         url: url("global-192"),
-        metadata: AudioMetadata(album: "Global Mix")
+        metadata: AudioMetadata(
+            album: "Global Mix",
+            artwork: .url(URL(string: "https://img.radioparadise.com/covers/l/7667.jpg")!)
+        )
     )
 
     static let all: [AudioItem] = [mainMix, mellowMix, rockMix, globalMix]

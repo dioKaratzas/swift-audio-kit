@@ -136,3 +136,44 @@ struct PlaybackMachineQueueTests {
         #expect(machine.state.isPlaying)
     }
 }
+
+@Suite("Caller metadata precedence")
+struct MetadataPrecedenceTests {
+    private let coverURL = URL(string: "https://example.com/caller.jpg")!
+    private let streamURL = URL(string: "https://example.com/stream.jpg")!
+
+    private func machine(with metadata: AudioMetadata) -> PlaybackMachine {
+        var machine = PlaybackMachine()
+        _ = machine.handle(.network(Tracks.online))
+        _ = machine.handle(.playItems(
+            [AudioItem(url: Tracks.first.sources.highest.url, metadata: metadata)],
+            startingAt: 0
+        ))
+        _ = machine.handle(.engine(.statusChanged(.ready)))
+        return machine
+    }
+
+    @Test("Artwork supplied by the caller survives stream metadata")
+    func callerArtworkWins() {
+        var machine = machine(with: AudioMetadata(artwork: .url(coverURL)))
+
+        machine.send(.engine(.metadataReceived([
+            MetadataEntry(commonKey: "title", stringValue: "Stream title"),
+            MetadataEntry(identifier: "icy/StreamUrl", stringValue: streamURL.absoluteString)
+        ])))
+
+        #expect(machine.metadata.artwork == .url(coverURL))
+        #expect(machine.metadata.title == "Stream title")
+    }
+
+    @Test("Stream artwork is adopted when the caller supplied none")
+    func streamArtworkFillsTheGap() {
+        var machine = machine(with: AudioMetadata())
+
+        machine.send(.engine(.metadataReceived([
+            MetadataEntry(identifier: "icy/StreamUrl", stringValue: streamURL.absoluteString)
+        ])))
+
+        #expect(machine.metadata.artwork == .url(streamURL))
+    }
+}
